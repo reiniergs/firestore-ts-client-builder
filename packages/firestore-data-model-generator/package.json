@@ -1,0 +1,28 @@
+{
+  "name": "firestore-data-model-generator",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "Reinier Guerra",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && yarn copy",
+    "copy": "copyfiles -u 1 src/templates/* src/templates/entity/* src/templates/partials/*  src/generics/* dist"
+  },
+  "devDependencies": {
+    "@types/handlebars": "^4.1.0",
+    "@types/node": "^18.15.8",
+    "copyfiles": "^2.4.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "firebase": "^9.18.0",
+    "handlebars": "^4.7.7",
+    "lodash": "^4.17.21",
+    "prettier": "^2.8.7",
+    "rimraf": "^4.4.1"
+  },
+  "engines": {
+    "node": "<16.7.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "lerna": "^6.6.1"
+  },
+  "name": "monnorepo",
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "scripts": {
+    "start": "lerna run start --scope example",
+    "build": "lerna run build --scope firestore-data-model-generator"
+  }
+}

@@ -1,0 +1,10 @@
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { RemoveService } from "../types";
+
+const remove: RemoveService = async (id: string) => {
+  const docRef = doc(db, `/{{entityName}}/${id}`);
+  return await deleteDoc(docRef);
+};
+
+export default remove;

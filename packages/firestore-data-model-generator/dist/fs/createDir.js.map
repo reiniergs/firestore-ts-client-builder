@@ -1,0 +1,1 @@
+{"version":3,"file":"createDir.js","sourceRoot":"","sources":["../../src/fs/createDir.ts"],"names":[],"mappings":";;;;;AAAA,4CAAoB;AAEpB,MAAM,SAAS,GAAG,CAAC,OAAe,EAAE,EAAE;IACpC,IAAI,CAAC,YAAE,CAAC,UAAU,CAAC,OAAO,CAAC,EAAE;QAC3B,YAAE,CAAC,SAAS,CAAC,OAAO,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAC;KAC5C;AACH,CAAC,CAAC;AAEF,kBAAe,SAAS,CAAC"}
