@@ -1,1 +1,0 @@
-{"version":3,"file":"copyGenerics.js","sourceRoot":"","sources":["../../src/fs/copyGenerics.ts"],"names":[],"mappings":";;;;;AAAA,4CAAoB;AACpB,gDAAwB;AAExB,MAAM,YAAY,GAAG,CAAC,MAAc,EAAE,EAAE;IACtC,YAAE,CAAC,MAAM,CAAC,cAAI,CAAC,IAAI,CAAC,SAAS,EAAE,aAAa,CAAC,EAAE,MAAM,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAC;AAC9E,CAAC,CAAC;AAEF,kBAAe,YAAY,CAAC"}
