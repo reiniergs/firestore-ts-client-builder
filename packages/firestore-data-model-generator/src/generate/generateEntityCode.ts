@@ -9,8 +9,8 @@ const generateEntityCode = ({
   entity,
 }: GenerateEntityProps) => {
   createDir(path.join(outdir, entityName));
-  generations.forEach((geneartion) =>
-    geneartion({
+  generations.forEach((generation) =>
+    generation({
       outdir,
       entityName,
       entity,
