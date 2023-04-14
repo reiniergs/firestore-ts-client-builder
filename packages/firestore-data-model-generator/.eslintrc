@@ -1,0 +1,35 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "project": ["tsconfig.json"]
+    },
+    "parser": "@typescript-eslint/parser",
+    "extends": ["airbnb-base", "airbnb-typescript/base", "plugin:jest/recommended"],
+    "plugins": ["@typescript-eslint", "promise", "jest"],
+    "rules": {
+        "jest/expect-expect": [
+            "error",
+            {
+                "assertFunctionNames": ["expect", "request.**.expect", "firebase.assert*"]
+            }
+        ],
+        "jest/no-try-expect": "off",
+        "no-console": "off",
+        "indent": "off",
+        "@typescript-eslint/indent": ["error", 4, { "SwitchCase": 1 }],
+        "no-underscore-dangle":"off",
+        "promise/prefer-await-to-then": "error"
+    },
+    "env": {
+        "node": true,
+        "browser": true
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts"]
+            }
+        }
+    }
+}

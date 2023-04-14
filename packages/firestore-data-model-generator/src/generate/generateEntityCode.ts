@@ -1,21 +1,19 @@
-import createDir from "../fs/createDir";
-import path from "path";
-import { GenerateEntityProps } from "./types";
-import generations from "./generations";
+import path from 'path';
+import createDir from '../fs/createDir';
+import { GenerateEntityProps } from './types';
+import generations from './generations';
 
 const generateEntityCode = ({
-  outdir,
-  entityName,
-  entity,
+    outdir,
+    entityName,
+    entity,
 }: GenerateEntityProps) => {
-  createDir(path.join(outdir, entityName));
-  generations.forEach((generation) =>
-    generation({
-      outdir,
-      entityName,
-      entity,
-    })
-  );
+    createDir(path.join(outdir, entityName));
+    generations.forEach((generation) => generation({
+        outdir,
+        entityName,
+        entity,
+    }));
 };
 
 export default generateEntityCode;

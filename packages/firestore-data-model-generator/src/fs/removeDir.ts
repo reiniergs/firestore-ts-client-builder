@@ -1,7 +1,7 @@
-import { rimrafSync } from "rimraf";
+import { rimrafSync } from 'rimraf';
 
 const removeDir = (dirPath: string) => {
-  rimrafSync(dirPath);
+    rimrafSync(dirPath);
 };
 
 export default removeDir;
