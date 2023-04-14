@@ -4,11 +4,12 @@
   "main": "dist/index.js",
   "author": "Reinier Guerra",
   "license": "MIT",
+  "files": ["dist"],
   "scripts": {
     "build": "tsc && yarn copy",
     "copy": "copyfiles -u 1 src/templates/* src/templates/entity/* src/templates/partials/*  src/generics/* dist",
     "lint": "eslint . --ext .ts && tsc", 
-    "publish": "npm publish"
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@types/handlebars": "^4.1.0",
