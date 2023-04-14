@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "start": "lerna run start --scope example",
-    "build": "lerna run build --scope firestore-data-model-generator"
+    "build": "lerna run build --scope builder",
+    "publish": "lerna run publish --scope builder"
   }
 }
