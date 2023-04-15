@@ -1,0 +1,20 @@
+import { useState, useEffect } from 'react';
+import onSnapshotCollection from './onSnapshotCollection';
+import { {{entityInterface}} } from './types';
+import { UseConllectionHook } from '../types';
+
+const useCollection: UseConllectionHook<{{entityInterface}}> = (opts) => {
+    const [data, setData] = useState<Array<{{entityInterface}}>>([]);
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true);
+        const unsub = onSnapshotCollection(opts || {}, (doc) => {
+            setData(doc);
+            setLoading(false);   
+        });
+        return () => unsub();
+    }, []);
+    return { data, isLoading };
+}
+
+export default useCollection;
