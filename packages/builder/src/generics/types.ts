@@ -34,6 +34,7 @@ export interface PaginateServiceOpts extends ListServiceOpts {
 export type PaginateService<T> = (opts: PaginateServiceOpts) => Promise<Page<T>>;
 export interface HookOpts {
     disabled?: boolean;
+    track?: Array<string | number | boolean | undefined>;
 }
 export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
     onSnap?: (docs: Array<T>) => void;
