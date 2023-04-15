@@ -30,6 +30,12 @@ createClientDataLayer({
                             },
                         },
                     },
+                    enum: {
+                      type: 'string',
+                      enum: ['foo', 'bar'],
+                      isNullable: true,
+                    },
+                  
                 },
             },
             driver: {

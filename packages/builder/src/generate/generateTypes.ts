@@ -3,13 +3,26 @@ import path from 'path';
 import capitalize from 'lodash/capitalize';
 import { GenerateEntityProps } from './types';
 import generate from './generate';
-import { Property, PropertyTypeArray, PropertyTypeObject } from '../types';
+import {
+    Property,
+    PropertyTypeArray,
+    PropertyTypeObject,
+    PropertyTypeString,
+} from '../types';
+
+const formatEnum = (enumValues: Array<string>) => {
+    if (Array.isArray(enumValues)) {
+        return enumValues
+            .map((value) => `'${value}'`)
+            .join('|');
+    }
+    return undefined;
+};
 
 const formatProperties = (properties: Record<string, Property>) => {
     const formatProperty = (name: string, property: Property) => {
         const { type, isNullable, isRequired } = property;
         switch (type) {
-            case 'string':
             case 'number':
             case 'boolean':
                 return {
@@ -35,6 +48,14 @@ const formatProperties = (properties: Record<string, Property>) => {
                     isRequired,
                     isNullable,
                     items: formatProperty(name, (property as PropertyTypeArray).items),
+                };
+            case 'string':
+                return {
+                    name,
+                    type,
+                    isRequired,
+                    isNullable,
+                    enum: formatEnum((property as PropertyTypeString).enum),
                 };
         }
     };
