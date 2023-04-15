@@ -26,11 +26,13 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "firebase": "^9.18.0",
     "handlebars": "^4.7.7",
     "lodash": "^4.17.21",
     "prettier": "^2.8.7",
     "rimraf": "^4.4.1"
+  },
+  "peerDependencies": {
+    "firebase": "^9.19.1"
   },
   "engines": {
     "node": "<16.7.0"

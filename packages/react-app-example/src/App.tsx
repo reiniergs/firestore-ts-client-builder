@@ -1,22 +1,25 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react';
-import { query, where } from 'firebase/firestore';
+// import { query, where } from 'firebase/firestore';
 import logo from './logo.svg';
 import './App.css';
 import getCustomer from './data/customer/get';
-import listCustomers from './data/customer/list';
+// import listCustomers from './data/customer/list';
+import useCustomer from './data/customer/use';
 
 const App = () => {
     useEffect(() => {
         (async () => {
             const customer = await getCustomer('6SDujnxMBUViGociM08K');
             console.log(customer?.name);
-            const customers = await listCustomers({
-                listQueryFn: (ref) => query(ref, where('name', '==', 'Reinier Guerra')),
-            });
-            console.log(customers);
+            // const customers = await listCustomers({
+            //     listQueryFn: (ref) => query(ref, where('name', '==', 'Reinier Guerra')),
+            // });
+            // console.log(customers);
         })();
     }, []);
+    const { data, isLoading } = useCustomer('6SDujnxMBUViGociM08K');
+    console.log('foo', data, isLoading);
     return (
         <div className="App">
             <header className="App-header">

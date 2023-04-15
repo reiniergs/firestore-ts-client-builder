@@ -32,3 +32,8 @@ export interface PaginateServiceOpts extends ListServiceOpts {
     cursor?: string;
 }
 export type PaginateService<T> = (opts: PaginateServiceOpts) => Promise<Page<T>>;
+export interface HookReturn<T> {
+    data: T | undefined;
+    isLoading: boolean;
+}
+export type UseDocHook<T> = (id: string) => HookReturn<T>;
