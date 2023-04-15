@@ -1,6 +1,12 @@
 {{#each properties}}
   {{#if (eq type "string")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
+    {{name}}{{#unless isRequired}}?{{/unless}}: 
+      {{#if enum}}
+            {{enum}}
+          {{else}}
+            {{type}}
+      {{/if}}
+      {{#if isNullable}}| null{{/if}};
   {{else if (eq type "number")}}
     {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
   {{else if (eq type "boolean")}}

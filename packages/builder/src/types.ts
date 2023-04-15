@@ -5,7 +5,8 @@ export type PropertyType =
   | 'array'
   | 'object'
   | 'boolean'
-  | 'reference';
+  | 'reference'
+  | 'enum';
 
 export interface BaseProperty {
     type: PropertyType;
@@ -23,7 +24,11 @@ export interface PropertyTypeArray extends BaseProperty {
     items: Property;
 }
 
-export type Property = BaseProperty | PropertyTypeObject | PropertyTypeArray;
+export interface PropertyTypeString extends BaseProperty {
+    enum: Array<string>;
+}
+
+export type Property = BaseProperty | PropertyTypeString | PropertyTypeObject | PropertyTypeArray;
 
 export interface Entity {
     properties: Record<string, Property>;

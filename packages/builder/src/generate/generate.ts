@@ -17,11 +17,13 @@ hbs.registerPartial(
         .toString(),
 );
 
+const replaceSingleQuotes = (input: string) => input.replace(/&#x27;/g, "'");
+
 const generate = (props: GenerateProps) => {
     const { templatePath, targetPath, data } = props;
     const templateStr = fs.readFileSync(templatePath).toString();
     const template = hbs.compile(templateStr);
-    const content = template(data);
+    const content = replaceSingleQuotes(template(data));
     fs.writeFileSync(
         targetPath,
         prettier.format(content, { parser: 'typescript' }),
