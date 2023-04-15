@@ -1,0 +1,20 @@
+import { useState, useEffect } from 'react';
+import onSnapshotDoc from "./onSnapshotDoc";
+import { {{entityInterface}} } from './types';
+import { UseDocHook } from '../types';
+
+const useDoc: UseDocHook<{{entityInterface}}> = (id) => {
+    const [data, setData] = useState<{{entityInterface}}>();
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true);
+        const unsub = onSnapshotDoc(id, (doc) => {
+            setData(doc);
+            setLoading(false);   
+        });
+        return () => unsub();
+    }, [id]);
+    return { data, isLoading };
+}
+
+export default useDoc;

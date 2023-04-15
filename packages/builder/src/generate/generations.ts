@@ -7,6 +7,7 @@ import generateList from './generateList';
 import generatePaginate from './generatePaginate';
 import generateOnSnapshotDoc from './generateOnSnapshotDoc';
 import generateOnSnapshotCollection from './generateOnSnapshotCollection';
+import generateUseDoc from './generateUseDoc';
 
 export default [
     generateGet,
@@ -18,4 +19,5 @@ export default [
     generateOnSnapshotCollection,
     generatePaginate,
     generateTypes,
+    generateUseDoc,
 ];
