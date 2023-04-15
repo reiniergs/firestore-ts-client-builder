@@ -4,9 +4,6 @@ import { query, where } from 'firebase/firestore';
 import logo from './logo.svg';
 import './App.css';
 import getCustomer from './data/customer/get';
-// import addCustomer from "./data/customer/add";
-// import updateCustomer from "./data/customer/update";
-// import removeCustomer from "./data/customer/remove";
 import listCustomers from './data/customer/list';
 
 const App = () => {
@@ -14,18 +11,6 @@ const App = () => {
         (async () => {
             const customer = await getCustomer('6SDujnxMBUViGociM08K');
             console.log(customer?.name);
-            // await addCustomer({
-            //   name: "Saray Pacheco",
-            //   foo: {
-            //     bar: {
-            //       foobar: 5,
-            //     },
-            //   },
-            // });
-            // await updateCustomer("6SDujnxMBUViGociM08K", {
-            //   name: "Reinier Guerra",
-            // });
-            // await removeCustomer("cLBoDB6ilEWIudsaxM9k");
             const customers = await listCustomers({
                 listQueryFn: (ref) => query(ref, where('name', '==', 'Reinier Guerra')),
             });

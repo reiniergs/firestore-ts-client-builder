@@ -1,0 +1,18 @@
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
+import { OnSnapshotDocService } from "../types";
+import { {{entityInterface}} } from "./types";
+
+const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback) => {
+  const docRef = doc(db, `/{{entityName}}/${id}`);
+  return onSnapshot(docRef, (docSnap) => {
+    if (docSnap.exists()) {
+      callback({
+        ...docSnap.data(),
+        id: docSnap.id,
+      } as {{entityInterface}});
+    }
+  });
+};
+
+export default onSnapshotDoc;
