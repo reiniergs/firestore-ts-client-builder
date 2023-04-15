@@ -7,12 +7,16 @@ import getCustomer from './data/customer/get';
 // import listCustomers from './data/customer/list';
 // import useCustomer from './data/customer/use';
 import useCustomers from './data/customer/useCollection';
+import addCustomer from './data/customer/add';
 
 const App = () => {
     useEffect(() => {
         (async () => {
+            await addCustomer({
+                name: 'Rei',
+            });
             const customer = await getCustomer('6SDujnxMBUViGociM08K');
-            console.log(customer?.name);
+            console.log(customer?.createdAt);
             // const customers = await listCustomers({
             //     listQueryFn: (ref) => query(ref, where('name', '==', 'Reinier Guerra')),
             // });

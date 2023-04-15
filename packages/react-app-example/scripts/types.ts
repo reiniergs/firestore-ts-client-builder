@@ -1,19 +1,14 @@
-import { CollectionReference, Query, Timestamp, Unsubscribe } from 'firebase/firestore';
+import { CollectionReference, Query, Unsubscribe } from 'firebase/firestore';
 
 export interface BaseEntity {
     id: string;
 }
 
-export interface EntityClientMetadata {
+export interface EntityMetadata {
     createdAt: Date;
     updatedAt: Date;
 }
-export interface EntityServerMetadata {
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-}
-export type EntityGet<T> = T & EntityClientMetadata;
-export type EntityServerGet<T> = T & EntityServerMetadata;
+export type EntityGet<T> = T & EntityMetadata;
 
 export type ListQueryFn = (ref: CollectionReference) => Query;
 export interface ListServiceOpts {
@@ -21,7 +16,7 @@ export interface ListServiceOpts {
 }
 
 export type GetService<T> = (id: string) => Promise<T | null>;
-export type AddService<T> = (doc: Omit<T, 'id'>) => Promise<EntityGet<T>>;
+export type AddService<T> = (doc: Omit<T, 'id'>) => Promise<T>;
 export type SetService<T> = (id: string, doc: Omit<T, 'id'>) => Promise<T>;
 export type UpdateService<T> = (
     id: string,
@@ -45,7 +40,6 @@ export interface PaginateServiceOpts extends ListServiceOpts {
 export type PaginateService<T> = (opts: PaginateServiceOpts) => Promise<Page<T>>;
 export interface HookOpts {
     disabled?: boolean;
-    track?: Array<string | number | boolean | undefined>;
 }
 export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
     onSnap?: (docs: Array<T>) => void;

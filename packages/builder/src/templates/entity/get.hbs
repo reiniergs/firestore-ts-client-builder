@@ -1,16 +1,17 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { GetService } from "../types";
+import { GetService, EntityGet, EntityServerGet  } from "../types";
 import { {{entityInterface}} } from "./types";
+import { transformMetadata } from '../utils';
 
-const get: GetService<{{entityInterface}}> = async (id: string) => {
+const get: GetService<EntityGet<{{entityInterface}}>> = async (id: string) => {
   const docRef = doc(db, `/{{entityName}}/${id}`);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    return {
-      ...docSnap.data(),
+    return transformMetadata({
+        ...docSnap.data(),
       id: docSnap.id,
-    } as {{entityInterface}};
+    } as EntityServerGet<{{entityInterface}}>);
   }
   return null;
 };

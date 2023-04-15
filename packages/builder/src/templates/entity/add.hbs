@@ -1,15 +1,18 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
-import { AddService } from "../types";
+import { AddService, EntityGet } from "../types";
 import { {{entityInterface}} } from "./types";
+import get from './get';
 
 const add: AddService<{{entityInterface}}> = async (data) => {
   const collectionRef = collection(db, `/{{entityName}}`);
-  const docRef = await addDoc(collectionRef, data);
-  return {
+  const now = serverTimestamp();
+  const docRef = await addDoc(collectionRef, {
     ...data,
-    id: docRef.id,
-  };
+    createdAt: now,
+    updatedAt: now,
+  });
+  return get(docRef.id) as Promise<EntityGet<{{entityInterface}}>>;
 };
 
 export default add;
