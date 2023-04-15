@@ -3,18 +3,21 @@ import onSnapshotDoc from "./onSnapshotDoc";
 import { {{entityInterface}} } from './types';
 import { UseDocHook } from '../types';
 
-const useDoc: UseDocHook<{{entityInterface}}> = (id) => {
+const useDoc: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
     const [data, setData] = useState<{{entityInterface}}>();
-    const [isLoading, setLoading] = useState(false);
-    useEffect(() => {
+  const [isLoading, setLoading] = useState(false);
+  const { disabled = false } = opts;
+  useEffect(() => {
+    if (!disabled) {
         setLoading(true);
         const unsub = onSnapshotDoc(id, (doc) => {
-            setData(doc);
-            setLoading(false);   
+        setData(doc);
+        setLoading(false);
         });
         return () => unsub();
-    }, [id]);
-    return { data, isLoading };
+    }    
+  }, [id, disabled]);
+  return { data, isLoading };
 }
 
 export default useDoc;
