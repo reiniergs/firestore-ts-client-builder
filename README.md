@@ -11,59 +11,59 @@ yarn add -D firestore-ts-client-builder
 Create a script to generate the data layer (e.g., generateDataLayer.js):
 
 ```js
-import path from "path";
-import dotenv from "dotenv";
-import { createClientDataLayer } from "firestore-ts-client-builder";
+import path from 'path';
+import dotenv from 'dotenv';
+import { createClientDataLayer } from 'firestore-ts-client-builder';
 
 // Load environment variables from .env file
 dotenv.config();
 
 createClientDataLayer({
-  outdir: path.join(__dirname, "../src/data"),
-  metadata: {
-    entities: {
-      customer: {
-        properties: {
-          name: { type: "string", isRequired: true },
-          dob: { type: "number" },
-          address: {
-            type: "object",
-            properties: {
-              street: {
-                type: "string",
-                isRequired: true,
-              },
-              city: {
-                type: "string",
-                isRequired: true,
-              },
-              state: {
-                type: "string",
-                isRequired: true,
-              },
-              zip: {
-                type: "number",
-                isRequired: true,
-              },
+    outdir: path.join(__dirname, '../src/data'),
+    metadata: {
+        entities: {
+            customer: {
+                properties: {
+                    name: { type: 'string', isRequired: true },
+                    dob: { type: 'number' },
+                    address: {
+                        type: 'object',
+                        properties: {
+                            street: {
+                                type: 'string',
+                                isRequired: true,
+                            },
+                            city: {
+                                type: 'string',
+                                isRequired: true,
+                            },
+                            state: {
+                                type: 'string',
+                                isRequired: true,
+                            },
+                            zip: {
+                                type: 'number',
+                                isRequired: true,
+                            },
+                        },
+                    },
+                    colors: {
+                        type: 'array',
+                        items: { type: 'string' },
+                    },
+                },
             },
-          },
-          colors: {
-            type: "array",
-            items: { type: "string" },
-          },
         },
-      },
     },
-  },
-  firebaseConfig: {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID,
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-  },
+    firebaseConfig: {
+        apiKey: process.env.FIREBASE_API_KEY || '',
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN || '',
+        projectId: process.env.FIREBASE_PROJECT_ID || '',
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET || '',
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+        appId: process.env.FIREBASE_APP_ID || '',
+        measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
+    },
 });
 ```
 
@@ -79,12 +79,12 @@ Now you can access the generated data layer in your application:
 import getCustomer from "path/to/data/customer/get";
 
 useEffect(() => {
-  (async () => {
-    const customer = await getCustomer(
-      "z9atwfoVsiZ3vl5F2YiJ" /** customerId */
-    );
-    console.log(customer?.name);
-  })();
+    (async () => {
+        const customer = await getCustomer(
+            "z9atwfoVsiZ3vl5F2YiJ" /** customerId */
+        );
+        console.log(customer?.name);
+     })();
 }, []);
 ```
 
