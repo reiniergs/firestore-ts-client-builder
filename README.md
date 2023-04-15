@@ -6,7 +6,7 @@
 Install the package as a development dependency:
 
 ```bash
-yarn add firestore-ts-client-builder --D
+yarn add -D firestore-ts-client-builder
 ```
 Create a script to generate the data layer (e.g., generateDataLayer.js):
 
