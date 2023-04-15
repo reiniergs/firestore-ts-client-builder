@@ -6,7 +6,7 @@ import { UseConllectionHook } from '../types';
 const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
   const [data, setData] = useState<Array<{{entityInterface}}>>([]);
   const [isLoading, setLoading] = useState(false);
-  const { disabled = false, onSnap } = opts;
+  const { disabled = false, onSnap, track = [] } = opts;
   useEffect(() => {
     if (!disabled) {
         setLoading(true);
@@ -19,8 +19,7 @@ const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
         });
         return () => unsub();
     }
-    
-  }, [disabled]);
+  }, [disabled, ...track]);
   return { data, isLoading };
 };
 
