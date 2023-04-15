@@ -37,3 +37,4 @@ export interface HookReturn<T> {
     isLoading: boolean;
 }
 export type UseDocHook<T> = (id: string) => HookReturn<T>;
+export type UseConllectionHook<T> = (opts?: ListServiceOpts) => HookReturn<Array<T>>;

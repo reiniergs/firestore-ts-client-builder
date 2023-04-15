@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react';
-// import { query, where } from 'firebase/firestore';
+import { query, where } from 'firebase/firestore';
 import logo from './logo.svg';
 import './App.css';
 import getCustomer from './data/customer/get';
 // import listCustomers from './data/customer/list';
-import useCustomer from './data/customer/use';
+// import useCustomer from './data/customer/use';
+import useCustomers from './data/customer/useCollection';
 
 const App = () => {
     useEffect(() => {
@@ -18,7 +19,11 @@ const App = () => {
             // console.log(customers);
         })();
     }, []);
-    const { data, isLoading } = useCustomer('6SDujnxMBUViGociM08K');
+    // const { data, isLoading } = useCustomer('6SDujnxMBUViGociM08K');
+    // console.log('foo', data, isLoading);
+    const { data, isLoading } = useCustomers({
+        listQueryFn: (ref) => query(ref, where('removed', '==', false)),
+    });
     console.log('foo', data, isLoading);
     return (
         <div className="App">
