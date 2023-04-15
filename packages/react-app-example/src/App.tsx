@@ -7,12 +7,17 @@ import getCustomer from "./data/customer/get";
 // import removeCustomer from "./data/customer/remove";
 import listCustomers from "./data/customer/list";
 import { query, where } from "firebase/firestore";
+import onSnapshotCustomer from "./data/customer/onSnapshotDoc";
+import onSnapshotCustomers from "./data/customer/onSnapshotCollection";
 
 function App() {
   useEffect(() => {
     (async () => {
-      const customer = await getCustomer("6SDujnxMBUViGociM08K");
-      console.log(customer?.name);
+      onSnapshotCustomers({}, (customers) => {
+        console.log(customers);
+      })
+      // const customer = await getCustomer("6SDujnxMBUViGociM08K");
+      // console.log(customer?.name);
       // await addCustomer({
       //   name: "Saray Pacheco",
       //   foo: {
@@ -25,10 +30,10 @@ function App() {
       //   name: "Reinier Guerra",
       // });
       // await removeCustomer("cLBoDB6ilEWIudsaxM9k");
-      const customers = await listCustomers({
-        listQueryFn: (ref) => query(ref, where("name", "==", "Reinier Guerra")),
-      });
-      console.log(customers);
+      // const customers = await listCustomers({
+      //   listQueryFn: (ref) => query(ref, where("name", "==", "Reinier Guerra")),
+      // });
+      // console.log(customers);
     })();
   }, []);
   return (

@@ -1,0 +1,19 @@
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "../firebase";
+import { OnSnapshotCollectionService } from "../types";
+import { {{entityInterface}} } from "./types";
+
+const onSnapshotCollection: OnSnapshotCollectionService<{{entityInterface}}> = (opts, callback) => {
+  const collectionRef = collection(db, `/{{entityName}}`);
+  const q = opts.listQueryFn 
+    ? opts.listQueryFn(collectionRef)
+    : query(collectionRef);
+  return onSnapshot(q, (querySnap) => {
+    callback(querySnap.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id, 
+    } as {{entityInterface}})))
+  });
+};
+
+export default onSnapshotCollection;

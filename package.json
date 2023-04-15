@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "lerna run start --scope example",
-    "build": "lerna run build --scope builder",
-    "publish": "lerna run publish --scope builder"
+    "build": "lerna run build --scope firestore-ts-client-builder",
+    "publish": "lerna run publish --scope firestore-ts-client-builder"
   }
 }

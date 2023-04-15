@@ -1,5 +1,5 @@
 import path from "path";
-import { createClientDataLayer } from "firestore-data-model-generator";
+import { createClientDataLayer } from "firestore-ts-client-builder";
 
 createClientDataLayer({
   outdir: path.join(__dirname, "../src/data"),
