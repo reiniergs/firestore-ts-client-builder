@@ -8,6 +8,7 @@ import generateFirebase from './generate/generateFirebase';
 
 export const createClientDataLayer = (props: ClientDataLayerProps) => {
     const { outdir, metadata, firebaseConfig } = props;
+
     removeDir(outdir);
     createDir(outdir);
 
