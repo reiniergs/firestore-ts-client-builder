@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@5.0.3
+  node: circleci/node@5.1.0
 
 jobs:
   build_and_test:
@@ -26,7 +26,7 @@ jobs:
       - run: yarn install
       - run:
             name: Auth with registry
-            command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+            command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
       - run: yarn publish-builder --canary --preid canary --yes
 
 workflows:
