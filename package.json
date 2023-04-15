@@ -9,8 +9,8 @@
   "private": true,
   "scripts": {
     "start": "lerna run start --scope example",
-    "build": "lerna run build --scope builder",
+    "build": "lerna run build --scope firestore-ts-client-builder",
     "lint": "lerna run lint",
-    "publish": "lerna run publish --scope builder"
+    "publish-builder": "npx lerna publish"
   }
 }
