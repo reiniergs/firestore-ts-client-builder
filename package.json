@@ -10,6 +10,7 @@
   "scripts": {
     "start": "lerna run start --scope example",
     "build": "lerna run build --scope builder",
+    "lint": "lerna run lint",
     "publish": "lerna run publish --scope builder"
   }
 }
