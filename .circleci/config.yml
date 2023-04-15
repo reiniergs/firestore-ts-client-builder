@@ -1,0 +1,41 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+jobs:
+  build_and_test:
+    docker:
+      - image: cimg/node:18.15.0-browsers
+
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn install
+      - run: yarn lint
+
+  publish_canary:
+    docker:
+      - image: cimg/node:18.15.0-browsers
+
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn install
+      - run:
+            name: Auth with registry
+            command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
+      - run: yarn publish-builder --canary --preid canary --yes
+
+workflows:
+  workflow:
+    jobs:
+      - build_and_test
+      - publish_canary:
+          requires:
+              - build_and_test
+          filters:
+              branches:
+                  only: main
