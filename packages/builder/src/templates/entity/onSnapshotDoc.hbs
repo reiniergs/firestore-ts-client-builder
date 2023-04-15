@@ -1,16 +1,17 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import { OnSnapshotDocService } from "../types";
+import { EntityServerGet, OnSnapshotDocService } from "../types";
 import { {{entityInterface}} } from "./types";
+import { transformMetadata } from '../utils';
 
 const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback) => {
   const docRef = doc(db, `/{{entityName}}/${id}`);
   return onSnapshot(docRef, (docSnap) => {
     if (docSnap.exists()) {
-      callback({
+      callback(transformMetadata({
         ...docSnap.data(),
         id: docSnap.id,
-      } as {{entityInterface}});
+      } as EntityServerGet<{{entityInterface}}>));
     }
   });
 };

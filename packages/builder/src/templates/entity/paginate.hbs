@@ -10,8 +10,9 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { PaginateService } from "../types";
+import { EntityServerGet, PaginateService } from "../types";
 import { {{entityInterface}} } from "./types";
+import { transformMetadata } from '../utils';
 
 const paginate: PaginateService<{{entityInterface}}> = async ({
   direction = "forward",
@@ -38,10 +39,10 @@ const paginate: PaginateService<{{entityInterface}}> = async ({
 
   const querySnapshot = await getDocs(q);
   const docs = querySnapshot.docs.map((doc) => {
-    return {
+    return transformMetadata({
       ...doc.data(),
       id: doc.id,
-    } as {{entityInterface}};
+    } as EntityServerGet<{{entityInterface}}>);
   });
   return {
     docs,
