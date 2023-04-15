@@ -94,17 +94,18 @@ By using firestore-ts-client-builder, you can benefit from type-safety, cleaner 
 
 ## Things to do in your project
 
-1. Execute the script prior to building or starting your application:
+1. Execute the script prior to building, linting or starting your application:
 
     ```js
         "scripts": {
           "start": "yarn generate-data-layer && react-scripts start",
           "build": "yarn generate-data-layer && react-scripts build",
+          "lint": "yarn generate-data-layer && eslint src",
           "generate-data-layer": "node scripts/generateDataLayer.js",
         },
     ```
 
-    This script generates a typed Firestore client data layer that is ready for use in your TypeScript React application. It's important to execute this script before building or starting your application to ensure that your data layer is up-to-date.
+    This script generates a typed Firestore client data layer that is ready for use in your TypeScript React application. It's important to execute this script before building, linting or starting your application to ensure that your data layer is up-to-date.
 
 2. Add the data layer folder path (`src/data`) to your `.eslintignore` and `.gitignore` files. This ensures that the generated data layer code is not included in your linting and version control processes.
 
