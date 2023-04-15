@@ -3,11 +3,13 @@
 **firestore-ts-client-builder** is a powerful tool that generates a ready-to-use, typed data layer in TypeScript for your Firestore database. By providing metadata about your data model, you can create a typed client data layer that simplifies data access and ensures type safety.
 
 ## Usage
+
 Install the package as a development dependency:
 
 ```bash
 yarn add -D firestore-ts-client-builder
 ```
+
 Create a script to generate the data layer (e.g., generateDataLayer.js):
 
 ```js
@@ -67,7 +69,7 @@ createClientDataLayer({
 });
 ```
 
-Execute the script prior to building or starting your application. This will generate a typed Firestore client data layer that is ready for use in your TypeScript React application:
+This will generate a typed Firestore client data layer that is ready for use in your TypeScript React application:
 
 ```bash
 node generateDataLayer.js
@@ -89,3 +91,36 @@ useEffect(() => {
 ```
 
 By using firestore-ts-client-builder, you can benefit from type-safety, cleaner code, and faster development.
+
+## Things to do in your project
+
+1. Execute the script prior to building or starting your application:
+
+    ```js
+        "scripts": {
+          "start": "yarn generate-data-layer && react-scripts start",
+          "build": "yarn generate-data-layer && react-scripts build",
+          "generate-data-layer": "node scripts/generateDataLayer.js",
+        },
+    ```
+
+    This script generates a typed Firestore client data layer that is ready for use in your TypeScript React application. It's important to execute this script before building or starting your application to ensure that your data layer is up-to-date.
+
+2. Add the data layer folder path (`src/data`) to your `.eslintignore` and `.gitignore` files. This ensures that the generated data layer code is not included in your linting and version control processes.
+
+3. Since the data layer already have a firebae app initialized if you want to extend or add configs to your own Firebase configuration, you can do so by importing the app object from the generated Firebase module and calling Firebase services functions from it. For example:
+
+    ```js
+    // Import the generated `app` object from the Firebase module.
+    import { app } from 'data/firebase';
+    import { getAuth } from 'firebase/auth';
+    import { getAnalytics } from 'firebase/analytics';
+
+    // Import the generated `app` and `db` objects from the Firebase module and export here
+    export { app, db } from 'data/firebase';
+
+    export const auth = getAuth(app);
+    export const analytics = getAnalytics(app);
+    ```
+
+    This allows you to customize your Firebase configuration while still using the generated data layer code.
