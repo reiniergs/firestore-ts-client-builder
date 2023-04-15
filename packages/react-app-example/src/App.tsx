@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { useEffect } from 'react';
-import { query, where } from 'firebase/firestore';
+// import { query, where } from 'firebase/firestore';
 import logo from './logo.svg';
 import './App.css';
 import getCustomer from './data/customer/get';
@@ -22,7 +22,10 @@ const App = () => {
     // const { data, isLoading } = useCustomer('6SDujnxMBUViGociM08K');
     // console.log('foo', data, isLoading);
     const { data, isLoading } = useCustomers({
-        listQueryFn: (ref) => query(ref, where('removed', '==', false)),
+        disabled: false,
+        onSnap: (customer) => {
+            console.log('snap', customer);
+        },
     });
     console.log('foo', data, isLoading);
     return (

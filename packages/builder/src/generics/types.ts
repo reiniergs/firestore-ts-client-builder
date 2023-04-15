@@ -32,9 +32,15 @@ export interface PaginateServiceOpts extends ListServiceOpts {
     cursor?: string;
 }
 export type PaginateService<T> = (opts: PaginateServiceOpts) => Promise<Page<T>>;
+export interface HookOpts {
+    disabled?: boolean;
+}
+export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
+    onSnap?: (docs: Array<T>) => void;
+}
 export interface HookReturn<T> {
     data: T | undefined;
     isLoading: boolean;
 }
-export type UseDocHook<T> = (id: string) => HookReturn<T>;
-export type UseConllectionHook<T> = (opts?: ListServiceOpts) => HookReturn<Array<T>>;
+export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturn<T>;
+export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturn<Array<T>>;

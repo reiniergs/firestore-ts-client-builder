@@ -3,18 +3,25 @@ import onSnapshotCollection from './onSnapshotCollection';
 import { {{entityInterface}} } from './types';
 import { UseConllectionHook } from '../types';
 
-const useCollection: UseConllectionHook<{{entityInterface}}> = (opts) => {
-    const [data, setData] = useState<Array<{{entityInterface}}>>([]);
-    const [isLoading, setLoading] = useState(false);
-    useEffect(() => {
+const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
+  const [data, setData] = useState<Array<{{entityInterface}}>>([]);
+  const [isLoading, setLoading] = useState(false);
+  const { disabled = false, onSnap } = opts;
+  useEffect(() => {
+    if (!disabled) {
         setLoading(true);
-        const unsub = onSnapshotCollection(opts || {}, (doc) => {
-            setData(doc);
-            setLoading(false);   
+        const unsub = onSnapshotCollection(opts || {}, (docs) => {
+            setData(docs);
+            setLoading(false);
+            if (typeof onSnap === 'function') {
+                onSnap(docs);
+            }
         });
         return () => unsub();
-    }, []);
-    return { data, isLoading };
-}
+    }
+    
+  }, [disabled]);
+  return { data, isLoading };
+};
 
 export default useCollection;
