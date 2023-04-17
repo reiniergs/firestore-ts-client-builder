@@ -1,6 +1,6 @@
 import path from 'path';
-import { FirebaseConfig } from '../types';
-import generate from './generate';
+import { FirebaseConfig } from '../../types';
+import generate from '../generate';
 
 interface GenerateFirebaseProps {
     outdir: string;
@@ -10,7 +10,7 @@ interface GenerateFirebaseProps {
 const generateFirebase = (props: GenerateFirebaseProps) => {
     const { outdir, firebaseConfig } = props;
     generate({
-        templatePath: path.join(__dirname, '../templates/firebase.hbs'),
+        templatePath: path.join(__dirname, '../../templates/firebase.hbs'),
         targetPath: path.join(outdir, 'firebase.ts'),
         data: {
             firebaseConfig: Object.keys(firebaseConfig)

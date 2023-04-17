@@ -1,0 +1,53 @@
+import { useQuery } from 'react-query';
+import { auth } from './firebase';
+import { Method } from './types';
+
+export interface UseQueryParams {
+    pathname: string;
+    method?: Method;
+    server?: string;
+    body?: Record<string, unknown>;
+    key?: string | Array<unknown>;
+}
+
+const createRequestHeaders = async () => {
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',    
+    };
+    if (auth.currentUser) {
+        const idToken = await auth.currentUser.getIdToken();
+        headers['Authorization'] = `Bearer ${idToken}`;
+    }
+    return headers;
+}
+
+const useHttpQuery = <T>(params: UseQueryParams) => {
+    const {
+        pathname,
+        method = 'GET',
+        server = '{{metadata.server.url}}',
+        body,
+        key,
+    } = params;
+    const url = new URL(pathname, server).toString();
+    const queryKey = key 
+        ? key
+        : [`${method} ${url}`];
+    return useQuery(queryKey, async () => {
+        try {
+            const response = await fetch(url, {
+                method,
+                body: body ? JSON.stringify(body) : null,
+                headers: await createRequestHeaders(),
+            });
+            if (response.ok) {
+                return response.json() as T;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        } catch(error)  {
+            console.error('Error fetching data:', error);
+        }
+    })
+}
+
+export default useHttpQuery;

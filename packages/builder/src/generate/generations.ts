@@ -1,16 +1,20 @@
-import generateGet from './generateGet';
-import generateAdd from './generateAdd';
-import generateTypes from './generateTypes';
-import generateUpdate from './generateUpdate';
-import generateRemove from './generateRemove';
-import generateList from './generateList';
-import generatePaginate from './generatePaginate';
-import generateOnSnapshotDoc from './generateOnSnapshotDoc';
-import generateOnSnapshotCollection from './generateOnSnapshotCollection';
-import generateUseDoc from './generateUseDoc';
-import generateUseCollection from './generateUseCollection';
+// entity code
+import generateGet from './entity/generateGet';
+import generateAdd from './entity/generateAdd';
+import generateTypes from './entity/generateTypes';
+import generateUpdate from './entity/generateUpdate';
+import generateRemove from './entity/generateRemove';
+import generateList from './entity/generateList';
+import generatePaginate from './entity/generatePaginate';
+import generateOnSnapshotDoc from './entity/generateOnSnapshotDoc';
+import generateOnSnapshotCollection from './entity/generateOnSnapshotCollection';
+import generateUseDoc from './entity/generateUseDoc';
+import generateUseCollection from './entity/generateUseCollection';
 
-export default [
+// generic code
+import generateUseHttpQuery from './generic/genearteUseHttpQuery';
+
+export const entityCode = [
     generateGet,
     generateAdd,
     generateUpdate,
@@ -23,3 +27,5 @@ export default [
     generateUseDoc,
     generateUseCollection,
 ];
+
+export const genericCode = [generateUseHttpQuery];
