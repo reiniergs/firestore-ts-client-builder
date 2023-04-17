@@ -56,3 +56,4 @@ export interface HookReturn<T> {
 }
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturn<T>;
 export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturn<Array<T>>;
+export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

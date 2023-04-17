@@ -1,14 +1,14 @@
 /* eslint-disable consistent-return, default-case */
 import path from 'path';
 import capitalize from 'lodash/capitalize';
-import { GenerateEntityProps } from './types';
-import generate from './generate';
+import { GenerateEntityProps } from '../types';
+import generate from '../generate';
 import {
     Property,
     PropertyTypeArray,
     PropertyTypeObject,
     PropertyTypeString,
-} from '../types';
+} from '../../types';
 
 const formatEnum = (enumValues: Array<string>) => {
     if (Array.isArray(enumValues)) {
@@ -66,7 +66,7 @@ const formatProperties = (properties: Record<string, Property>) => {
 const generateTypes = (props: GenerateEntityProps) => {
     const { outdir, entityName, entity } = props;
     generate({
-        templatePath: path.join(__dirname, '../templates/entity/types.hbs'),
+        templatePath: path.join(__dirname, '../../templates/entity/types.hbs'),
         targetPath: path.join(outdir, entityName, 'types.ts'),
         data: {
             entityInterface: capitalize(entityName),

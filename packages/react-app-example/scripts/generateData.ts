@@ -35,11 +35,11 @@ createClientDataLayer({
                         },
                     },
                     enum: {
-                      type: 'string',
-                      enum: ['foo', 'bar'],
-                      isNullable: true,
+                        type: 'string',
+                        enum: ['foo', 'bar'],
+                        isNullable: true,
                     },
-                  
+
                 },
             },
             driver: {
@@ -51,6 +51,9 @@ createClientDataLayer({
                     },
                 },
             },
+        },
+        server: {
+            url: 'https://jsonplaceholder.typicode.com',
         },
     },
     firebaseConfig: {

@@ -34,8 +34,18 @@ export interface Entity {
     properties: Record<string, Property>;
 }
 
+type Protocol = 'http' | 'https';
+type Domain = `${string}.${string}`;
+type Path = `/${string}`;
+type BasicURL = `${Protocol}://${Domain}${Path}` | `${Protocol}://${Domain}`;
+
+export interface Server {
+    url: BasicURL;
+}
+
 export interface DataModelMetadata {
     entities: Record<string, Entity>;
+    server: Server;
 }
 
 export interface FirebaseConfig {
