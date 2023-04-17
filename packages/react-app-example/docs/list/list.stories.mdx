@@ -1,0 +1,25 @@
+import { Meta, Canvas, Story, Source } from '@storybook/addon-docs'
+import { commonExports } from '../utils';
+import { Playground } from 'storybook-addon-code-editor';
+import * as stories from './list.stories';
+import StoryCode from './list.source.tsx?raw'
+import list from '../../src/data/customer/list';
+
+<Meta title="Functions/List/Docs" />
+
+# List
+
+This function retrieves a list of documents from Firestore. You can pass a `listQueryFn` as option
+to build a query that will be used to retrieve the documents.
+
+The return value of the function is a `Promise` that resolves to an array of objects.
+
+## Example usage
+
+<Playground
+    code={StoryCode}
+    availableImports={{ 
+        ...commonExports,
+        '~/data/customer/list': list,
+    }}
+    height="320px" />

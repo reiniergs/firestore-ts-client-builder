@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, Source } from '@storybook/addon-docs'
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import * as stories from './useCollection.stories';
+import StoryCode from './useCollection.source.tsx?raw'
+import useCollection from '../../src/data/customer/useCollection';
+
+<Meta title="Hooks/useCollection/Docs" />
+
+# useCollection
+
+This hook is used to fetch a collection from firestore.
+
+## Example usage
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/useCollection': useCollection }} height="320px" />
