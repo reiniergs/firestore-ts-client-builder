@@ -1,6 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
+import dotenv from 'dotenv';
 import { createClientDataLayer } from 'firestore-ts-client-builder';
+
+// Load environment variables from .env file
+dotenv.config();
 
 createClientDataLayer({
     outdir: path.join(__dirname, '../src/data'),
@@ -50,12 +54,12 @@ createClientDataLayer({
         },
     },
     firebaseConfig: {
-        apiKey: 'AIzaSyAPtQh_oq1y85NT2SL7kBO2zKaw79FdrH0',
-        authDomain: 'grow-7b6b1.firebaseapp.com',
-        projectId: 'grow-7b6b1',
-        storageBucket: 'grow-7b6b1.appspot.com',
-        messagingSenderId: '1052492926493',
-        appId: '1:1052492926493:web:06cb198c1b0aa08b6040f4',
-        measurementId: 'G-12DGBG55KC',
+        apiKey: process.env.FIREBASE_API_KEY || '',
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN || '',
+        projectId: process.env.FIREBASE_PROJECT_ID || '',
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET || '',
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+        appId: process.env.FIREBASE_APP_ID || '',
+        measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
     },
 });
