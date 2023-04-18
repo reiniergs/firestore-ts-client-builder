@@ -58,7 +58,7 @@ export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },
     options: {
       storySort: {
-        order: ['Getting started'],
+        order: ['Getting started', 'Defining your data model'],
       },
     },
     controls: {
