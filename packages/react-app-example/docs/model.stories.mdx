@@ -1,0 +1,127 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="Defining your data model" />
+
+# Defining your data model
+
+To start using the tool that generates the code, you need to provide an object that describes your data model. Here's an example of how you can write an object to pass into the tool:
+
+```json
+{
+    "entities": {
+        "customer": {
+            "properties": {
+                "name": { "type": "string", "isRequired": true },
+                "dob": { "type": "number", "isNullable": true },
+                "foo": {
+                    "type": "object",
+                    "properties": {
+                        "bar": {
+                            "type": "object",
+                            "properties": {
+                                "foobar": { "type": "number", "isRequired": true }
+                            }
+                        }
+                    }
+                },
+                "bar": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                        "foo": { "type": "string" }
+                        }
+                    }
+                },
+                "enum": {
+                    "type": "string",
+                    "enum": ["foo", "bar"],
+                    "isNullable": true
+                }
+            }
+        }
+    }
+}
+```
+In this example the object has an `entities` property, which is an object that describes each entity in the data model. In this case, there is only one entity named customer.
+For each entity, there is a `properties` property, which is an object that describes each field of the entity. Each field is described using an object that has a type property and optional properties such as `isRequired`, `isNullable`, and `enum`.
+
+## Field types
+
+The `type` property is used to specify the data type of a field in the entity. It determines what kind of data can be stored in that field. The supported types are:
+
+- **string**: This represents a string value.
+- **number**: This represents a numeric value.
+- **boolean**: This represents a boolean value.
+- **object**: This represents an object value, which can have its own set of properties defined.
+- **array**: This represents an array of values, where each element in the array can be of any data type.
+
+Note that the `type` property is required for every field, and the value of this property should be one of the supported types mentioned above. The generated code will use this information to determine the TypeScript type to use for the property and perform type checking.
+
+Each field has also a set of optional properties that you can use to configure its behavior:
+
+- **isRequired**: This property is used to indicate whether a field is required or not. If the value of this property is true, it means that the field is required and must be present in the data when creating or updating an entity. If the value of this property is false or not provided, it means that the field is optional.
+- **isNullable**: This property is used to indicate whether a field can be null or not. If the value of this property is true, it means that the field can be set to null. If the value of this property is false or not provided, it means that the field cannot be set to null.
+- **enum**: For `string` type only. This property is used to specify a list of possible values that a field can have. The value of this property should be an array of strings that represent the allowed values. If the value of this property is provided and a value outside of the allowed values is provided when creating or updating an entity, a type error will be shown. If the value of this property is not provided, any value of the specified type can be provided.
+
+
+#### Objects
+
+When defining a field of type object, it has properties of its own. A `properties` property have to be defined, and inside it you should describe the properties of the object. Here's an example:
+
+```json
+{
+    "entities": {
+        "book": {
+            "properties": {
+                "title": { "type": "string", "isRequired": true },
+                "author": {
+                    "type": "object",
+                    "properties": {
+                        "name": { "type": "string", "isRequired": true },
+                        "age": { "type": "number", "isNullable": true },
+                        "contact": {
+                            "type": "object",
+                            "properties": {
+                                "email": { "type": "string" },
+                                "phone": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+In this example, the `book` entity has an `author` property, which is an object with its own set of properties defined in the `properties` property. The `name` property of the author is required, while the age property is nullable, meaning it can be set to null. The `contact` property is itself an object with its own set of properties, `email` and `phone`. Note that there can be multiple levels of nesting, where an object can have its own nested objects.
+
+### Arrays
+
+When defining an array field, the type property should be set to `array`. The `items` property should then be defined, which is an object that describes the shape of the items in the array.
+
+```json
+{
+    "entities": {
+        "order": {
+            "properties": {
+                "id": { "type": "string" },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": "string" },
+                            "price": { "type": "number" },
+                            "quantity": { "type": "number" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+In this example, the `order` entity has a `products` property, which is an array of objects. The `items` property of the `products` array describes the shape of each object in the array, which in this case has properties for `name`, `price`, and `quantity`. Note that the `items` property can also be used to describe an array of primitive types, like `string` or `number`.

@@ -1,0 +1,20 @@
+import { Meta, Canvas, Story, Source } from '@storybook/addon-docs'
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import * as stories from './add.stories';
+import StoryCode from './add.source.tsx?raw'
+import add from '../../src/data/customer/add';
+
+<Meta title="Functions/Add/Docs" />
+
+# Add
+
+The add function is used to add a new entry to your database. You provide the necessary data as input to the function
+and it returns a promise that resolves to the inserted object, including its `id`, or rejects with an error if there 
+was a problem adding the entry to the database.
+
+## Usage example
+
+The next code sample shows how to use the add function to add a new entry to the database.
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/add': add }} height="320px" />
