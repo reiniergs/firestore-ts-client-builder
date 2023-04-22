@@ -24,8 +24,8 @@ const createRequestHeaders = async () => {
 const useHttpQuery = <T>(params: UseQueryParams) => {
     const {
         pathname,
-        method = 'GET',
-        server = '{{metadata.server.url}}',
+        method = "GET",
+        server = "{{metadata.server.url}}",
         body,
         key,
     } = params;

@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs';
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './useHttpMutation.source.tsx?raw'
+import useHttpMutation from '../../src/data/useHttpMutation';
+
+<Meta title="Hooks/useHttpMutation/Docs" />
+
+# `useHttpMutation` React Hook Documentation
+
+`useHttpMutation` is a custom React hook that helps you to perform an HTTP mutation (such as POST, PUT, PATCH, DELETE) using the `react-query` library. It also integrates with Firebase Authentication for handling authorized requests.
+
+## Usage
+
+The `useHttpMutation` hook accepts an object with the following properties:
+
+```javascript
+const mutation = useHttpMutation<T>({
+  pathname: string;
+  method?: Method;
+  server?: string;
+  onSuccess?: (data: T) => void;
+});
+```
+
+### Parameters
+
+- `pathname` (string, required): The endpoint path for the request.
+- `method` (string, optional, default: `"GET"`): The HTTP method to use for the request. Accepts `"GET"`, `"POST"`, `"PUT"`, `"PATCH"`, and `"DELETE"`.
+- `server` (string, optional, default: `server.url` in the metadata schema): The base URL of the server to send the request to.
+- `onSuccess` (function, optional): A callback function that will be called with the data returned from the API on a successful request.
+
+### Return value
+
+The `useHttpMutation` hook returns an object with properties and methods from the `react-query` library, including `isLoading`, `error`, `data`, and `mutate`.
+
+For detailed information on the return value, please refer to the `react-query` documentation: https://react-query.tanstack.com/reference/useMutation
+
+### Example
+
+Here's an example of how to use the `useHttpMutation` hook to create a new user:
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/useHttpMutation': useHttpMutation }} height="520px" />
+
+In this example, we import the `useHttpMutation` hook and use it to create a new user. When the form is submitted, the `handleSubmit` function is called, which in turn triggers the `createUserMutation.mutate()` method. This sends a `POST` request to the `/users` endpoint, and if the request is successful, the `onSuccess` callback is executed, logging the created user's data to the console.
