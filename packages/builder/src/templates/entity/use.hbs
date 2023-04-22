@@ -4,7 +4,7 @@ import { {{entityInterface}} } from './types';
 import { UseDocHook } from '../types';
 
 const useDoc: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
-    const [data, setData] = useState<{{entityInterface}}>();
+    const [data, setData] = useState<{{entityInterface}} | null>(null);
   const [isLoading, setLoading] = useState(false);
   const { disabled = false } = opts;
   useEffect(() => {

@@ -1,0 +1,27 @@
+import { useState, useEffect } from 'react';
+import get from './get';
+import { {{entityInterface}} } from './types';
+import { UseDocHook } from '../types';
+
+const useDocOnce: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
+    const [data, setData] = useState<{{entityInterface}} | null>(null);
+    const [isLoading, setLoading] = useState(false);
+    const { disabled = false } = opts;
+    useEffect(() => {
+        if (!disabled) {
+            setLoading(true);
+            (async () => {
+                try {
+                    const doc = await get(id);
+                    setData(doc);
+                } catch (err) {
+                    console.error(err);
+                }
+                setLoading(false);
+            })();
+        }
+    }, [id, disabled]);
+    return { data, isLoading };
+};
+
+export default useDocOnce;

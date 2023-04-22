@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs';
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './useDocOnce.source.tsx?raw'
+import useCustomerOnce from '../../src/data/customer/useOnce';
+
+<Meta title="Entities/useDocOnce/Docs" />
+
+# `useDocOnce` Hook
+
+`useDocOnce` is a custom React Hook for fetching a single document based on the provided document ID. The hook returns an object containing the fetched document data and a loading state indicating whether the data is being fetched or not.
+
+## Usage
+
+```javascript
+import useCustomerOnce from "path/to/data/customer/useOnce";
+
+const { data, isLoading } = useCustomerOnce(id, opts);
+```
+
+## Parameters
+
+- `id` (string): The ID of the document to fetch.
+- `opts` (object, optional): An options object for configuring the behavior of the hook.
+  - `disabled` (boolean, default: `false`): Set to `true` to disable fetching the document automatically when the component mounts or when the ID changes.
+
+## Return Value
+
+The hook returns an object containing the following properties:
+
+- `data` (`Customer` | `null`): The fetched document data, or `null` if the data has not been fetched or an error occurred.
+- `isLoading` (boolean): A boolean indicating whether the data is being fetched (`true`) or not (`false`).
+
+## Example
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/useOnce': useCustomerOnce }} height="420px" />
+
+In this example, the `CustomerDetails` component uses the `useDocOnce` hook to fetch the customer data based on the `customerId` prop. While the data is being fetched, a loading message is displayed. Once the data is fetched, the component renders the customer's name and email. If no data is found, a message is displayed indicating that there is no customer data.

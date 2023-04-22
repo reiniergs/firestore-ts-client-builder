@@ -6,7 +6,7 @@ import useCollection from '~/data/customer/useCollection';
 import Source from './useCollection.source?raw';
 
 export default {
-    title: 'Hooks/useCollection/Stories',
+    title: 'Entities/useCollection/Stories',
     parameters: {
         docs: {
             page: null,

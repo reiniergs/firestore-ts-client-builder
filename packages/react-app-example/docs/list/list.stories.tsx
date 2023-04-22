@@ -6,7 +6,7 @@ import list from '~/data/customer/list';
 import AddSource from './list.source?raw';
 
 export default {
-    title: 'Functions/List/Stories',
+    title: 'Entities/List/Stories',
     parameters: {
         docs: {
             page: null,
