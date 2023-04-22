@@ -2,61 +2,61 @@ import { useMutation } from "react-query";
 import { auth } from "./firebase";
 import { Method } from "./types";
 
-export interface UseMutationParams<T> {
-    pathname?: string;
-    method?: Method;
-    server?: string;
-    onSuccess?: (data: T) => void;
-    onError?: (error: Error) => void;
+export interface UseMutationParams<Res> {
+  pathname?: string;
+  method?: Method;
+  server?: string;
+  onSuccess?: (data: Res) => void;
+  onError?: (error: Error) => void;
 }
 
-export interface MutationParams<T>
-    extends Pick<UseMutationParams<T>, "pathname"> {
-    body?: Record<string, unknown>;
+export interface MutationParams<Req, Res>
+  extends Pick<UseMutationParams<Res>, "pathname"> {
+  body?: Req;
 }
 
 const createRequestHeaders = async () => {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-    };
-    if (auth.currentUser) {
-        const idToken = await auth.currentUser.getIdToken();
-        headers["Authorization"] = `Bearer ${idToken}`;
-    }
-    return headers;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (auth.currentUser) {
+    const idToken = await auth.currentUser.getIdToken();
+    headers["Authorization"] = `Bearer ${idToken}`;
+  }
+  return headers;
 };
 
-const useHttpMutation = <T>(params: UseMutationParams<T>) => {
-    const {
-        pathname: hookPathname,
-        method = "POST",
-        server = "{{metadata.server.url}}",
-        onSuccess = () => {},
-        onError = () => {},
-    } = params;
-    return useMutation<T, Error, MutationParams<T>, unknown>(
-        async (mParams: MutationParams<T>): Promise<T> => {
-            const { body, pathname: mutationPathname } = mParams;
-            const pathname = mutationPathname || hookPathname;
-            if (!pathname) {
-                throw new Error("No pathname provided");
-            }
-            const url = new URL(pathname, server).toString();
-            const response = await fetch(url, {
-                method,
-                headers: await createRequestHeaders(),
-                body: body ? JSON.stringify(body) : null,
-            });
-            if (response.ok) {
-                return response.json() as Promise<T>;
-            }
-            throw new Error(`HTTP error! status: ${response.status}`);
-        },
-        {
-            onSuccess,
-            onError,
-        }
-    );
+const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
+  const {
+    pathname: hookPathname,
+    method = "POST",
+    server = "{{metadata.server.url}}",
+    onSuccess = () => {},
+    onError = () => {},
+  } = params;
+  return useMutation<Res, Error, MutationParams<Req, Res>, unknown>(
+    async (mParams: MutationParams<Req, Res>): Promise<Res> => {
+      const { body, pathname: mutationPathname } = mParams;
+      const pathname = mutationPathname || hookPathname;
+      if (!pathname) {
+        throw new Error("No pathname provided");
+      }
+      const url = new URL(pathname, server).toString();
+      const response = await fetch(url, {
+        method,
+        headers: await createRequestHeaders(),
+        body: body ? JSON.stringify(body) : null,
+      });
+      if (response.ok) {
+        return response.json() as Promise<Res>;
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    },
+    {
+      onSuccess,
+      onError,
+    }
+  );
 };
 
 export default useHttpMutation;

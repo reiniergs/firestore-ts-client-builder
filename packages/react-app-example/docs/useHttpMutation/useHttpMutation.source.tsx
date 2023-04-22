@@ -3,9 +3,22 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Button, Input } from 'react-rainbow-components';
 import useHttpMutation from '~/data/useHttpMutation';
 
+interface Request {
+    title: string;
+    body: string;
+    userId: number;
+}
+
+interface Response {
+    id: number;
+    title: string;
+    body: string;
+    userId: number;
+}
+
 const Form = () => {
     const [title, setTitle] = useState('');
-    const createUserMutation = useHttpMutation({
+    const createUserMutation = useHttpMutation<Request, Response>({
         pathname: '/posts',
         method: 'POST',
         onSuccess: (data) => console.log('Post created:', data),
