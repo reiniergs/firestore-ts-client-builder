@@ -7,6 +7,7 @@ export interface UseMutationParams<T> {
     method?: Method;
     server?: string;
     onSuccess?: (data: T) => void;
+    onError?: (error: Error) => void;
 }
 
 export interface MutationParams<T>
@@ -30,7 +31,8 @@ const useHttpMutation = <T>(params: UseMutationParams<T>) => {
         pathname: hookPathname,
         method = "POST",
         server = "{{metadata.server.url}}",
-        onSuccess = () => { },
+        onSuccess = () => {},
+        onError = () => {},
     } = params;
     return useMutation<T, Error, MutationParams<T>, unknown>(
         async (mParams: MutationParams<T>): Promise<T> => {
@@ -52,9 +54,7 @@ const useHttpMutation = <T>(params: UseMutationParams<T>) => {
         },
         {
             onSuccess,
-            onError: (error: Error) => {
-                console.error("Error fetching data:", error);
-            },
+            onError,
         }
     );
 };
