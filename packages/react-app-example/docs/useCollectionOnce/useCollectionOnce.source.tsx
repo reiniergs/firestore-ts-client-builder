@@ -8,14 +8,12 @@ const UseCollectionExample = () => {
         return <div>Loading...</div>;
     }
 
-    if (Array.isArray(customers)) {
-        return (
-            <Table data={customers} keyField="id">
-                <Column header="Id" field="id" />
-                <Column header="Name" field="name" />
-            </Table>
-        );
-    }
+    return (
+        <Table data={customers} keyField="id">
+            <Column header="Id" field="id" />
+            <Column header="Name" field="name" />
+        </Table>
+    );
 
     return <div>No customers data found. </div>;
 };
