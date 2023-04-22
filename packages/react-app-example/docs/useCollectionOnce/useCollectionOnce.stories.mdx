@@ -1,0 +1,49 @@
+import { Meta } from '@storybook/addon-docs';
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './useCollectionOnce.source.tsx?raw'
+import useCollectionOnce from '../../src/data/customer/useCollectionOnce';
+
+<Meta title="Entities/useCollectionOnce/Docs" />
+
+# useCollectionOnce
+
+`useCollectionOnce` is a custom React hook designed to fetch data from a collection once and store it as a state. This hook is available for all the
+generated entities.
+
+## Import
+
+```javascript
+import useCollectionOnce from "path/to/data/{entityName}/useCollectionOnce";
+```
+
+## Usage
+
+```javascript
+import useCustomersOnce from "path/to/data/customer/useCollectionOnce";
+const { data, isLoading } = useCustomersOnce(options);
+```
+
+## Parameters
+
+
+- `options` (optional): An object with configuration options for the hook. Defaults to an empty object (`{}`).
+
+  - `disabled` (optional): A boolean value. If set to `true`, the hook will not fetch data. Defaults to `false`.
+  - `onSnap` (optional): A function that will be called with the fetched data as its argument when the data is fetched.
+  - `track` (optional): An array of dependencies for the `useEffect` hook. Defaults to an empty array (`[]`).
+
+## Return value
+
+An object containing the following properties:
+
+- `data`: An array of objects of type `T` representing the fetched data.
+- `isLoading`: A boolean value that represents the loading state of the data.
+
+## Example
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/useCollectionOnce': useCollectionOnce }} height="520px" />
+
+This example is a React component called `UseCollectionExample` that displays a table of customers. It imports the `Table` and `Column` components, and the hook called `useCustomersCollectionOnce` to fetch customer data.
+
+When the component renders, it first checks if the data is still loading, and if so, displays a "Loading..." message. If the customer data is an array, it renders a table with columns for "Id" and "Name". If no customer data is found, it displays a "No customers data found." message.

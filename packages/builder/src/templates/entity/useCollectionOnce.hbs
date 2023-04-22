@@ -1,0 +1,30 @@
+import { useState, useEffect } from "react";
+import list from "./list";
+import { {{entityInterface}} } from "./types";
+import { UseConllectionHook } from "../types";
+
+const useCollectionOnce: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
+    const [data, setData] = useState<Array<{{entityInterface}}>>([]);
+    const [isLoading, setLoading] = useState(false);
+    const { disabled = false, onSnap, track = [] } = opts;
+    useEffect(() => {
+        if (!disabled) {
+            setLoading(true);
+            (async () => {
+                try {
+                    const docs = await list(opts);
+                    setData(docs);
+                    if (typeof onSnap === "function") {
+                        onSnap(docs);
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+                setLoading(false);
+            })();
+        }
+    }, [disabled, ...track]);
+    return { data, isLoading };
+};
+
+export default useCollectionOnce;
