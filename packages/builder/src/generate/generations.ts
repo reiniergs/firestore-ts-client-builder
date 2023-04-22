@@ -13,6 +13,7 @@ import generateUseCollection from './entity/generateUseCollection';
 
 // generic code
 import generateUseHttpQuery from './generic/genearteUseHttpQuery';
+import generateUseHttpMutation from './generic/genearteUseHttpMutation';
 
 export const entityCode = [
     generateGet,
@@ -28,4 +29,4 @@ export const entityCode = [
     generateUseCollection,
 ];
 
-export const genericCode = [generateUseHttpQuery];
+export const genericCode = [generateUseHttpQuery, generateUseHttpMutation];

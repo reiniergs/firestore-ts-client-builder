@@ -1,0 +1,62 @@
+import { useMutation } from "react-query";
+import { auth } from "./firebase";
+import { Method } from "./types";
+
+export interface UseMutationParams<T> {
+    pathname?: string;
+    method?: Method;
+    server?: string;
+    onSuccess?: (data: T) => void;
+}
+
+export interface MutationParams<T>
+    extends Pick<UseMutationParams<T>, "pathname"> {
+    body?: Record<string, unknown>;
+}
+
+const createRequestHeaders = async () => {
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+    };
+    if (auth.currentUser) {
+        const idToken = await auth.currentUser.getIdToken();
+        headers["Authorization"] = `Bearer ${idToken}`;
+    }
+    return headers;
+};
+
+const useHttpMutation = <T>(params: UseMutationParams<T>) => {
+    const {
+        pathname: hookPathname,
+        method = "POST",
+        server = "{{metadata.server.url}}",
+        onSuccess = () => { },
+    } = params;
+    return useMutation<T, Error, MutationParams<T>, unknown>(
+        async (mParams: MutationParams<T>): Promise<T> => {
+            const { body, pathname: mutationPathname } = mParams;
+            const pathname = mutationPathname || hookPathname;
+            if (!pathname) {
+                throw new Error("No pathname provided");
+            }
+            const url = new URL(pathname, server).toString();
+            const response = await fetch(url, {
+                method,
+                headers: await createRequestHeaders(),
+                body: body ? JSON.stringify(body) : null,
+            });
+            if (response.ok) {
+                return response.json() as Promise<T>;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        },
+        {
+            onSuccess,
+            onError: (error: Error) => {
+                console.error("Error fetching data:", error);
+            },
+        }
+    );
+};
+
+export default useHttpMutation;
