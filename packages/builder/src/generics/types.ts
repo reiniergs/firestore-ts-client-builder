@@ -50,10 +50,16 @@ export interface HookOpts {
 export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
     onSnap?: (docs: Array<T>) => void;
 }
-export interface HookReturn<T> {
+export interface HookReturnDoc<T> {
     data: T | null;
     isLoading: boolean;
 }
-export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturn<T>;
-export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturn<Array<T>>;
+
+export interface HookReturnCollection<T> {
+    data: Array<T>;
+    isLoading: boolean;
+}
+
+export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturnDoc<T>;
+export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
