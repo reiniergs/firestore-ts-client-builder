@@ -6,7 +6,7 @@ import add from '~/data/customer/add';
 import AddSource from './add.source?raw';
 
 export default {
-    title: 'Functions/Add/Stories',
+    title: 'Entities/Add/Stories',
     parameters: {
         docs: {
             page: null,

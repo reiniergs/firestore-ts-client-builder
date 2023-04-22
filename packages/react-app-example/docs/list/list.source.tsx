@@ -17,7 +17,7 @@ const List = () => {
     }, []);
 
     return (
-        <Table keyField='id' data={customers}>
+        <Table keyField="id" data={customers}>
             <Column header="Id" field="id" />
             <Column header="Name" field="name" />
         </Table>

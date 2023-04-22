@@ -51,7 +51,7 @@ export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
     onSnap?: (docs: Array<T>) => void;
 }
 export interface HookReturn<T> {
-    data: T | undefined;
+    data: T | null;
     isLoading: boolean;
 }
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturn<T>;

@@ -14,6 +14,7 @@ import generateUseCollection from './entity/generateUseCollection';
 // generic code
 import generateUseHttpQuery from './generic/genearteUseHttpQuery';
 import generateUseHttpMutation from './generic/genearteUseHttpMutation';
+import generateUseDocOnce from './entity/generateUseDocOnce';
 
 export const entityCode = [
     generateGet,
@@ -27,6 +28,7 @@ export const entityCode = [
     generateTypes,
     generateUseDoc,
     generateUseCollection,
+    generateUseDocOnce,
 ];
 
 export const genericCode = [generateUseHttpQuery, generateUseHttpMutation];
