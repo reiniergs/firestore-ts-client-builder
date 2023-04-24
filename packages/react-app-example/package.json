@@ -42,7 +42,7 @@
     "generate-data": "yarn ts-node scripts/generateData.ts",
     "ts-node": "ts-node --project tsconfig-scripts.json",
     "lint": "eslint src",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "yarn generate-data && start-storybook -p 6006"
   },
   "eslintConfig": {
     "extends": [

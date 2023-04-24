@@ -1,0 +1,35 @@
+import { Meta } from "@storybook/addon-docs";
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './useCount.source.tsx?raw'
+import useCount from '../../src/data/customer/useCount';
+
+<Meta title="Entities/useCount/Docs" />
+
+# useCount
+
+The `useCount` hook takes an object `opts` as an argument and returns the the number documents in the database. The `opts` object can have a property `listQueryFn`, which is a function that can be used to customize the query. If `listQueryFn` is not present, a default query will be used.
+
+## Usage
+
+```js
+import useCustomersCount from "path/to/data/customer/useCount";
+
+const { count, error, isLoading} = useCustomersCount();
+```
+
+## Parameters
+
+- `opts` (object, optional): An options object for configuring the behavior of the hook.
+    - `listQueryFn` (function, optional): A function that can be used to customize the query.
+
+## Returns
+
+- An object with the following properties:
+    - `count` (number): The number of documents in the database, or `null` if loading or if an error ocurred.
+    - `error` (Error): An error if the query failed, otherwise `null`.
+    - `isLoading` (boolean): A boolean indicating if the query is loading.
+
+## Example
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/useCount': useCount }} height="320px" />
