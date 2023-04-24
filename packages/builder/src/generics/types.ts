@@ -1,4 +1,6 @@
-import { CollectionReference, Query, Timestamp, Unsubscribe } from 'firebase/firestore';
+import {
+    CollectionReference, FirestoreError, Query, Timestamp, Unsubscribe,
+} from 'firebase/firestore';
 
 export interface BaseEntity {
     id: string;
@@ -29,8 +31,15 @@ export type UpdateService<T> = (
 ) => Promise<void>;
 export type RemoveService = (id: string) => Promise<void>;
 export type ListService<T> = (opts?: ListServiceOpts) => Promise<Array<T>>;
-export type OnSnapshotDocService<T> = (id: string, callback: (doc: T) => void) => Unsubscribe;
-export type OnSnapshotCollectionService<T> = (opts: ListServiceOpts, callback: (docs: Array<T>) => void) => Unsubscribe;
+export type OnSnapshotDocService<T> = (
+    id: string,
+    callback: (doc: T) => void,
+    onError?: (error: FirestoreError) => void
+) => Unsubscribe;
+export type OnSnapshotCollectionService<T> = (
+    opts: ListServiceOpts,
+    callback: (docs: Array<T>) => void
+) => Unsubscribe;
 export interface Page<T> {
     docs: T[];
     count: number;

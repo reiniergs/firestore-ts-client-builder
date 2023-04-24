@@ -4,16 +4,22 @@ import { EntityServerGet, OnSnapshotDocService } from "../types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata } from '../utils';
 
-const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback) => {
+const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback, onError) => {
   const docRef = doc(db, `/{{entityName}}/${id}`);
-  return onSnapshot(docRef, (docSnap) => {
-    if (docSnap.exists()) {
-      callback(transformMetadata({
-        ...docSnap.data(),
-        id: docSnap.id,
-      } as EntityServerGet<{{entityInterface}}>));
-    }
-  });
+  return onSnapshot(
+    docRef,
+    (docSnap) => {
+      if (docSnap.exists()) {
+        callback(
+          transformMetadata({
+            ...docSnap.data(),
+            id: docSnap.id,
+          } as EntityServerGet<{{entityInterface}}>)
+        );
+      }
+    },
+    onError
+  );
 };
 
 export default onSnapshotDoc;
