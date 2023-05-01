@@ -10,10 +10,16 @@ const useDoc: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
   useEffect(() => {
     if (!disabled) {
         setLoading(true);
-        const unsub = onSnapshotDoc(id, (doc) => {
-        setData(doc);
-        setLoading(false);
-        });
+        const unsub = onSnapshotDoc(
+          id,
+          (doc) => {
+            setData(doc);
+            setLoading(false);
+          },
+          (error) => {
+            setLoading(false);
+          },
+        );
         return () => unsub();
     }    
   }, [id, disabled]);
