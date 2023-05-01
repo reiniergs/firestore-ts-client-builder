@@ -29,6 +29,7 @@ export type UpdateService<T> = (
 ) => Promise<void>;
 export type RemoveService = (id: string) => Promise<void>;
 export type ListService<T> = (opts?: ListServiceOpts) => Promise<Array<T>>;
+export type CountService = (opts?: ListServiceOpts) => Promise<number>;
 export type OnSnapshotDocService<T> = (id: string, callback: (doc: T) => void) => Unsubscribe;
 export type OnSnapshotCollectionService<T> = (opts: ListServiceOpts, callback: (docs: Array<T>) => void) => Unsubscribe;
 export interface Page<T> {
@@ -60,6 +61,13 @@ export interface HookReturnCollection<T> {
     isLoading: boolean;
 }
 
+export interface HookReturnCount {
+    count: number | null;
+    error: Error | null;
+    isLoading: boolean;
+}
+
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturnDoc<T>;
 export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+export type UseCountHook = (opts?: ListServiceOpts) => HookReturnCount;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
