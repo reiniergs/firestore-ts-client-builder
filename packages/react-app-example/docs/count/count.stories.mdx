@@ -1,0 +1,32 @@
+import { Meta } from "@storybook/addon-docs";
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './count.source.tsx?raw'
+import count from '../../src/data/customer/count';
+
+<Meta title="Entities/Count/Docs" />
+
+# count
+
+The `count` function takes an object `opts` as an argument and returns the number documents in the database. The `opts` object can have a property `listQueryFn`, which is a function that can be used to customize the query. If `listQueryFn` is not present, the function will use a default query.
+
+## Usage
+
+```js
+import countCustomers from "path/to/data/customer/count";
+
+const count = await countCustomers();
+```
+
+## Parameters
+
+- `opts` (object, optional): An options object for configuring the behavior of the function.
+    - `listQueryFn` (function, optional): A function that can be used to customize the query.
+
+## Returns
+
+- `count` (number): The number of documents in the database.
+
+## Example
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/count': count }} height="320px" />

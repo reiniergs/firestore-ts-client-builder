@@ -40,6 +40,8 @@ export type OnSnapshotCollectionService<T> = (
     opts: ListServiceOpts,
     callback: (docs: Array<T>) => void
 ) => Unsubscribe;
+=======
+export type CountService = (opts?: ListServiceOpts) => Promise<number>;
 export interface Page<T> {
     docs: T[];
     count: number;
@@ -69,6 +71,13 @@ export interface HookReturnCollection<T> {
     isLoading: boolean;
 }
 
+export interface HookReturnCount {
+    count: number | null;
+    error: Error | null;
+    isLoading: boolean;
+}
+
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturnDoc<T>;
 export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+export type UseCountHook = (opts?: ListServiceOpts) => HookReturnCount;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

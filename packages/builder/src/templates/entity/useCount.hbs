@@ -1,0 +1,31 @@
+import { useEffect, useState } from "react";
+import { FirebaseError } from "firebase/app";
+import { UseCountHook, ListServiceOpts } from "../types";
+import countFn from './count';
+
+const useCount: UseCountHook = (opts = {}) => {
+    const [count, setCount] = useState<number | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        (async () => {
+            try {
+                const count = await countFn(opts);
+                setCount(count);
+            } catch (err) {
+                if (err instanceof FirebaseError) {
+                    setError(err);
+                } else {
+                    setError(new Error('Error while fetching count'));
+                }
+            }
+            setLoading(false);
+        })();
+    }, []);
+
+    return { count, error, isLoading };
+};
+
+export default useCount;
