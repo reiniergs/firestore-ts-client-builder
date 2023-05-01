@@ -40,7 +40,6 @@ export type OnSnapshotCollectionService<T> = (
     opts: ListServiceOpts,
     callback: (docs: Array<T>) => void
 ) => Unsubscribe;
-=======
 export type CountService = (opts?: ListServiceOpts) => Promise<number>;
 export interface Page<T> {
     docs: T[];
