@@ -14,7 +14,7 @@ const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback, 
           transformMetadata({
             ...docSnap.data(),
             id: docSnap.id,
-          } as EntityServerGet<{{entityInterface}}>)
+          } as EntityServerGet<{{entityInterface}}>, doc.metadata)
         );
       }
     },
