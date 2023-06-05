@@ -22,7 +22,7 @@ const onSnapshotCollection: OnSnapshotCollectionService<{{entityInterface}}> = (
             (transformMetadata({
               ...doc.data(),
               id: doc.id,
-            } as EntityServerGet<{{entityInterface}}>))
+            } as EntityServerGet<{{entityInterface}}>, doc.metadata))
         )
       );
     },
