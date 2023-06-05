@@ -1,26 +1,35 @@
 import { useState, useEffect } from 'react';
+import { FirestoreError } from "firebase/firestore";
 import onSnapshotCollection from './onSnapshotCollection';
 import { {{entityInterface}} } from './types';
 import { UseConllectionHook } from '../types';
 
 const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
   const [data, setData] = useState<Array<{{entityInterface}}>>([]);
+  const [error, setError] = useState<FirestoreError | null>(null);
   const [isLoading, setLoading] = useState(false);
   const { disabled = false, onSnap, track = [] } = opts;
   useEffect(() => {
     if (!disabled) {
         setLoading(true);
-        const unsub = onSnapshotCollection(opts || {}, (docs) => {
+        const unsub = onSnapshotCollection(
+          opts || {},
+          (docs) => {
             setData(docs);
             setLoading(false);
             if (typeof onSnap === 'function') {
                 onSnap(docs);
             }
-        });
+          },
+          (error) => {
+            setLoading(false);
+            setError(error);
+          }
+        );
         return () => unsub();
     }
   }, [disabled, ...track]);
-  return { data, isLoading };
+  return { data, error, isLoading };
 };
 
 export default useCollection;

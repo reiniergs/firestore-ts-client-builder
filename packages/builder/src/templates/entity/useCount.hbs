@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { FirebaseError } from "firebase/app";
+import { FirestoreError } from "firebase/firestore";
 import { UseCountHook, ListServiceOpts } from "../types";
 import countFn from './count';
 
 const useCount: UseCountHook = (opts = {}) => {
     const [count, setCount] = useState<number | null>(null);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState<FirestoreError | null>(null);
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -15,10 +15,14 @@ const useCount: UseCountHook = (opts = {}) => {
                 const count = await countFn(opts);
                 setCount(count);
             } catch (err) {
-                if (err instanceof FirebaseError) {
+                if (err instanceof FirestoreError) {
                     setError(err);
                 } else {
-                    setError(new Error('Error while fetching count'));
+                    setError({
+                        code: "unknown",
+                        message: "Unknown error",
+                        name: "Unknown error",
+                    });
                 }
             }
             setLoading(false);

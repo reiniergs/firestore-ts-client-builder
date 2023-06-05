@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { FirestoreError } from "firebase/firestore";
 import get from './get';
 import { {{entityInterface}} } from './types';
 import { UseDocHook } from '../types';
 
 const useDocOnce: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
     const [data, setData] = useState<{{entityInterface}} | null>(null);
+    const [error, setError] = useState<FirestoreError | null>(null);
     const [isLoading, setLoading] = useState(false);
     const { disabled = false } = opts;
     useEffect(() => {
@@ -15,13 +17,21 @@ const useDocOnce: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
                     const doc = await get(id);
                     setData(doc);
                 } catch (err) {
-                    console.error(err);
+                    if (err instanceof FirestoreError) {
+                        setError(err);
+                    } else {
+                        setError({
+                            code: "unknown",
+                            message: "Unknown error",
+                            name: "Unknown error",
+                        });
+                    }
                 }
                 setLoading(false);
             })();
         }
     }, [id, disabled]);
-    return { data, isLoading };
+    return { data, error, isLoading };
 };
 
 export default useDocOnce;

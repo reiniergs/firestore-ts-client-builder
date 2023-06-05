@@ -6,23 +6,28 @@ import { transformMetadata } from '../utils';
 
 const onSnapshotCollection: OnSnapshotCollectionService<{{entityInterface}}> = (
   opts,
-  callback
+  callback,
+  onError
 ) => {
   const collectionRef = collection(db, `/{{entityName}}`);
   const q = opts.listQueryFn
     ? opts.listQueryFn(collectionRef)
     : query(collectionRef);
-  return onSnapshot(q, (querySnap) => {
-    callback(
-      querySnap.docs.map(
-        (doc) =>
-          (transformMetadata({
-            ...doc.data(),
-            id: doc.id,
-          } as EntityServerGet<{{entityInterface}}>, doc.metadata))
-      )
-    );
-  });
+  return onSnapshot(
+    q, 
+    (querySnap) => {
+      callback(
+        querySnap.docs.map(
+          (doc) =>
+            (transformMetadata({
+              ...doc.data(),
+              id: doc.id,
+            } as EntityServerGet<{{entityInterface}}>, doc.metadata))
+        )
+      );
+    },
+    onError
+  );
 };
 
 export default onSnapshotCollection;
