@@ -1,0 +1,52 @@
+import { db } from "../admin";
+import { PaginateService, EntityServerGet } from '../types';
+import { transformMetadata } from '../utils';
+import { {{entityInterface}} } from "./types";
+
+const paginate: PaginateService<{{entityInterface}}> = async ({
+  direction = "forward",
+  limit = 25,
+  cursor,
+  listQueryFn,
+} = {}) => {
+  const cursorDoc = cursor ? await db.doc(`/customer/${cursor}`).get() : null;
+  if (cursorDoc && !cursorDoc.exists) {
+    throw new Error("Invalid cursor");
+  }
+
+  const collectionRef = db.collection(`/{{entityName}}`);
+  let q =
+    typeof listQueryFn === "function"
+      ? listQueryFn(collectionRef)
+      : collectionRef;
+
+  if (direction === "forward") {
+    if (cursorDoc) {
+      q = q.startAfter(cursorDoc).limit(limit);
+    } else {
+      q = q.limit(limit);
+    }
+  } else {
+    if (cursorDoc) {
+      q = q.endBefore(cursorDoc).limitToLast(limit);
+    } else {
+      q = q.limitToLast(limit);
+    }
+  }
+
+  const querySnapshot = await q.get();
+  const docs = querySnapshot.docs.map((doc) => {
+    return transformMetadata({
+      ...doc.data(),
+      id: doc.id,
+    } as EntityServerGet<{{entityInterface}}>);
+  });
+  return {
+    docs,
+    count: docs.length,
+    firstDocId: docs.length > 0 ? docs[0].id : null,
+    lastDocId: docs.length > 0 ? docs[docs.length - 1].id : null,
+  };
+};
+
+export default paginate;
