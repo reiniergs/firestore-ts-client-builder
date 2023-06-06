@@ -11,12 +11,12 @@ import generateAdminEntityCode from './generate/entity/admin/generateEntityCode'
 const prepareDir = (outdir: string) => {
     removeDir(outdir);
     createDir(outdir);
-}
+};
 
 export const createClientDataLayer = (props: ClientDataLayerProps) => {
     const { outdir, metadata, firebaseConfig } = props;
     prepareDir(outdir);
-    copyGenerics('client', outdir);
+    copyGenerics(outdir, 'client');
 
     generateFirebase({ outdir, firebaseConfig });
     generateGenericCode({ outdir, metadata });
@@ -33,7 +33,7 @@ export const createClientDataLayer = (props: ClientDataLayerProps) => {
 export const createAdminDataLayer = (props: AdminDataLayerProps) => {
     const { outdir, metadata, firebaseAdminConfig } = props;
     prepareDir(outdir);
-    copyGenerics('admin', outdir);
+    copyGenerics(outdir, 'admin');
 
     generateFirebaseAdmin({ outdir, firebaseAdminConfig });
 
