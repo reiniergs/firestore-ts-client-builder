@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const copyGenerics = (outdir: string) => {
-    fs.cpSync(path.join(__dirname, '../generics'), outdir, { recursive: true });
+const copyGenerics = (subdir: string = '.', outdir: string) => {
+    fs.cpSync(path.join(__dirname, '../generics', subdir), outdir, { recursive: true });
 };
 
 export default copyGenerics;

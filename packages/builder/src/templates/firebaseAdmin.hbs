@@ -1,0 +1,16 @@
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
+
+/**
+ * We currently only support default application credentials.
+ */
+export const app = initializeApp({
+    credential: applicationDefault(),
+    {{#each firebaseAdminConfig}}
+        {{name}}: "{{value}}",
+    {{/each}}
+});
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export default app;
