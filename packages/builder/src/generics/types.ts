@@ -60,6 +60,9 @@ export interface HookOpts {
 export interface HookCollectionOpts<T> extends HookOpts, ListServiceOpts {
     onSnap?: (docs: Array<T>) => void;
 }
+export interface HookPaginatedCollectionOpts<T> extends HookCollectionOpts<T> {
+    limit?: number;
+}                                  
 export interface HookReturnDoc<T> {
     data: T | null;
     isLoading: boolean;
@@ -70,6 +73,14 @@ export interface HookReturnCollection<T> {
     isLoading: boolean;
 }
 
+export interface HookReturnPageCollection<T> extends HookReturnCollection<T> {
+    firstPage: boolean;
+    hasMore: boolean; 
+    totalRecords: number;
+    prevPage: () => void;
+    nextPage: () => void;
+}  
+
 export interface HookReturnCount {
     count: number | null;
     error: Error | null;
@@ -78,5 +89,6 @@ export interface HookReturnCount {
 
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturnDoc<T>;
 export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+export type UsePaginatedConllectionHook<T> = (opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
 export type UseCountHook = (opts?: ListServiceOpts) => HookReturnCount;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

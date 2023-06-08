@@ -11,6 +11,7 @@ import generateOnSnapshotDoc from './entity/generateOnSnapshotDoc';
 import generateOnSnapshotCollection from './entity/generateOnSnapshotCollection';
 import generateUseDoc from './entity/generateUseDoc';
 import generateUseCollection from './entity/generateUseCollection';
+import generateUseCollectionWithPagination from './entity/generateUseCollectionWithPagination';
 import generateUseCount from './entity/generateUseCount';
 
 // generic code
@@ -32,6 +33,7 @@ export const entityCode = [
     generateTypes,
     generateUseDoc,
     generateUseCollection,
+    generateUseCollectionWithPagination,
     generateUseDocOnce,
     generateUseCollectionOnce,
     generateUseCount,

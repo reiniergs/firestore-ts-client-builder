@@ -1,0 +1,101 @@
+import { useState, useEffect } from "react";
+import paginate from "./paginate";
+import countFn from "./count";
+import { {{entityInterface}} } from "./types";
+import { Page, UsePaginatedConllectionHook } from "../types";
+
+const useCollectionWithPagination: UsePaginatedConllectionHook<{{entityInterface}}> = (opts = {}) => {
+    const [isLoading, setLoading] = useState(false);
+    const [firstPage, setFirstPage] = useState(true);
+    const [pageIndex, setPageIndex] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [hasMore, setHasMore] = useState(false);
+    const [page, setPage] = useState<Page<{{entityInterface}}>>({
+        docs: [],
+        count: 0,
+        firstDocId: null,
+        lastDocId: null,
+    });
+    const { limit = 25, disabled = false, onSnap, track = [], listQueryFn } = opts;
+    useEffect(() => {
+        if (!disabled) {
+            setLoading(true);
+            (async () => {
+                try {
+                    const totalRecords = await countFn(opts);
+                    const page = await paginate({
+                        limit, 
+                        listQueryFn,
+                    });
+                    setPage(page)
+                    setPageIndex(0);
+                    setTotalRecords(totalRecords)
+                    setHasMore(page.count < totalRecords);
+                    if (typeof onSnap === "function") {
+                        onSnap(page.docs);
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+                setLoading(false);
+            })();
+        }
+    }, [disabled, ...track]);
+
+    useEffect(() => {
+        setFirstPage(pageIndex === 0);
+        setHasMore((pageIndex + 1) * limit < totalRecords);
+    }, [pageIndex]);
+
+    const nextPage = async () => {
+        if (isLoading || !hasMore) return;
+        try {
+            setLoading(true)
+            const newPage = await paginate({
+                limit,
+                cursor: page.lastDocId || undefined,
+                listQueryFn,
+            });
+            setPage(newPage);
+            setPageIndex(pageIndex + 1);
+            if (typeof onSnap === "function") {
+                onSnap(page.docs);
+            }
+        } catch (err) {
+            console.error(err); 
+        }
+        setLoading(false);
+    };
+    const prevPage = async () => {
+        if (isLoading || firstPage) return;
+        try {
+            setLoading(true)
+            const newPage = await paginate({
+                direction: 'backward',
+                limit,
+                cursor: page.firstDocId || undefined,
+                listQueryFn,
+            });
+            setPage(newPage);
+            setPageIndex(pageIndex - 1);
+            if (typeof onSnap === "function") {
+                onSnap(page.docs);
+            }
+        } catch (err) {
+            console.error(err); 
+        }
+        setLoading(false);
+    };
+
+    return {
+        data: page.docs,
+        totalRecords,
+        isLoading,
+        nextPage,
+        prevPage,
+        firstPage,
+        hasMore,
+    };
+};
+
+export default useCollectionWithPagination;
