@@ -40,11 +40,13 @@ const useCollectionWithPagination: UsePaginatedConllectionHook<{{entityInterface
                 setLoading(false);
             })();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [disabled, ...track]);
 
     useEffect(() => {
         setFirstPage(pageIndex === 0);
         setHasMore((pageIndex + 1) * limit < totalRecords);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageIndex]);
 
     const nextPage = async () => {
