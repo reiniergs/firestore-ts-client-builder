@@ -14,6 +14,16 @@ import generateUseCollection from './entity/generateUseCollection';
 import generateUseCollectionWithPagination from './entity/generateUseCollectionWithPagination';
 import generateUseCount from './entity/generateUseCount';
 
+// admin entity code
+import generateAdminTypes from './entity/admin/generateTypes';
+import generateAdminGet from './entity/admin/generateGet';
+import generateAdminList from './entity/admin/generateList';
+import generateAdminPaginate from './entity/admin/generatePaginate';
+import generateAdminAdd from './entity/admin/generateAdd';
+import generateAdminRemove from './entity/admin/generateRemove';
+import generateAdminUpdate from './entity/admin/generateUpdate';
+import generateAdminCount from './entity/admin/generateCount';
+
 // generic code
 import generateUseHttpQuery from './generic/genearteUseHttpQuery';
 import generateUseHttpMutation from './generic/genearteUseHttpMutation';
@@ -37,6 +47,17 @@ export const entityCode = [
     generateUseDocOnce,
     generateUseCollectionOnce,
     generateUseCount,
+];
+
+export const adminEntityCode = [
+    generateAdminTypes,
+    generateAdminGet,
+    generateAdminList,
+    generateAdminPaginate,
+    generateAdminAdd,
+    generateAdminRemove,
+    generateAdminUpdate,
+    generateAdminCount,
 ];
 
 export const genericCode = [generateUseHttpQuery, generateUseHttpMutation];

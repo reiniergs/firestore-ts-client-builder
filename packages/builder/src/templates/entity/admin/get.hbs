@@ -1,0 +1,18 @@
+import { db } from "../admin";
+import { GetService, EntityGet, EntityServerGet  } from "../types";
+import { transformMetadata } from '../utils';
+import { {{entityInterface}} } from "./types";
+
+const get: GetService<EntityGet<{{entityInterface}}>> = async (id: string) => {
+  const docRef = db.doc(`/{{entityName}}/${id}`);
+  const docSnap = await docRef.get();
+  if (docSnap.exists) {
+    return transformMetadata({
+        ...docSnap.data(),
+      id: docSnap.id,
+    } as EntityServerGet<{{entityInterface}}>);
+  }
+  return null;
+};
+
+export default get;

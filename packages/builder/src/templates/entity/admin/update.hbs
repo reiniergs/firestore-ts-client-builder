@@ -1,0 +1,14 @@
+import { Timestamp } from "firebase-admin/firestore";
+import { db } from "../admin";
+import { UpdateService } from "../types";
+import { {{entityInterface}} } from "./types";
+
+const update: UpdateService<{{entityInterface}}> = async (id, data) => {
+  const ref = db.collection(`/{{entityName}}`).doc(id);
+  await ref.update({
+    ...data, 
+    updatedAt: Timestamp.now(),
+  });
+};
+
+export default update;

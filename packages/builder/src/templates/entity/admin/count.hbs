@@ -1,0 +1,15 @@
+import { CountService } from "../types";
+import { db } from "../admin";
+
+const count: CountService = async (opts = {}) => {
+  const collectionRef = db.collection(`/{{entityName}}`);
+  const q =
+    typeof opts.listQueryFn === "function"
+      ? opts.listQueryFn(collectionRef)
+      : collectionRef;
+  const snapshot = await q.count().get();
+
+  return snapshot.data().count;
+};
+
+export default count;
