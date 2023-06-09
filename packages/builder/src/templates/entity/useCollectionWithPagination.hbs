@@ -22,17 +22,17 @@ const useCollectionWithPagination: UsePaginatedConllectionHook<{{entityInterface
             setLoading(true);
             (async () => {
                 try {
-                    const totalRecords = await countFn(opts);
-                    const page = await paginate({
+                    const recordsCount = await countFn(opts);
+                    const newPage = await paginate({
                         limit, 
                         listQueryFn,
                     });
-                    setPage(page)
+                    setPage(newPage)
                     setPageIndex(0);
-                    setTotalRecords(totalRecords)
-                    setHasMore(page.count < totalRecords);
+                    setTotalRecords(recordsCount)
+                    setHasMore(newPage.count < recordsCount);
                     if (typeof onSnap === "function") {
-                        onSnap(page.docs);
+                        onSnap(newPage.docs);
                     }
                 } catch (err) {
                     console.error(err);
