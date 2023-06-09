@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import paginate from "./paginate";
 import countFn from "./count";
 import { {{entityInterface}} } from "./types";
-import { Page, UsePaginatedConllectionHook } from "../types";
+import { Page, UsePaginatedCollectionHook } from "../types";
 
-const useCollectionWithPagination: UsePaginatedConllectionHook<{{entityInterface}}> = (opts = {}) => {
+const useCollectionWithPagination: UsePaginatedCollectionHook<{{entityInterface}}> = (opts = {}) => {
     const [isLoading, setLoading] = useState(false);
     const [firstPage, setFirstPage] = useState(true);
     const [pageIndex, setPageIndex] = useState(0);

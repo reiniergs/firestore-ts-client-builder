@@ -89,6 +89,6 @@ export interface HookReturnCount {
 
 export type UseDocHook<T> = (id: string, opts?: HookOpts) => HookReturnDoc<T>;
 export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
-export type UsePaginatedConllectionHook<T> = (opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
+export type UsePaginatedCollectionHook<T> = (opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
 export type UseCountHook = (opts?: ListServiceOpts) => HookReturnCount;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
