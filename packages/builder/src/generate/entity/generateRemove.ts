@@ -4,7 +4,7 @@ import { GenerateEntityProps } from '../types';
 import generate from '../generate';
 
 const generateRemove = (props: GenerateEntityProps) => {
-    const { outdir, entityName, parents, } = props;
+    const { outdir, entityName, parents } = props;
     generate({
         templatePath: path.join(__dirname, '../../templates/entity/remove.hbs'),
         targetPath: path.join(outdir, entityName, 'remove.ts'),

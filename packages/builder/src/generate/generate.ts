@@ -26,6 +26,7 @@ hbs.registerPartial(
 );
 hbs.registerPartial(
     'subcollectionPath',
+    // eslint-disable-next-line no-template-curly-in-string
     '{{#each parents}}/{{this}}/${ {{this}}Id}{{/each}}',
 );
 
