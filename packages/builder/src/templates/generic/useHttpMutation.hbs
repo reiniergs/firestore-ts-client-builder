@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import { auth } from "./firebase";
 import { Method } from "./types";
+import { QueryError, getQueryErrorCode } from "./errors";
 
 export interface UseMutationParams<Res> {
   pathname?: string;
@@ -34,7 +35,7 @@ const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
     onSuccess = () => {},
     onError = () => {},
   } = params;
-  return useMutation<Res, Error, MutationParams<Req, Res>, unknown>(
+  return useMutation<Res, QueryError, MutationParams<Req, Res>, unknown>(
     async (mParams: MutationParams<Req, Res>): Promise<Res> => {
       const { body, pathname: mutationPathname } = mParams;
       const pathname = mutationPathname || hookPathname;
@@ -50,7 +51,10 @@ const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
       if (response.ok) {
         return response.json() as Promise<Res>;
       }
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new QueryError(
+        getQueryErrorCode(response.status),
+        response.statusText
+      );
     },
     {
       onSuccess,

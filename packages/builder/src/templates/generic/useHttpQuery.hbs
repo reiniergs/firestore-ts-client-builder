@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { auth } from './firebase';
 import { Method } from './types';
+import { QueryError, getQueryErrorCode } from "./errors";
 
 export interface UseQueryParams {
     pathname: string;
@@ -33,7 +34,7 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
     const queryKey = key 
         ? key
         : [`${method} ${url}`];
-    return useQuery(queryKey, async () => {
+    return useQuery<T, QueryError>(queryKey, async () => {
         try {
             const response = await fetch(url, {
                 method,
@@ -43,9 +44,16 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
             if (response.ok) {
                 return response.json() as T;
             }
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new QueryError(
+                getQueryErrorCode(response.status),
+                response.statusText,
+            );
         } catch(error)  {
-            console.error('Error fetching data:', error);
+            if (error instanceof QueryError) {
+                throw error;
+            } else {
+                throw new QueryError("unknown");
+            }
         }
     })
 }

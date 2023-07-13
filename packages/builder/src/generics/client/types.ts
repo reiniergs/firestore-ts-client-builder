@@ -38,7 +38,8 @@ export type OnSnapshotDocService<T> = (
 ) => Unsubscribe;
 export type OnSnapshotCollectionService<T> = (
     opts: ListServiceOpts,
-    callback: (docs: Array<T>) => void
+    callback: (docs: Array<T>) => void,
+    onError?: (error: FirestoreError) => void
 ) => Unsubscribe;
 export type CountService = (opts?: ListServiceOpts) => Promise<number>;
 export interface Page<T> {
@@ -65,11 +66,13 @@ export interface HookPaginatedCollectionOpts<T> extends HookCollectionOpts<T> {
 }                                  
 export interface HookReturnDoc<T> {
     data: T | null;
+    error: FirestoreError | null;
     isLoading: boolean;
 }
 
 export interface HookReturnCollection<T> {
     data: Array<T>;
+    error: FirestoreError | null;
     isLoading: boolean;
 }
 
@@ -83,7 +86,7 @@ export interface HookReturnPageCollection<T> extends HookReturnCollection<T> {
 
 export interface HookReturnCount {
     count: number | null;
-    error: Error | null;
+    error: FirestoreError | null;
     isLoading: boolean;
 }
 
@@ -92,3 +95,7 @@ export type UseConllectionHook<T> = (opts?: HookCollectionOpts<T>) => HookReturn
 export type UsePaginatedCollectionHook<T> = (opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
 export type UseCountHook = (opts?: ListServiceOpts) => HookReturnCount;
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+type QueryError4XXCode = 'bad-request' | 'unauthorized' | 'forbidden' | 'not-found' | 'method-not-allowed' | 'not-acceptable' | 'conflict';
+type QueryError5XXCode = 'internal-server-error' | 'not-implemented' | 'bad-gateway' | 'service-unavailable' | 'gateway-timeout';
+export type QueryErrorCode = QueryError4XXCode | QueryError5XXCode | 'unknown';
