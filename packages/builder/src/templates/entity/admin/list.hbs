@@ -1,0 +1,21 @@
+import { db } from "../admin";
+import { ListService, EntityGet, EntityServerGet } from "../types";
+import { transformMetadata } from '../utils';
+import { {{entityInterface}} } from "./types";
+
+const list: ListService<EntityGet<{{entityInterface}}>> = async (opts = {}) => {
+  const collectionRef = db.collection(`/{{entityName}}`);
+  const q =
+    typeof opts.listQueryFn === "function"
+      ? opts.listQueryFn(collectionRef)
+      : collectionRef;
+  const querySnapshot = await q.get();
+  return querySnapshot.docs.map((doc) => {
+    return transformMetadata({
+        ...doc.data(),
+        id: doc.id,
+    } as EntityServerGet<{{entityInterface}}>)
+  });
+};
+
+export default list;
