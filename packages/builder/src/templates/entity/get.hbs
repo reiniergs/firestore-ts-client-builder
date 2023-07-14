@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
 import { GetService, EntityGet, EntityServerGet  } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
 export type {{entityInterface}}GetService<T> = ({{> typedSubcollectionParams }} id: string) => Promise<T | null>;
 
@@ -10,10 +10,10 @@ const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async
   const docRef = doc(db, `{{> subcollectionPath}}/{{entityName}}/${id}`);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    return transformMetadata({
+    return processTimestampFields(transformMetadata({
         ...docSnap.data(),
       id: docSnap.id,
-    } as EntityServerGet<{{entityInterface}}>);
+    } as EntityServerGet<{{entityInterface}}>));
   }
   return null;
 };

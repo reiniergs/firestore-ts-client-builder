@@ -2,7 +2,7 @@ import { collection, onSnapshot, query, Unsubscribe } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
 import { EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
 export type {{entityInterface}}OnSnapshotCollectionService<T> = ({{> typedSubcollectionParams}}opts: ListServiceOpts,callback: (docs: Array<T>) => void) => Unsubscribe;
 
@@ -17,10 +17,10 @@ const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<{{ent
       callback(
         querySnap.docs.map(
           (doc) =>
-            (transformMetadata({
+            (processTimestampFields(transformMetadata({
               ...doc.data(),
               id: doc.id,
-            } as EntityServerGet<{{entityInterface}}>, doc.metadata))
+            } as EntityServerGet<{{entityInterface}}>, doc.metadata)))
         )
       );
     },

@@ -1,6 +1,6 @@
 import { db } from "../{{#each parents}}../{{/each}}admin";
 import { ListServiceOpts, EntityGet, EntityServerGet } from "../{{#each parents}}../{{/each}}types";
-import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
 export type {{entityInterface}}ListService<T> = ({{> typedSubcollectionParams}} opts?: ListServiceOpts) => Promise<Array<T>>;
@@ -14,10 +14,10 @@ const list: {{entityInterface}}ListService<EntityGet<{{entityInterface}}>> = asy
       : collectionRef;
   const querySnapshot = await q.get();
   return querySnapshot.docs.map((doc) => {
-    return transformMetadata({
+    return processTimestampFields(transformMetadata({
         ...doc.data(),
         id: doc.id,
-    } as EntityServerGet<{{entityInterface}}>)
+    } as EntityServerGet<{{entityInterface}}>))
   });
 };
 
