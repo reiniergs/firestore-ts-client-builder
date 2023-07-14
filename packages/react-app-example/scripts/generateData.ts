@@ -63,6 +63,23 @@ createClientDataLayer({
                 },
             },
         },
+        endpoints: {
+            posts: {
+                path: '/posts',
+                method: 'POST',
+                requestBody: {
+                    properties: {
+                        title: { type: 'string', isRequired: true },
+                    },
+                },
+                successResponse: {
+                    properties: {
+                        id: { type: 'string', isRequired: true },
+                        title: { type: 'string', isRequired: true },
+                    },
+                },
+            },
+        },
         server: {
             url: 'https://jsonplaceholder.typicode.com',
         },
