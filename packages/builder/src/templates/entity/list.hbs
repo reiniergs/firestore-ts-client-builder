@@ -1,11 +1,13 @@
 import { collection, query, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
-import { ListService, EntityGet, EntityServerGet } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { EntityGet, EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../utils';
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 
-const list: ListService<EntityGet<{{entityInterface}}>> = async (opts = {}) => {
-  const collectionRef = collection(db, `/{{entityName}}`);
+export type {{entityInterface}}ListService<T> = ({{> typedSubcollectionParams}} opts?: ListServiceOpts) => Promise<Array<T>>;
+
+const list: {{entityInterface}}ListService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} opts = {}) => {
+  const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const q =
     typeof opts.listQueryFn === "function"
       ? opts.listQueryFn(collectionRef)

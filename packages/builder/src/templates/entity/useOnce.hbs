@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { FirestoreError } from "firebase/firestore";
 import get from './get';
 import { {{entityInterface}} } from './types';
-import { UseDocHook } from '../types';
+import { HookOpts, HookReturnDoc } from "../{{#each parents}}../{{/each}}types";
 
-const useDocOnce: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
+export type {{entityInterface}}UseDocHook<T> = ({{> typedSubcollectionParams}} id: string, opts?: HookOpts) => HookReturnDoc<T>;
+
+
+const useDocOnce: {{entityInterface}}UseDocHook<{{entityInterface}}> = ({{> subcollectionParams}} id, opts = {}) => {
     const [data, setData] = useState<{{entityInterface}} | null>(null);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [isLoading, setLoading] = useState(false);
@@ -14,7 +17,7 @@ const useDocOnce: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
             setLoading(true);
             (async () => {
                 try {
-                    const doc = await get(id);
+                    const doc = await get({{> subcollectionParams}} id);
                     setData(doc);
                 } catch (err) {
                     if (err instanceof FirestoreError) {

@@ -9,18 +9,21 @@ import {
   getDoc,
   getDocs,
 } from "firebase/firestore";
-import { db } from "../firebase";
-import { EntityServerGet, PaginateService } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { EntityServerGet, PaginateServiceOpts, Page } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata } from '../utils';
 
-const paginate: PaginateService<{{entityInterface}}> = async ({
+export type {{entityInterface}}PaginateService<T> = ({{> typedSubcollectionParams}}opts: PaginateServiceOpts) => Promise<Page<T>>;
+
+
+const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async ({{> subcollectionParams}}{
   direction = "forward",
   limit = 25,
   cursor,
   listQueryFn,
 } = {}) => {
-  const collectionRef = collection(db, `/{{entityName}}`);
+  const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const startFn = direction === "forward" ? startAfter : endBefore;
   const limitFn = direction === "forward" ? dbLimit : limitToLast;
   let q =

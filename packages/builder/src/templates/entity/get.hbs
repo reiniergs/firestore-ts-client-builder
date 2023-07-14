@@ -1,11 +1,13 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { GetService, EntityGet, EntityServerGet  } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { GetService, EntityGet, EntityServerGet  } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../utils';
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 
-const get: GetService<EntityGet<{{entityInterface}}>> = async (id: string) => {
-  const docRef = doc(db, `/{{entityName}}/${id}`);
+export type {{entityInterface}}GetService<T> = ({{> typedSubcollectionParams }} id: string) => Promise<T | null>;
+
+const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} id) => {
+  const docRef = doc(db, `{{> subcollectionPath}}/{{entityName}}/${id}`);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return transformMetadata({

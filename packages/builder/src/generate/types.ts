@@ -4,6 +4,7 @@ export interface GenerateEntityProps {
     outdir: string;
     entityName: string;
     entity: Entity;
+    parents?: string[];
 }
 
 export interface GenerateGenericCode {

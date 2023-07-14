@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { FirestoreError } from "firebase/firestore";
 import onSnapshotCollection from './onSnapshotCollection';
 import { {{entityInterface}} } from './types';
-import { UseConllectionHook } from '../types';
+import { HookCollectionOpts, HookReturnCollection } from '../{{#each parents}}../{{/each}}types';
 
-const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
+export type {{entityInterface}}UseCollectionHook<T> = ({{> typedSubcollectionParams}}opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+
+
+const useCollection: {{entityInterface}}UseCollectionHook<{{entityInterface}}> = ({{> subcollectionParams}} opts = {}) => {
   const [data, setData] = useState<Array<{{entityInterface}}>>([]);
   const [error, setError] = useState<FirestoreError | null>(null);
   const [isLoading, setLoading] = useState(false);
@@ -12,9 +15,7 @@ const useCollection: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
   useEffect(() => {
     if (!disabled) {
         setLoading(true);
-        const unsub = onSnapshotCollection(
-          opts || {},
-          (docs) => {
+        const unsub = onSnapshotCollection({{> subcollectionParams}}opts || {}, (docs) => {
             setData(docs);
             setLoading(false);
             if (typeof onSnap === 'function') {

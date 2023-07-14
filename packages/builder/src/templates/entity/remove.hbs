@@ -1,9 +1,10 @@
 import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { RemoveService } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
 
-const remove: RemoveService = async (id: string) => {
-  const docRef = doc(db, `/{{entityName}}/${id}`);
+export type {{entityInterface}}RemoveService = ({{> typedSubcollectionParams}}id: string) => Promise<void>;
+
+const remove: {{entityInterface}}RemoveService = async ({{> subcollectionParams}} id) => {
+  const docRef = doc(db, `{{> subcollectionPath}}/{{entityName}}/${id}`);
   return await deleteDoc(docRef);
 };
 

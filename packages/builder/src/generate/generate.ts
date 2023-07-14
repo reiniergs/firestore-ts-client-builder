@@ -16,6 +16,18 @@ hbs.registerPartial(
         .readFileSync(path.join(__dirname, '../templates/partials/properties.hbs'))
         .toString(),
 );
+hbs.registerPartial(
+    'typedSubcollectionParams',
+    '{{#each parents}}{{this}}Id: string, {{/each}}',
+);
+hbs.registerPartial(
+    'subcollectionParams',
+    '{{#each parents}}{{this}}Id, {{/each}}',
+);
+hbs.registerPartial(
+    'subcollectionPath',
+    '{{#each parents}}/{{this}}/${ {{this}}Id}{{/each}}',
+);
 
 const replaceSingleQuotes = (input: string) => input.replace(/&#x27;/g, "'");
 

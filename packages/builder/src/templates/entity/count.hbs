@@ -3,11 +3,14 @@ import {
   query,
   getCountFromServer,
 } from "firebase/firestore";
-import { CountService } from "../types";
-import { db } from "../firebase";
+import { ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
 
-const count: CountService = async (opts = {}) => {
-  const collectionRef = collection(db, `/{{entityName}}`);
+export type {{entityInterface}}CountService = ({{> typedSubcollectionParams}}opts?: ListServiceOpts) => Promise<number>;
+
+
+const count: {{entityInterface}}CountService = async ({{> subcollectionParams}}opts = {}) => {
+  const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const q =
     typeof opts.listQueryFn === "function"
       ? opts.listQueryFn(collectionRef)

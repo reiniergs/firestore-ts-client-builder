@@ -1,10 +1,13 @@
-import { db } from "../admin";
-import { ListService, EntityGet, EntityServerGet } from "../types";
-import { transformMetadata } from '../utils';
+import { db } from "../{{#each parents}}../{{/each}}admin";
+import { ListServiceOpts, EntityGet, EntityServerGet } from "../{{#each parents}}../{{/each}}types";
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
-const list: ListService<EntityGet<{{entityInterface}}>> = async (opts = {}) => {
-  const collectionRef = db.collection(`/{{entityName}}`);
+export type {{entityInterface}}ListService<T> = ({{> typedSubcollectionParams}} opts?: ListServiceOpts) => Promise<Array<T>>;
+
+
+const list: {{entityInterface}}ListService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} opts = {}) => {
+  const collectionRef = db.collection(`{{> subcollectionPath}}/{{entityName}}`);
   const q =
     typeof opts.listQueryFn === "function"
       ? opts.listQueryFn(collectionRef)

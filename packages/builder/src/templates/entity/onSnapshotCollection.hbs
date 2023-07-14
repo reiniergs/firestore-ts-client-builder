@@ -1,15 +1,13 @@
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot, query, Unsubscribe } from "firebase/firestore";
 import { db } from "../firebase";
-import { EntityServerGet, OnSnapshotCollectionService } from "../types";
+import { EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../utils';
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 
-const onSnapshotCollection: OnSnapshotCollectionService<{{entityInterface}}> = (
-  opts,
-  callback,
-  onError
-) => {
-  const collectionRef = collection(db, `/{{entityName}}`);
+export type {{entityInterface}}OnSnapshotCollectionService<T> = ({{> typedSubcollectionParams}}opts: ListServiceOpts,callback: (docs: Array<T>) => void) => Unsubscribe;
+
+const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<{{entityInterface}}> = ({{> subcollectionParams}}opts, callback, onError ) => {
+  const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const q = opts.listQueryFn
     ? opts.listQueryFn(collectionRef)
     : query(collectionRef);

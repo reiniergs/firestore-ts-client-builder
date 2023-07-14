@@ -1,8 +1,11 @@
-import { CountService } from "../types";
-import { db } from "../admin";
+import { ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
+import { db } from "../{{#each parents}}../{{/each}}admin";
 
-const count: CountService = async (opts = {}) => {
-  const collectionRef = db.collection(`/{{entityName}}`);
+export type {{entityInterface}}CountService = ({{> typedSubcollectionParams}} opts?: ListServiceOpts) => Promise<number>;
+
+
+const count: {{entityInterface}}CountService = async ({{> subcollectionParams}} opts = {}) => {
+  const collectionRef = db.collection(`{{> subcollectionPath}}/{{entityName}}`);
   const q =
     typeof opts.listQueryFn === "function"
       ? opts.listQueryFn(collectionRef)

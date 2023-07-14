@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { FirestoreError } from "firebase/firestore";
-import { UseCountHook, ListServiceOpts } from "../types";
+import { UseCountHook, ListServiceOpts, HookReturnCount } from "../{{#each parents}}../{{/each}}types";
 import countFn from './count';
 
-const useCount: UseCountHook = (opts = {}) => {
+export type {{entityInterface}}UseCountHook = ({{> typedSubcollectionParams}} opts?: ListServiceOpts) => HookReturnCount;
+
+
+const useCount: {{entityInterface}}UseCountHook = ({{> subcollectionParams}} opts = {}) => {
     const [count, setCount] = useState<number | null>(null);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [isLoading, setLoading] = useState(false);
@@ -12,7 +15,7 @@ const useCount: UseCountHook = (opts = {}) => {
         setLoading(true);
         (async () => {
             try {
-                const count = await countFn(opts);
+                const count = await countFn({{> subcollectionParams}} opts);
                 setCount(count);
             } catch (err) {
                 if (err instanceof FirestoreError) {

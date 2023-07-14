@@ -1,8 +1,9 @@
-import { db } from "../admin";
-import { RemoveService } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}admin";
 
-const remove: RemoveService = async (id: string) => {
-  await db.collection(`/{{entityName}}`).doc(id).delete();
+export type {{entityInterface}}RemoveService = ({{> typedSubcollectionParams}}id: string) => Promise<void>;
+
+const remove: {{entityInterface}}RemoveService = async ({{> subcollectionParams}}id: string) => {
+  await db.collection(`{{> subcollectionPath}}/{{entityName}}`).doc(id).delete();
 };
 
 export default remove;
