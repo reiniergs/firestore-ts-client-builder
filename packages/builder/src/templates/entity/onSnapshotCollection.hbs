@@ -1,9 +1,5 @@
 import { collection, onSnapshot, query, Unsubscribe } from "firebase/firestore";
-<<<<<<< HEAD
-import { db } from "../firebase";
-=======
 import { db } from "../{{#each parents}}../{{/each}}firebase";
->>>>>>> f7a67a4 (fix: more the generation of sub collection to nested structure in the file system)
 import { EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';

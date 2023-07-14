@@ -23,7 +23,6 @@
     "start": "yarn generate-data && ts-node src/index.ts",
     "test": "jest src",
     "generate-data": "yarn ts-node src/generateData.ts",
-    "ts-node": "ts-node",
-    "lint": "eslint src"
+    "ts-node": "ts-node"
   }
 }
