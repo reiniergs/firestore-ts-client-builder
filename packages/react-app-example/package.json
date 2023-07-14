@@ -42,7 +42,7 @@
     "eject": "react-scripts eject",
     "generate-data": "yarn ts-node scripts/generateData.ts",
     "ts-node": "ts-node --project tsconfig-scripts.json",
-    "lint": "yarn generate-data && eslint src && tsc --noEmit",
+   "lint": "yarn generate-data && eslint src && tsc --noEmit",
     "storybook": "yarn generate-data && start-storybook -p 6006",
     "storybook-build": "yarn generate-data && build-storybook",
     "storybook-deploy": "gh-pages -d storybook-static"
