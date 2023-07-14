@@ -64,13 +64,16 @@ const formatProperties = (properties: Record<string, Property>) => {
 };
 
 const generateTypes = (props: GenerateEntityProps) => {
-    const { outdir, entityName, entity } = props;
+    const {
+        outdir, entityName, entity, parents = [],
+    } = props;
     generate({
         templatePath: path.join(__dirname, '../../../templates/entity/admin/types.hbs'),
         targetPath: path.join(outdir, entityName, 'types.ts'),
         data: {
             entityInterface: capitalize(entityName),
             properties: formatProperties(entity.properties),
+            parents,
         },
     });
 };

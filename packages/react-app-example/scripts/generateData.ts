@@ -50,6 +50,17 @@ createClientDataLayer({
                         items: { type: 'number' },
                     },
                 },
+                subcollections: {
+                    car: {
+                        properties: {
+                            name: { type: 'string', isRequired: true },
+                            foo: {
+                                type: 'array',
+                                items: { type: 'number' },
+                            },
+                        },
+                    },
+                },
             },
         },
         server: {

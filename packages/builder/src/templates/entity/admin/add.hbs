@@ -1,6 +1,10 @@
 import { Timestamp } from "firebase-admin/firestore";
 import { db } from "../{{#each parents}}../{{/each}}admin";
+<<<<<<< HEAD
 import { EntityGet } from "../types";
+=======
+import { EntityGet } from "../{{#each parents}}../{{/each}}types";
+>>>>>>> f7a67a4 (fix: more the generation of sub collection to nested structure in the file system)
 import { {{entityInterface}} } from "./types";
 import get from './get';
 

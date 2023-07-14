@@ -3,9 +3,11 @@
     "lerna": "^6.6.1"
   },
   "name": "monnorepo",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": ["packages/*"],
+    "nohoist": ["**/firebase-admin"]
+  },
+  
   "private": true,
   "scripts": {
     "start": "lerna run start --scope example",
