@@ -32,7 +32,8 @@
     "rimraf": "^4.4.1"
   },
   "peerDependencies": {
-    "firebase": "^9.19.1"
+    "firebase": "^9.19.1",
+    "firebase-admin": "^11.10.1"
   },
   "engines": {
     "node": "<16.7.0"

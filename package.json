@@ -3,10 +3,7 @@
     "lerna": "^6.6.1"
   },
   "name": "monnorepo",
-  "workspaces": {
-    "packages": ["packages/*"],
-    "nohoist": ["**/firebase-admin"]
-  },
+  "workspaces": ["packages/*"],
   
   "private": true,
   "scripts": {
