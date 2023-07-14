@@ -11,6 +11,8 @@
     {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
   {{else if (eq type "boolean")}}
     {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
+  {{else if (eq type "Date")}}
+    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};  
   {{else if (eq type "object")}}
     {{name}}{{#unless isRequired}}?{{/unless}}: {
       {{> properties properties=properties}}

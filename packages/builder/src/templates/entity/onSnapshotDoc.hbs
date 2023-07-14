@@ -2,7 +2,7 @@ import { doc, onSnapshot, FirestoreError, Unsubscribe } from "firebase/firestore
 import { db } from "../{{#each parents}}../{{/each}}firebase";
 import { EntityServerGet, OnSnapshotDocService } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
 export type {{entityInterface}}OnSnapshotDocService<T> = ({{> typedSubcollectionParams}}id: string, callback: (doc: T) => void, onError?: (error: FirestoreError) => void) => Unsubscribe;
 
@@ -14,10 +14,10 @@ const onSnapshotDoc: {{entityInterface}}OnSnapshotDocService<{{entityInterface}}
     (docSnap) => {
       if (docSnap.exists()) {
         callback(
-          transformMetadata({
+          processTimestampFields(transformMetadata({
             ...docSnap.data(),
             id: docSnap.id,
-          } as EntityServerGet<{{entityInterface}}>, docSnap.metadata)
+          } as EntityServerGet<{{entityInterface}}>, docSnap.metadata))
         );
       }
     },

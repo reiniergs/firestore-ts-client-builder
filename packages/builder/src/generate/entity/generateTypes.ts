@@ -57,6 +57,13 @@ const formatProperties = (properties: Record<string, Property>) => {
                     isNullable,
                     enum: formatEnum((property as PropertyTypeString).enum),
                 };
+            case 'date':
+                return {
+                    name,
+                    type: 'Date',
+                    isRequired,
+                    isNullable,
+                };
         }
     };
     return Object.keys(properties)

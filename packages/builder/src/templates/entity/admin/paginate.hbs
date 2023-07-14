@@ -1,6 +1,6 @@
 import { db } from "../{{#each parents}}../{{/each}}admin";
 import { PaginateServiceOpts, EntityServerGet, Page } from '../{{#each parents}}../{{/each}}types';
-import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
 export type {{entityInterface}}PaginateService<T> = ({{> typedSubcollectionParams}}opts: PaginateServiceOpts) => Promise<Page<T>>;
@@ -39,10 +39,10 @@ const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async 
 
   const querySnapshot = await q.get();
   const docs = querySnapshot.docs.map((doc) => {
-    return transformMetadata({
+    return processTimestampFields(transformMetadata({
       ...doc.data(),
       id: doc.id,
-    } as EntityServerGet<{{entityInterface}}>);
+    } as EntityServerGet<{{entityInterface}}>));
   });
   return {
     docs,

@@ -36,6 +36,7 @@ createAdminDataLayer({
                             type: 'string',
                         },
                     },
+                    dayOfBirth: { type: 'date' },
                 },
             },
             driver: {

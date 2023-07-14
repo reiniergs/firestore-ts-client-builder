@@ -14,9 +14,11 @@ describe('get', () => {
                 zip: '90210',
             },
             emails: ['info@example.com'],
+            dayOfBirth: new Date('1980-01-01'),
         });
         const sameCustomer = await get(customer.id);
         expect(sameCustomer).toEqual(customer);
+        expect(isDate(sameCustomer.dayOfBirth)).toBe(true);
         // Clean up
         await remove(customer.id);
     });

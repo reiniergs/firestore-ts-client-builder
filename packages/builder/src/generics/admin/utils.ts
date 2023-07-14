@@ -16,3 +16,15 @@ export const transformMetadata = <T extends EntityServerMetadata>(doc: T) => {
         updatedAt: transformTimestamp(updatedAt),
     }
 }
+
+export const processTimestampFields = <T>(obj: object): T => {
+    const res = Object.keys(obj).reduce((acc, key) => {
+        if (obj[key] instanceof Timestamp) {
+            acc[key] = transformTimestamp(obj[key]);
+        } else {
+            acc[key] = obj[key];
+        }
+        return acc;
+    }, {}) as T;    
+    return res;
+}
