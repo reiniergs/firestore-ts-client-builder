@@ -1,18 +1,21 @@
 import { Timestamp } from "firebase-admin/firestore";
-import { db } from "../admin";
-import { AddService, EntityGet } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}admin";
+import { EntityGet } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import get from './get';
 
-const add: AddService<{{entityInterface}}> = async (data) => {
-  const collectionRef = db.collection(`/{{entityName}}`);
+export type {{entityInterface}}AddService<T> = ({{> typedSubcollectionParams }} doc: Omit<T, 'id'>) => Promise<EntityGet<T>>;
+
+
+const add: {{entityInterface}}AddService<{{entityInterface}}> = async ({{> subcollectionParams}} data) => {
+  const collectionRef = db.collection(`{{> subcollectionPath}}/{{entityName}}`);
   const now = Timestamp.now();
   const docRef = await collectionRef.add({
     ...data,
     createdAt: now,
     updatedAt: now,
   });
-  return get(docRef.id) as Promise<EntityGet<{{entityInterface}}>>;
+  return get({{> subcollectionParams}} docRef.id) as Promise<EntityGet<{{entityInterface}}>>;
 };
 
 export default add;

@@ -7,12 +7,14 @@ const generateEntityCode = ({
     outdir,
     entityName,
     entity,
+    parents = [],
 }: GenerateEntityProps) => {
     createDir(path.join(outdir, entityName));
     entityCode.forEach((generation) => generation({
         outdir,
         entityName,
         entity,
+        parents,
     }));
 };
 

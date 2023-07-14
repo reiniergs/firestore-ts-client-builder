@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import paginate from "./paginate";
 import countFn from "./count";
 import { {{entityInterface}} } from "./types";
-import { Page, UsePaginatedCollectionHook } from "../types";
+import { Page, HookPaginatedCollectionOpts, HookReturnPageCollection } from "../{{#each parents}}../{{/each}}types";
 
-const useCollectionWithPagination: UsePaginatedCollectionHook<{{entityInterface}}> = (opts = {}) => {
+export type {{entityInterface}}UsePaginatedCollectionHook<T> = ({{> typedSubcollectionParams}} opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
+
+
+const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<{{entityInterface}}> = ({{> subcollectionParams}} opts = {}) => {
     const [isLoading, setLoading] = useState(false);
     const [firstPage, setFirstPage] = useState(true);
     const [pageIndex, setPageIndex] = useState(0);
@@ -22,11 +25,14 @@ const useCollectionWithPagination: UsePaginatedCollectionHook<{{entityInterface}
             setLoading(true);
             (async () => {
                 try {
-                    const recordsCount = await countFn(opts);
-                    const newPage = await paginate({
-                        limit, 
-                        listQueryFn,
-                    });
+                    const recordsCount = await countFn({{> subcollectionParams}} opts);
+                    const newPage = await paginate(
+                        {{> subcollectionParams}}
+                        {
+                            limit, 
+                            listQueryFn,
+                        }
+                    );
                     setPage(newPage)
                     setPageIndex(0);
                     setTotalRecords(recordsCount)
@@ -53,11 +59,14 @@ const useCollectionWithPagination: UsePaginatedCollectionHook<{{entityInterface}
         if (isLoading || !hasMore) return;
         try {
             setLoading(true)
-            const newPage = await paginate({
-                limit,
-                cursor: page.lastDocId || undefined,
-                listQueryFn,
-            });
+            const newPage = await paginate(
+                {{> subcollectionParams}}
+                {
+                    limit,
+                    cursor: page.lastDocId || undefined,
+                    listQueryFn,
+                }
+            );
             setPage(newPage);
             setPageIndex(pageIndex + 1);
             if (typeof onSnap === "function") {
@@ -72,12 +81,15 @@ const useCollectionWithPagination: UsePaginatedCollectionHook<{{entityInterface}
         if (isLoading || firstPage) return;
         try {
             setLoading(true)
-            const newPage = await paginate({
-                direction: 'backward',
-                limit,
-                cursor: page.firstDocId || undefined,
-                listQueryFn,
-            });
+            const newPage = await paginate(
+                {{> subcollectionParams}}
+                {
+                    direction: 'backward',
+                    limit,
+                    cursor: page.firstDocId || undefined,
+                    listQueryFn,
+                }
+            );
             setPage(newPage);
             setPageIndex(pageIndex - 1);
             if (typeof onSnap === "function") {

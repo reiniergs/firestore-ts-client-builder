@@ -1,20 +1,23 @@
-import { db } from "../admin";
-import { PaginateService, EntityServerGet } from '../types';
-import { transformMetadata } from '../utils';
+import { db } from "../{{#each parents}}../{{/each}}admin";
+import { PaginateServiceOpts, EntityServerGet, Page } from '../{{#each parents}}../{{/each}}types';
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
-const paginate: PaginateService<{{entityInterface}}> = async ({
+export type {{entityInterface}}PaginateService<T> = ({{> typedSubcollectionParams}}opts: PaginateServiceOpts) => Promise<Page<T>>;
+
+
+const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async ({{> subcollectionParams}}{
   direction = "forward",
   limit = 25,
   cursor,
   listQueryFn,
 } = {}) => {
-  const cursorDoc = cursor ? await db.doc(`/customer/${cursor}`).get() : null;
+  const cursorDoc = cursor ? await db.doc(`{{> subcollectionPath}}/{{entityName}}/${cursor}`).get() : null;
   if (cursorDoc && !cursorDoc.exists) {
     throw new Error("Invalid cursor");
   }
 
-  const collectionRef = db.collection(`/{{entityName}}`);
+  const collectionRef = db.collection(`{{> subcollectionPath}}/{{entityName}}`);
   let q =
     typeof listQueryFn === "function"
       ? listQueryFn(collectionRef)

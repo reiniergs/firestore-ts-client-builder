@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { FirestoreError } from "firebase/firestore";
 import onSnapshotDoc from "./onSnapshotDoc";
 import { {{entityInterface}} } from './types';
-import { UseDocHook } from '../types';
+import { HookOpts, HookReturnDoc } from '../{{#each parents}}../{{/each}}types';
 
-const useDoc: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
+export type {{entityInterface}}UseDocHook<T> = ({{> typedSubcollectionParams}}id: string, opts?: HookOpts) => HookReturnDoc<T>;
+
+const useDoc: {{entityInterface}}UseDocHook<{{entityInterface}}> = ({{> subcollectionParams}}id, opts = {}) => {
   const [data, setData] = useState<{{entityInterface}} | null>(null);
   const [error, setError] = useState<FirestoreError | null>(null);
   const [isLoading, setLoading] = useState(false);
@@ -13,6 +15,7 @@ const useDoc: UseDocHook<{{entityInterface}}> = (id, opts = {}) => {
     if (!disabled) {
         setLoading(true);
         const unsub = onSnapshotDoc(
+          {{> subcollectionParams}}
           id,
           (doc) => {
             setData(doc);

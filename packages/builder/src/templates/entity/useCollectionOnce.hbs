@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { FirestoreError } from "firebase/firestore";
 import list from "./list";
 import { {{entityInterface}} } from "./types";
-import { UseConllectionHook } from "../types";
+import { HookCollectionOpts, HookReturnCollection } from '../{{#each parents}}../{{/each}}types';
 
-const useCollectionOnce: UseConllectionHook<{{entityInterface}}> = (opts = {}) => {
+export type {{entityInterface}}UseCollectionHook<T> = ({{> typedSubcollectionParams}} opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+
+const useCollectionOnce: {{entityInterface}}UseCollectionHook<{{entityInterface}}> = ({{> subcollectionParams}} opts = {}) => {
     const [data, setData] = useState<Array<{{entityInterface}}>>([]);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [isLoading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ const useCollectionOnce: UseConllectionHook<{{entityInterface}}> = (opts = {}) =
             setLoading(true);
             (async () => {
                 try {
-                    const docs = await list(opts);
+                    const docs = await list({{> subcollectionParams}} opts);
                     setData(docs);
                     if (typeof onSnap === "function") {
                         onSnap(docs);

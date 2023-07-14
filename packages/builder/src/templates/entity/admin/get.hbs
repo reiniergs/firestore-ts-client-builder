@@ -1,10 +1,13 @@
-import { db } from "../admin";
-import { GetService, EntityGet, EntityServerGet  } from "../types";
-import { transformMetadata } from '../utils';
+import { db } from "../{{#each parents}}../{{/each}}admin";
+import { GetService, EntityGet, EntityServerGet  } from "../{{#each parents}}../{{/each}}types";
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
-const get: GetService<EntityGet<{{entityInterface}}>> = async (id: string) => {
-  const docRef = db.doc(`/{{entityName}}/${id}`);
+export type {{entityInterface}}GetService<T> = ({{> typedSubcollectionParams }} id: string) => Promise<T | null>;
+
+
+const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} id: string) => {
+  const docRef = db.doc(`{{> subcollectionPath}}/{{entityName}}/${id}`);
   const docSnap = await docRef.get();
   if (docSnap.exists) {
     return transformMetadata({

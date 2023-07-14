@@ -1,10 +1,12 @@
 import { Timestamp } from "firebase-admin/firestore";
-import { db } from "../admin";
-import { UpdateService } from "../types";
+import { db } from "../{{#each parents}}../{{/each}}admin";
 import { {{entityInterface}} } from "./types";
 
-const update: UpdateService<{{entityInterface}}> = async (id, data) => {
-  const ref = db.collection(`/{{entityName}}`).doc(id);
+export type {{entityInterface}}UpdateService<T> = ({{> typedSubcollectionParams}}id: string, doc: Partial<Omit<T, 'id'>>) => Promise<void>;
+
+
+const update: {{entityInterface}}UpdateService<{{entityInterface}}> = async ({{> subcollectionParams}} id, data) => {
+  const ref = db.collection(`{{> subcollectionPath}}/{{entityName}}`).doc(id);
   await ref.update({
     ...data, 
     updatedAt: Timestamp.now(),

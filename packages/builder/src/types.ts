@@ -32,6 +32,7 @@ export type Property = BaseProperty | PropertyTypeString | PropertyTypeObject | 
 
 export interface Entity {
     properties: Record<string, Property>;
+    subcollections?: Record<string, Entity>;
 }
 
 type Protocol = 'http' | 'https';

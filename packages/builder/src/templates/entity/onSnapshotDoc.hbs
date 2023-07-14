@@ -1,11 +1,14 @@
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { EntityServerGet, OnSnapshotDocService } from "../types";
+import { doc, onSnapshot, FirestoreError, Unsubscribe } from "firebase/firestore";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { EntityServerGet, OnSnapshotDocService } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
-import { transformMetadata } from '../utils';
+import { transformMetadata } from '../{{#each parents}}../{{/each}}utils';
 
-const onSnapshotDoc: OnSnapshotDocService<{{entityInterface}}> = (id, callback, onError) => {
-  const docRef = doc(db, `/{{entityName}}/${id}`);
+export type {{entityInterface}}OnSnapshotDocService<T> = ({{> typedSubcollectionParams}}id: string, callback: (doc: T) => void, onError?: (error: FirestoreError) => void) => Unsubscribe;
+
+
+const onSnapshotDoc: {{entityInterface}}OnSnapshotDocService<{{entityInterface}}> = ({{> subcollectionParams}}id, callback, onError) => {
+  const docRef = doc(db, `{{> subcollectionPath}}/{{entityName}}/${id}`);
   return onSnapshot(
     docRef,
     (docSnap) => {
