@@ -42,7 +42,7 @@
     "eject": "react-scripts eject",
     "generate-data": "yarn ts-node scripts/generateData.ts",
     "ts-node": "ts-node --project tsconfig-scripts.json",
-    "lint": "eslint src",
+    "lint": "eslint src && tsc --noEmit",
     "storybook": "yarn generate-data && start-storybook -p 6006"
   },
   "eslintConfig": {
