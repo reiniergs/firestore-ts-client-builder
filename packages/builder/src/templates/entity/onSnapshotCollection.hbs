@@ -1,10 +1,10 @@
-import { collection, onSnapshot, query, Unsubscribe } from "firebase/firestore";
+import { collection, onSnapshot, FirestoreError, query, Unsubscribe } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
 import { EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
-export type {{entityInterface}}OnSnapshotCollectionService<T> = ({{> typedSubcollectionParams}}opts: ListServiceOpts,callback: (docs: Array<T>) => void) => Unsubscribe;
+export type {{entityInterface}}OnSnapshotCollectionService<T> = ({{> typedSubcollectionParams}}opts: ListServiceOpts,callback: (docs: Array<T>) => void, onError?: (error: FirestoreError) => void) => Unsubscribe;
 
 const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<{{entityInterface}}> = ({{> subcollectionParams}}opts, callback, onError ) => {
   const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);

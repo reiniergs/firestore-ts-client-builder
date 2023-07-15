@@ -12,6 +12,7 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
+      - run: yarn build
       - run: yarn install
       - run: yarn lint
 

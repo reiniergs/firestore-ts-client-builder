@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FirestoreError } from "firebase/firestore";
 import paginate from "./paginate";
 import countFn from "./count";
 import { {{entityInterface}} } from "./types";
@@ -9,6 +10,7 @@ export type {{entityInterface}}UsePaginatedCollectionHook<T> = ({{> typedSubcoll
 
 const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<{{entityInterface}}> = ({{> subcollectionParams}} opts = {}) => {
     const [isLoading, setLoading] = useState(false);
+    const [error, setError] = useState<FirestoreError | null>(null);
     const [firstPage, setFirstPage] = useState(true);
     const [pageIndex, setPageIndex] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -41,7 +43,15 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                         onSnap(newPage.docs);
                     }
                 } catch (err) {
-                    console.error(err);
+                    if (err instanceof FirestoreError) {
+                        setError(err);
+                    } else {
+                        setError({
+                        code: "unknown",
+                        message: "Unknown error",
+                        name: "Unknown error",
+                        });
+                    }
                 }
                 setLoading(false);
             })();
@@ -73,7 +83,15 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                 onSnap(page.docs);
             }
         } catch (err) {
-            console.error(err); 
+            if (err instanceof FirestoreError) {
+                setError(err);
+            } else {
+                setError({
+                code: "unknown",
+                message: "Unknown error",
+                name: "Unknown error",
+                });
+            }
         }
         setLoading(false);
     };
@@ -96,13 +114,22 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                 onSnap(page.docs);
             }
         } catch (err) {
-            console.error(err); 
+            if (err instanceof FirestoreError) {
+                setError(err);
+            } else {
+                setError({
+                code: "unknown",
+                message: "Unknown error",
+                name: "Unknown error",
+                });
+            }
         }
         setLoading(false);
     };
 
     return {
         data: page.docs,
+        error,
         totalRecords,
         isLoading,
         nextPage,
