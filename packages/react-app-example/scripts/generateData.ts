@@ -63,6 +63,50 @@ createClientDataLayer({
                 },
             },
         },
+        endpoints: {
+            posts: {
+                create: {
+                    method: 'POST',
+                    path: '/posts',
+                    hook: 'mutation',
+                    requestBody: {
+                        properties: {
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
+                    },
+                    successResponse: {
+                        properties: {
+                            id: { type: 'string', isRequired: true },
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
+                    },
+                },
+                update: {
+                    method: 'PATCH',
+                    path: '/posts/{postId}',
+                    hook: 'mutation',
+                    requestBody: {
+                        properties: {
+                            title: { type: 'string' },
+                            body: { type: 'string' },
+                            userId: { type: 'string' },
+                        },
+                    },
+                    successResponse: {
+                        properties: {
+                            id: { type: 'string', isRequired: true },
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
+                    },
+                },
+            },
+        },
         server: {
             url: 'https://jsonplaceholder.typicode.com',
         },

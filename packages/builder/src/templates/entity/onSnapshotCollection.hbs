@@ -6,7 +6,12 @@ import { transformMetadata, processTimestampFields } from '../{{#each parents}}.
 
 export type {{entityInterface}}OnSnapshotCollectionService<T> = ({{> typedSubcollectionParams}}opts: ListServiceOpts,callback: (docs: Array<T>) => void, onError?: (error: FirestoreError) => void) => Unsubscribe;
 
-const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<{{entityInterface}}> = ({{> subcollectionParams}}opts, callback, onError ) => {
+const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<{{entityInterface}}> = (
+    {{> subcollectionParams}}
+    opts: ListServiceOpts,
+    callback: (docs: Array<{{entityInterface}}>) => void,
+    onError: (error: FirestoreError) => void = () => {}
+) => {
   const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const q = opts.listQueryFn
     ? opts.listQueryFn(collectionRef)

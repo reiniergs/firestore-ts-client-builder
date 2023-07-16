@@ -17,16 +17,23 @@ export const transformMetadata = <T extends EntityServerMetadata>(doc: T, metada
     }
 }
 
-export const processTimestampFields = <T extends Record<string, unknown>>(obj: T): T => {
-    const res = Object.keys(obj).reduce((acc, key) => {
-        const value = obj[key];
-        if (value instanceof Timestamp) {
-            acc[key] = transformTimestamp(value);
+export const processTimestampFields = <T>(obj: Record<string, unknown>): T => {
+    const res = Object.keys(obj).reduce((acc: Record<string, unknown>, key: string) => {
+        if (obj[key] instanceof Timestamp) {
+            acc[key] = transformTimestamp(obj[key] as Timestamp);
         } else {
             acc[key] = obj[key];
         }
         return acc;
     }, {} as Record<string, unknown>) as T;    
     return res;
+}
+
+export const createPath = (path: string, params: Record<string, string>): string => {
+    let result = path;
+    for (const key in params) {
+      result = result.replace(`{${key}}`, params[key]);
+    }
+    return result;
 }
 

@@ -1,0 +1,38 @@
+import useHttpMutation, { MutationParams } from '../../../useHttpMutation';
+import { MutationHookProps, RequestBody, SuccessResponse } from './types';
+import { QueryError } from '../../../errors';
+import { MutateOptions } from 'react-query';
+import { createPath } from '../../../utils';
+
+const useMutation = (props?: Omit<MutationHookProps, 'body'>) => {
+    const params = props && "params" in props 
+        ? props.params as Record<string, string>
+        : undefined;
+    const { mutate, ...rest } = useHttpMutation<RequestBody, SuccessResponse>({
+        method: '{{method}}',
+        pathname: params ? createPath('{{path}}', params): '{{path}}',
+    });    
+    return {
+        mutate: (props: MutationHookProps, opts?: MutateOptions<SuccessResponse, QueryError, MutationParams<RequestBody, SuccessResponse>, unknown>) => {
+            const { body } = props;
+            const params = "params" in props 
+                ? props.params as Record<string, string>
+                : undefined;
+            if (params) {
+                return mutate({
+                    body,
+                    pathname: createPath('{{path}}', params),
+                }, opts);
+            }
+            return mutate({
+                body,
+            }, opts);
+        },
+        ...rest,
+    };
+}
+
+export default useMutation;
+
+
+

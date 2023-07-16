@@ -11,13 +11,14 @@
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "firebase": "^9.19.1",
+    "firestore-ts-client-builder": "0.1.0",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-rainbow-components": "^1.32.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
-    "firestore-ts-client-builder": "0.1.0",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
@@ -30,7 +31,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-promise": "^6.1.1",
-    "firestore-ts-client-builder": "0.0.2",
     "storybook-addon-code-editor": "^2.1.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.1"
@@ -43,7 +43,9 @@
     "generate-data": "yarn ts-node scripts/generateData.ts",
     "ts-node": "ts-node --project tsconfig-scripts.json",
     "lint": "yarn generate-data && eslint src && tsc --noEmit",
-    "storybook": "yarn generate-data && start-storybook -p 6006"
+    "storybook": "yarn generate-data && start-storybook -p 6006",
+    "storybook-build": "yarn generate-data && build-storybook",
+    "storybook-deploy": "gh-pages -d storybook-static"
   },
   "eslintConfig": {
     "extends": [
