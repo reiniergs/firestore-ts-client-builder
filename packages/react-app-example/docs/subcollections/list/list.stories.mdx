@@ -1,0 +1,22 @@
+import { Meta, Canvas, Story, Source } from '@storybook/addon-docs'
+import { commonExports } from '../../utils';
+import { Playground } from 'storybook-addon-code-editor';
+import StoryCode from './list.source.tsx?raw'
+import list from '../../../src/data/driver/car/list';
+
+<Meta title="Entities/Sub Collections/List/Docs" />
+
+## Working with Subcollections
+In this live example, we demonstrate how to utilize a subcollection in a React component using the Firestore TypeScript Client Builder.
+
+We will be interacting with the 'car' subcollection under a 'driver' entity. The aim is to list all the cars associated with a particular driver. The driver's ID is pre-defined as 'cVpvbSDxeXn02RJo4ya0'.
+
+## Example usage
+
+<Playground
+    code={StoryCode}
+    availableImports={{ 
+        ...commonExports,
+        '~/data/driver/car/list': list,
+    }}
+    height="500px" />

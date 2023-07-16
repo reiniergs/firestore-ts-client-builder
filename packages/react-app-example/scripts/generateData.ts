@@ -45,19 +45,13 @@ createClientDataLayer({
             driver: {
                 properties: {
                     name: { type: 'string', isRequired: true },
-                    foo: {
-                        type: 'array',
-                        items: { type: 'number' },
-                    },
+                    dob: { type: 'date', isNullable: true },
                 },
                 subcollections: {
                     car: {
                         properties: {
                             name: { type: 'string', isRequired: true },
-                            foo: {
-                                type: 'array',
-                                items: { type: 'number' },
-                            },
+                            model: { type: 'string', isRequired: true },
                         },
                     },
                 },

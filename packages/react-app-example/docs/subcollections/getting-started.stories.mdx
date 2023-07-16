@@ -1,0 +1,76 @@
+<Meta title="Entities/Sub Collections/Getting Started" />
+
+## Subcollections
+
+In Firestore, subcollections are a way of organizing data under a specific document in a collection. The Firestore TypeScript Client Builder supports this feature by allowing you to define subcollections within an entity in your data model. 
+
+Here is an example of how you can define a subcollection:
+
+```javascript
+createClientDataLayer({
+    metadata: {
+        entities: {
+            driver: {
+                properties: {
+                    name: { type: 'string', isRequired: true },
+                    dob: { type: 'date', isNullable: true },
+                },
+                subcollections: {
+                    car: {
+                        properties: {
+                            name: { type: 'string', isRequired: true },
+                            model: { type: 'string', isRequired: true },
+                        },
+                    },
+                },
+            },
+        },
+    },
+});
+```
+In this example, the `driver` collection has a subcollection `car`. Each `car` is associated with a specific `driver` and has properties `name` and `model`.
+
+### File Structure for Subcollections
+
+When a data model with subcollections is provided, the Firestore TypeScript Client Builder generates the appropriate TypeScript files in the specified directory. For subcollections, the files are generated in a nested directory within the parent entity directory. For example, for the `car` subcollection of the `driver` entity, the files are generated at `~data/driver/car/`.
+
+The generated files for a subcollection include all the services methods and hooks that a top-level collection has, with the key difference being the methods to access, write, or read data require the parent entity's ID to reach the subcollection in Firestore.
+
+### Using Subcollection Entities in TypeScript
+
+You can use the generated TypeScript code for subcollections in the same way as for top-level collections. Here's an example of how you can use the `car` subcollection in a React component:
+
+```javascript
+import { useState, useEffect } from 'react';
+import { limit, query } from 'firebase/firestore';
+import { Table, Column } from 'react-rainbow-components';
+import listCars from '~/data/driver/car/list';
+import { Car } from '~/data/driver/car/types';
+
+const driverId = 'cVpvbSDxeXn02RJo4ya0';
+
+const List = () => {
+    const [cars, setCars] = useState<Car[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            const carList = await listCars(driverId, {
+                listQueryFn: (ref) => query(ref, limit(10)),
+            });
+            setCars(carList);
+        })();
+    }, []);
+
+    return (
+        <Table keyField="id" data={cars}>
+            <Column header="Id" field="id" />
+            <Column header="Name" field="name" />
+            <Column header="Model" field="model" />
+        </Table>
+    );
+};
+```
+
+In this example, the `listCars` function imported from the generated TypeScript code is used to get a list of `Car` entities from the `car` subcollection of the `driver` with the provided `driverId`. The resulting list is then displayed in a table.
+
+Remember to always provide the parent entity's ID when accessing a subcollection. This is necessary because the subcollection is located under the parent document in Firestore.
