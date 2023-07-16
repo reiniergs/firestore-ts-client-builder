@@ -24,6 +24,10 @@ import generateAdminRemove from './entity/admin/generateRemove';
 import generateAdminUpdate from './entity/admin/generateUpdate';
 import generateAdminCount from './entity/admin/generateCount';
 
+// endpoint code
+import generateEndpointTypes from './endpoint/generateTypes';
+import generateEndpointHook from './endpoint/generateHook';
+
 // generic code
 import generateUseHttpQuery from './generic/genearteUseHttpQuery';
 import generateUseHttpMutation from './generic/genearteUseHttpMutation';
@@ -48,6 +52,8 @@ export const entityCode = [
     generateUseCollectionOnce,
     generateUseCount,
 ];
+
+export const endpointCode = [generateEndpointTypes, generateEndpointHook];
 
 export const adminEntityCode = [
     generateAdminTypes,

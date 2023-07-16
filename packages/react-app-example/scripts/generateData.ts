@@ -65,17 +65,44 @@ createClientDataLayer({
         },
         endpoints: {
             posts: {
-                path: '/posts',
-                method: 'POST',
-                requestBody: {
-                    properties: {
-                        title: { type: 'string', isRequired: true },
+                create: {
+                    method: 'POST',
+                    path: '/posts',
+                    hook: 'mutation',
+                    requestBody: {
+                        properties: {
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
+                    },
+                    successResponse: {
+                        properties: {
+                            id: { type: 'string', isRequired: true },
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
                     },
                 },
-                successResponse: {
-                    properties: {
-                        id: { type: 'string', isRequired: true },
-                        title: { type: 'string', isRequired: true },
+                update: {
+                    method: 'PATCH',
+                    path: '/posts/{postId}',
+                    hook: 'mutation',
+                    requestBody: {
+                        properties: {
+                            title: { type: 'string' },
+                            body: { type: 'string' },
+                            userId: { type: 'string' },
+                        },
+                    },
+                    successResponse: {
+                        properties: {
+                            id: { type: 'string', isRequired: true },
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
                     },
                 },
             },

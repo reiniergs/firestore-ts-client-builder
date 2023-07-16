@@ -1,0 +1,25 @@
+{{#if requestBodyProperties}}
+export interface RequestBody {
+    {{> properties properties=requestBodyProperties}}
+}
+{{/if}}
+
+export interface SuccessResponse{
+    {{> properties properties=successResponseProperties}}
+}
+
+{{#if (eq hook "mutation")}}
+export interface MutationHookProps {
+    {{#if requestBodyProperties}}
+        body: RequestBody;
+    {{/if}}
+    {{#if params}}
+        params: {
+            {{#each params}}
+                {{this}}: string;
+            {{/each}}
+        };
+    {{/if}}
+}
+{{/if}}
+

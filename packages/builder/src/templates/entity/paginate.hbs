@@ -42,7 +42,7 @@ const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async 
 
   const querySnapshot = await getDocs(q);
   const docs = querySnapshot.docs.map((doc) => {
-    return processTimestampFields(transformMetadata({
+    return processTimestampFields<{{entityInterface}}>(transformMetadata({
       ...doc.data(),
       id: doc.id,
     } as EntityServerGet<{{entityInterface}}>));

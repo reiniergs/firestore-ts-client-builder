@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc && yarn copy",
-    "copy": "copyfiles -u 1 src/templates/* src/templates/entity/* src/templates/entity/admin/* src/templates/generic/* src/templates/partials/* src/generics/**/* dist",
+    "copy": "copyfiles -u 1 src/templates/* src/templates/entity/* src/templates/endpoint/* src/templates/entity/admin/* src/templates/generic/* src/templates/partials/* src/generics/**/* dist",
     "lint": "eslint . --ext .ts && tsc",
     "prepublishOnly": "yarn build"
   },

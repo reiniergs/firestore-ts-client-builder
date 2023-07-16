@@ -43,9 +43,19 @@ type BasicURL = `${Protocol}://${Domain}${Path}` | `${Protocol}://${Domain}`;
 export interface Server {
     url: BasicURL;
 }
+export interface Endpoint {
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+    path: Path;
+    hook: 'query' | 'mutation';
+    requestBody: Omit<Entity, 'subcollections'>;
+    successResponse: Omit<Entity, 'subcollections'>;
+}
+
+export type Endpoints = Record<string, Record<string, Endpoint>>;
 
 export interface DataModelMetadata {
     entities: Record<string, Entity>;
+    endpoints?: Endpoints;
     server: Server;
 }
 
@@ -81,15 +91,14 @@ export interface FirebaseAdminConfig {
     projectId?: string;
 }
 
-export interface DataLayerProps {
+export interface ClientDataLayerProps {
     outdir: string;
     metadata: DataModelMetadata;
-}
-
-export interface ClientDataLayerProps extends DataLayerProps {
     firebaseConfig?: FirebaseConfig;
 }
 
-export interface AdminDataLayerProps extends DataLayerProps {
+export interface AdminDataLayerProps {
+    outdir: string;
+    metadata: Pick<DataModelMetadata, 'entities'>;
     firebaseAdminConfig?: FirebaseAdminConfig;
 }

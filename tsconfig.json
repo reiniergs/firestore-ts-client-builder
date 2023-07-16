@@ -22,5 +22,5 @@
     },
     "include": [
         "packages/react-app-example/docs"
-    ]
+, "packages/react-app-example/docs/endpoints"    ]
 }
