@@ -9,6 +9,7 @@ export interface UseQueryParams {
     server?: string;
     body?: Record<string, unknown>;
     key?: string | Array<unknown>;
+    queryOptions?: Record<string, unknown>;
 }
 
 const createRequestHeaders = async () => {
@@ -29,6 +30,7 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
         server = "{{metadata.server.url}}",
         body,
         key,
+        queryOptions = {},
     } = params;
     const url = new URL(pathname, server).toString();
     const queryKey = key 
@@ -55,7 +57,7 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
                 throw new QueryError("unknown");
             }
         }
-    })
+    }, queryOptions);
 }
 
 export default useHttpQuery;
