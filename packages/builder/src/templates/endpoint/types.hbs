@@ -23,3 +23,16 @@ export interface MutationHookProps {
 }
 {{/if}}
 
+{{#if (eq hook "query")}}
+export interface QueryHookProps {
+    {{#if params}}
+        params: {
+            {{#each params}}
+                {{this}}: string;
+            {{/each}}
+        };
+    {{/if}}
+    key?: string;
+}
+{{/if}}
+

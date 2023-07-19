@@ -4,6 +4,7 @@ import { commonExports } from '../utils';
 import StoryCode from './useMutation.source.tsx?raw'
 import useCreateMutation from '../../src/data/endpoints/posts/create/useMutation';
 import useUpdateMutation from '../../src/data/endpoints/posts/update/useMutation';
+import useGetQuery from '../../src/data/endpoints/posts/get/useQuery';
 
 <Meta title="Endpoints/useMutation" />
 
@@ -15,7 +16,8 @@ Here's an example of how to use the `useMutation` hook to create a blog post and
 <Playground code={StoryCode} availableImports={{ 
     ...commonExports, 
     '~/data/endpoints/posts/create/useMutation': useCreateMutation,
-    '~/data/endpoints/posts/update/useMutation': useUpdateMutation 
+    '~/data/endpoints/posts/update/useMutation': useUpdateMutation,
+    '~/data/endpoints/posts/get/useQuery': useGetQuery,
 }} height="520px" />
 
 
