@@ -99,6 +99,19 @@ createClientDataLayer({
                         },
                     },
                 },
+                get: {
+                    method: 'GET',
+                    path: '/posts/{postId}',
+                    hook: 'query',
+                    successResponse: {
+                        properties: {
+                            id: { type: 'string', isRequired: true },
+                            title: { type: 'string', isRequired: true },
+                            body: { type: 'string', isRequired: true },
+                            userId: { type: 'string', isRequired: true },
+                        },
+                    },
+                },
             },
         },
         server: {

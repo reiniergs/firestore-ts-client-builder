@@ -47,7 +47,7 @@ export interface Endpoint {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
     path: Path;
     hook: 'query' | 'mutation';
-    requestBody: Omit<Entity, 'subcollections'>;
+    requestBody?: Omit<Entity, 'subcollections'>;
     successResponse: Omit<Entity, 'subcollections'>;
 }
 

@@ -1,0 +1,22 @@
+import useHttpQuery from '../../../useHttpQuery';
+import { SuccessResponse, QueryHookProps } from "./types";
+import { createPath } from "../../../utils";
+
+const useQuery = (props: QueryHookProps) => {
+  const params =
+    props && "params" in props
+      ? (props.params as Record<string, string>)
+      : undefined;
+  return useHttpQuery<SuccessResponse>({
+    method: "{{method}}",
+    pathname: params
+      ? createPath("{{path}}", params)
+      : "{{path}}",
+    key: props.key,  
+  }, );
+};
+
+export default useQuery;
+
+
+
