@@ -10,14 +10,14 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
-import { EntityServerGet, PaginateServiceOpts, Page } from "../{{#each parents}}../{{/each}}types";
+import { EntityGet, EntityServerGet, PaginateServiceOpts, Page } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
 export type {{entityInterface}}PaginateService<T> = ({{> typedSubcollectionParams}}opts: PaginateServiceOpts) => Promise<Page<T>>;
 
 
-const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async ({{> subcollectionParams}}{
+const paginate: {{entityInterface}}PaginateService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}}{
   direction = "forward",
   limit = 25,
   cursor,
@@ -42,7 +42,7 @@ const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async 
 
   const querySnapshot = await getDocs(q);
   const docs = querySnapshot.docs.map((doc) => {
-    return processTimestampFields<{{entityInterface}}>(transformMetadata({
+    return processTimestampFields<EntityGet<{{entityInterface}}>>(transformMetadata({
       ...doc.data(),
       id: doc.id,
     } as EntityServerGet<{{entityInterface}}>));

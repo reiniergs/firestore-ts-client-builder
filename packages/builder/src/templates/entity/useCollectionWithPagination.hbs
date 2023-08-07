@@ -3,19 +3,19 @@ import { FirestoreError } from "firebase/firestore";
 import paginate from "./paginate";
 import countFn from "./count";
 import { {{entityInterface}} } from "./types";
-import { Page, HookPaginatedCollectionOpts, HookReturnPageCollection } from "../{{#each parents}}../{{/each}}types";
+import { EntityGet, Page, HookPaginatedCollectionOpts, HookReturnPageCollection } from "../{{#each parents}}../{{/each}}types";
 
 export type {{entityInterface}}UsePaginatedCollectionHook<T> = ({{> typedSubcollectionParams}} opts?: HookPaginatedCollectionOpts<T>) => HookReturnPageCollection<T>;
 
 
-const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<{{entityInterface}}> = ({{> subcollectionParams}} opts = {}) => {
+const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<EntityGet<{{entityInterface}}>> = ({{> subcollectionParams}} opts = {}) => {
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [firstPage, setFirstPage] = useState(true);
     const [pageIndex, setPageIndex] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
     const [hasMore, setHasMore] = useState(false);
-    const [page, setPage] = useState<Page<{{entityInterface}}>>({
+    const [page, setPage] = useState<Page<EntityGet<{{entityInterface}}>>>({
         docs: [],
         count: 0,
         firstDocId: null,
