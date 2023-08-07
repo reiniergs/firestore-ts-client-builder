@@ -1,0 +1,17 @@
+import { Meta } from '@storybook/addon-docs';
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+import StoryCode from './useCollectionWithPagination.source.tsx?raw'
+import useCount from '~/data/customer/useCount';
+import onSnapshotPaginate from '~/data/customer/onSnapshotPaginate';
+import useCollectionWithPagination from '~/data/customer/useCollectionWithPagination';
+
+<Meta title="Entities/useCollection/Docs" />
+
+# useCollection
+
+This hook is used to fetch a collection from firestore.
+
+## Example usage
+
+<Playground code={StoryCode} availableImports={{ ...commonExports, '~/data/customer/useCount': useCount, '~/data/customer/onSnapshotPaginate': onSnapshotPaginate, '~/data/customer/useCollectionWithPagination': useCollectionWithPagination }} height="320px" />
