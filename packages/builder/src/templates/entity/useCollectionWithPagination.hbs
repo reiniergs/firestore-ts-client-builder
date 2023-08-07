@@ -50,6 +50,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
             setLoading(true);
             (async () => {
                 unsubscribe.current = await onSnapshotPaginate(
+                    {{> subcollectionParams}}
                     {
                         limit,
                         cursor: page.lastDocId || undefined,
@@ -57,7 +58,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                     },
                     async (page) => {
                         try {
-                            const recordsCount = await countFn(opts);
+                            const recordsCount = await countFn({{> subcollectionParams}} opts);
                             setPage(page);
                             setPageIndex(0);
                             setTotalRecords(recordsCount);
@@ -92,6 +93,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
 
         setLoading(true);
         unsubscribe.current = await onSnapshotPaginate(
+            {{> subcollectionParams}}
             {
                 limit,
                 cursor: page.lastDocId || undefined,
@@ -118,6 +120,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
 
         setLoading(true);
         unsubscribe.current = await onSnapshotPaginate(
+            {{> subcollectionParams}}
             {
                 direction: "backward",
                 limit,
