@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FirestoreError } from "firebase/firestore";
 import paginate from "./paginate";
 import countFn from "./count";
+import onSnapshotCollection from "./onSnapshotCollection";
 import { {{entityInterface}} } from "./types";
 import { EntityGet, Page, HookPaginatedCollectionOpts, HookReturnPageCollection } from "../{{#each parents}}../{{/each}}types";
 
@@ -23,39 +24,49 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
     });
     const { limit = 25, disabled = false, onSnap, track = [], listQueryFn } = opts;
     useEffect(() => {
-        if (!disabled) {
-            setLoading(true);
-            (async () => {
-                try {
-                    const recordsCount = await countFn({{> subcollectionParams}} opts);
-                    const newPage = await paginate(
-                        {{> subcollectionParams}}
-                        {
-                            limit, 
-                            listQueryFn,
+        if (disabled) return;
+        const unsubscribe = onSnapshotCollection(
+            {{> subcollectionParams}},
+            { listQueryFn },
+            () => {
+                setLoading(true);
+                (async () => {
+                    try {
+                        const recordsCount = await countFn({{> subcollectionParams}} opts);
+                        const newPage = await paginate(
+                            {{> subcollectionParams}}
+                            {
+                                limit,
+                                cursor: page.lastDocId || undefined,
+                                listQueryFn,
+                            }
+                        );
+                        setPage(newPage)
+                        setPageIndex(0);
+                        setTotalRecords(recordsCount)
+                        setHasMore(newPage.count < recordsCount);
+                        if (typeof onSnap === "function") {
+                            onSnap(newPage.docs);
                         }
-                    );
-                    setPage(newPage)
-                    setPageIndex(0);
-                    setTotalRecords(recordsCount)
-                    setHasMore(newPage.count < recordsCount);
-                    if (typeof onSnap === "function") {
-                        onSnap(newPage.docs);
+                    } catch (err) {
+                        if (err instanceof FirestoreError) {
+                            setError(err);
+                        } else {
+                            setError({
+                            code: "unknown",
+                            message: "Unknown error",
+                            name: "Unknown error",
+                            });
+                        }
                     }
-                } catch (err) {
-                    if (err instanceof FirestoreError) {
-                        setError(err);
-                    } else {
-                        setError({
-                        code: "unknown",
-                        message: "Unknown error",
-                        name: "Unknown error",
-                        });
-                    }
-                }
-                setLoading(false);
-            })();
-        }
+                    setLoading(false);
+                })();
+            }
+        );
+        
+        return () => {
+            unsubscribe();
+        };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [disabled, ...track]);
 
