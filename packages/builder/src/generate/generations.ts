@@ -9,6 +9,7 @@ import generateCount from './entity/generateCount';
 import generatePaginate from './entity/generatePaginate';
 import generateOnSnapshotDoc from './entity/generateOnSnapshotDoc';
 import generateOnSnapshotCollection from './entity/generateOnSnapshotCollection';
+import generateOnSnapshotPaginate from './entity/generateOnSnapshotPaginate';
 import generateUseDoc from './entity/generateUseDoc';
 import generateUseCollection from './entity/generateUseCollection';
 import generateUseCollectionWithPagination from './entity/generateUseCollectionWithPagination';
@@ -43,6 +44,7 @@ export const entityCode = [
     generateCount,
     generateOnSnapshotDoc,
     generateOnSnapshotCollection,
+    generateOnSnapshotPaginate,
     generatePaginate,
     generateTypes,
     generateUseDoc,

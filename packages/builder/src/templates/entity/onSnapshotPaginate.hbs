@@ -1,0 +1,73 @@
+import {
+    collection,
+    query,
+    startAfter,
+    endBefore,
+    limitToLast,
+    limit as dbLimit,
+    doc,
+    getDoc,
+    onSnapshot,
+    Unsubscribe,
+    FirestoreError,
+  } from "firebase/firestore";
+  import { db } from "../{{#each parents}}../{{/each}}firebase";
+  import {
+    EntityGet,
+    EntityServerGet,
+    PaginateServiceOpts,
+    Page,
+  } from "../{{#each parents}}../{{/each}}types";
+  import { {{entityInterface}} } from "./types";
+  import { transformMetadata, processTimestampFields } from "../{{#each parents}}../{{/each}}utils";
+  
+  export type {{entityInterface}}OnSnapshotPaginateService<T> = (
+    {{> typedSubcollectionParams}}
+    opts: PaginateServiceOpts,
+    callback: (page: Page<T>) => void,
+    onError?: (error: FirestoreError) => void
+  ) => Promise<Unsubscribe>;
+  
+  const onSnapshotPaginate: {{entityInterface}}OnSnapshotPaginateService<EntityGet<{{entityInterface}}>> = async (
+    {{> subcollectionParams}}
+    { direction = "forward", limit = 25, cursor, listQueryFn } = {},
+    callback,
+    onError = () => {}
+  ) => {
+    const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
+    const startFn = direction === "forward" ? startAfter : endBefore;
+    const limitFn = direction === "forward" ? dbLimit : limitToLast;
+    let q =
+      typeof listQueryFn === "function"
+        ? listQueryFn(collectionRef)
+        : query(collectionRef);
+    if (cursor) {
+      const cursorDoc = await getDoc(doc(db, `/{{entityName}}/${cursor}`));
+      if (!cursorDoc.exists()) {
+        throw new Error("Invalid cursor");
+      }
+      q = query(q, startFn(cursorDoc), limitFn(limit));
+    } else {
+      q = query(q, dbLimit(limit));
+    }
+  
+    return onSnapshot(q, (querySnapshot) => {
+        const docs = querySnapshot.docs.map((doc) => {
+            return processTimestampFields<EntityGet<{{entityInterface}}>>(
+            transformMetadata({
+                ...doc.data(),
+                id: doc.id,
+            } as EntityServerGet<{{entityInterface}}>)
+            );
+        });
+        callback({
+            docs,
+            count: docs.length,
+            firstDocId: docs.length > 0 ? docs[0].id : null,
+            lastDocId: docs.length > 0 ? docs[docs.length - 1].id : null,
+        });
+    });
+  };
+  
+  export default onSnapshotPaginate;
+  

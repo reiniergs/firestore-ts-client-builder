@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { FirestoreError } from "firebase/firestore";
+import { useState, useEffect, useRef } from "react";
+import { Unsubscribe, FirestoreError } from "firebase/firestore";
 import paginate from "./paginate";
 import countFn from "./count";
+import onSnapshotPaginate from "./onSnapshotPaginate";
 import { {{entityInterface}} } from "./types";
 import { EntityGet, Page, HookPaginatedCollectionOpts, HookReturnPageCollection } from "../{{#each parents}}../{{/each}}types";
 
@@ -9,6 +10,7 @@ export type {{entityInterface}}UsePaginatedCollectionHook<T> = ({{> typedSubcoll
 
 
 const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<EntityGet<{{entityInterface}}>> = ({{> subcollectionParams}} opts = {}) => {
+    const unsubscribe = useRef<Unsubscribe | null>(null);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [firstPage, setFirstPage] = useState(true);
@@ -22,109 +24,123 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
         lastDocId: null,
     });
     const { limit = 25, disabled = false, onSnap, track = [], listQueryFn } = opts;
+
+    const handleError = (err: unknown) => {
+        if (err instanceof FirestoreError) {
+            setError(err);
+        } else {
+            setError({
+                code: "unknown",
+                message: "Unknown error",
+                name: "Unknown error",
+            });
+        }
+        setLoading(false);
+    };
+
+    const unsubscribeFromSnapshot = () => {
+        if (unsubscribe.current) {
+            unsubscribe.current();
+            unsubscribe.current = null;
+        }
+    }
+
     useEffect(() => {
         if (!disabled) {
             setLoading(true);
             (async () => {
-                try {
-                    const recordsCount = await countFn({{> subcollectionParams}} opts);
-                    const newPage = await paginate(
-                        {{> subcollectionParams}}
-                        {
-                            limit, 
-                            listQueryFn,
+                unsubscribe.current = await onSnapshotPaginate(
+                    {{> subcollectionParams}}
+                    {
+                        limit,
+                        cursor: page.lastDocId || undefined,
+                        listQueryFn,
+                    },
+                    async (page) => {
+                        try {
+                            const recordsCount = await countFn({{> subcollectionParams}} opts);
+                            setPage(page);
+                            setPageIndex(0);
+                            setTotalRecords(recordsCount);
+                            setHasMore(page.count < recordsCount);
+                            if (typeof onSnap === "function") {
+                                onSnap(page.docs);
+                            }
+                        } catch (err) {
+                            handleError(err);
                         }
-                    );
-                    setPage(newPage)
-                    setPageIndex(0);
-                    setTotalRecords(recordsCount)
-                    setHasMore(newPage.count < recordsCount);
-                    if (typeof onSnap === "function") {
-                        onSnap(newPage.docs);
-                    }
-                } catch (err) {
-                    if (err instanceof FirestoreError) {
-                        setError(err);
-                    } else {
-                        setError({
-                        code: "unknown",
-                        message: "Unknown error",
-                        name: "Unknown error",
-                        });
-                    }
-                }
-                setLoading(false);
+                        setLoading(false);
+                    },
+                    handleError
+                );
             })();
+
+            return () => {
+                unsubscribeFromSnapshot();
+            }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [disabled, ...track]);
 
     useEffect(() => {
         setFirstPage(pageIndex === 0);
         setHasMore((pageIndex + 1) * limit < totalRecords);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageIndex]);
 
     const nextPage = async () => {
         if (isLoading || !hasMore) return;
-        try {
-            setLoading(true)
-            const newPage = await paginate(
-                {{> subcollectionParams}}
-                {
-                    limit,
-                    cursor: page.lastDocId || undefined,
-                    listQueryFn,
+        unsubscribeFromSnapshot();
+
+        setLoading(true);
+        unsubscribe.current = await onSnapshotPaginate(
+            {{> subcollectionParams}}
+            {
+                limit,
+                cursor: page.lastDocId || undefined,
+                listQueryFn,
+            },
+            async (page) => {
+                try {
+                    setPage(page);
+                    setPageIndex(pageIndex + 1);
+                    if (typeof onSnap === "function") {
+                        onSnap(page.docs);
+                    }
+                } catch (err) {
+                    handleError(err);
                 }
-            );
-            setPage(newPage);
-            setPageIndex(pageIndex + 1);
-            if (typeof onSnap === "function") {
-                onSnap(page.docs);
-            }
-        } catch (err) {
-            if (err instanceof FirestoreError) {
-                setError(err);
-            } else {
-                setError({
-                code: "unknown",
-                message: "Unknown error",
-                name: "Unknown error",
-                });
-            }
-        }
-        setLoading(false);
+                setLoading(false);
+            },
+            handleError
+        );
     };
     const prevPage = async () => {
         if (isLoading || firstPage) return;
-        try {
-            setLoading(true)
-            const newPage = await paginate(
-                {{> subcollectionParams}}
-                {
-                    direction: 'backward',
-                    limit,
-                    cursor: page.firstDocId || undefined,
-                    listQueryFn,
+        unsubscribeFromSnapshot();
+
+        setLoading(true);
+        unsubscribe.current = await onSnapshotPaginate(
+            {{> subcollectionParams}}
+            {
+                direction: "backward",
+                limit,
+                cursor: page.firstDocId || undefined,
+                listQueryFn,
+            },
+            async (page) => {
+                try {
+                    setPage(page);
+                    setPageIndex(pageIndex - 1);
+                    if (typeof onSnap === "function") {
+                        onSnap(page.docs);
+                    }
+                } catch (err) {
+                    handleError(err);
                 }
-            );
-            setPage(newPage);
-            setPageIndex(pageIndex - 1);
-            if (typeof onSnap === "function") {
-                onSnap(page.docs);
-            }
-        } catch (err) {
-            if (err instanceof FirestoreError) {
-                setError(err);
-            } else {
-                setError({
-                code: "unknown",
-                message: "Unknown error",
-                name: "Unknown error",
-                });
-            }
-        }
-        setLoading(false);
+                setLoading(false);
+            },
+            handleError
+        );
     };
 
     return {

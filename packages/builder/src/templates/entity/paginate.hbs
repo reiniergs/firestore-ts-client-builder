@@ -31,7 +31,7 @@ const paginate: {{entityInterface}}PaginateService<EntityGet<{{entityInterface}}
       ? listQueryFn(collectionRef)
       : query(collectionRef);
   if (cursor) {
-    const cursorDoc = await getDoc(doc(db, `/{{entityName}}/${cursor}`));
+    const cursorDoc = await getDoc(doc(db, `{{> subcollectionPath}}/{{entityName}}/${cursor}`));
     if (!cursorDoc.exists()) {
       throw new Error("Invalid cursor");
     }
