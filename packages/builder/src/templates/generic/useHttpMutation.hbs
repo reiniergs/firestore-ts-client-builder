@@ -61,7 +61,7 @@ const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
       const result = await response.json();
       throw new QueryError(
         getQueryErrorCode(response.status),
-        result?.message || result?.error || response.statusText
+        result
       );
     },
     {

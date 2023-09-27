@@ -56,7 +56,7 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
             const result = await response.json();
             throw new QueryError(
                 getQueryErrorCode(response.status),
-                result?.message || result?.error || response.statusText
+                result
             );
         } catch(error)  {
             if (error instanceof QueryError) {
