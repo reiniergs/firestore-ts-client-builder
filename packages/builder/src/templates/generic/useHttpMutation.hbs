@@ -51,9 +51,17 @@ const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
       if (response.ok) {
         return response.json() as Promise<Res>;
       }
+      if (response.headers.get('content-type')?.includes('text/html')) {
+        const result = await response.text();
+        throw new QueryError(
+          getQueryErrorCode(response.status),
+          result
+        );
+      }
+      const result = await response.json();
       throw new QueryError(
         getQueryErrorCode(response.status),
-        response.statusText
+        result?.message || result?.error || response.statusText
       );
     },
     {

@@ -46,9 +46,17 @@ const useHttpQuery = <T>(params: UseQueryParams) => {
             if (response.ok) {
                 return response.json() as T;
             }
+            if (response.headers.get('content-type')?.includes('text/html')) {
+                const result = await response.text();
+                throw new QueryError(
+                    getQueryErrorCode(response.status),
+                    result
+                );
+            }
+            const result = await response.json();
             throw new QueryError(
                 getQueryErrorCode(response.status),
-                response.statusText,
+                result?.message || result?.error || response.statusText
             );
         } catch(error)  {
             if (error instanceof QueryError) {
