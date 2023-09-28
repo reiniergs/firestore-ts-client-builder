@@ -1,10 +1,11 @@
 import { GenerateGenericCode } from '../types';
+import { CustomTypes } from '../../types';
 import { genericCode } from '../generations';
 
-const generateGenericCode = ({
+const generateGenericCode = <T extends CustomTypes = {}>({
     outdir,
     metadata,
-}: GenerateGenericCode) => {
+}: GenerateGenericCode<T>) => {
     genericCode.forEach((generation) => generation({
         outdir,
         metadata,

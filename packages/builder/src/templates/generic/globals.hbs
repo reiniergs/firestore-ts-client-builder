@@ -1,0 +1,35 @@
+{{#each types}}
+    {{#if (eq type "string")}}
+       export type {{name}} = 
+      {{#if enum}}
+            {{enum}};
+          {{else}}
+            string;
+      {{/if}}
+    {{else if (eq type "number")}}
+    export type {{name}} = number;
+    {{else if (eq type "boolean")}}
+    export type {{name}} = boolean;
+    {{else if (eq type "Date")}}
+    export type {{name}} = Date;
+    {{else if (eq type "object")}}
+    export interface {{name}} {
+        {{> properties properties=properties}}
+    };
+    {{else if (eq type "array")}}
+    export type {{name}} = Array<
+        {{#if (eq items.type "string")}}
+            {{items.type}}
+        {{else if (eq items.type "number")}}
+            {{items.type}}
+        {{else if (eq items.type "boolean")}}
+            {{items.type}}
+        {{else if (eq items.type "object")}}
+            {
+                {{> properties properties=items.properties}}
+            }
+        {{/if}} 
+    >; 
+    {{/if}}
+{{/each}}
+

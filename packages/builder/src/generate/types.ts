@@ -1,23 +1,23 @@
 import {
-    Entity, DataModelMetadata, Endpoint, Server,
+    Entity, DataModelMetadata, Endpoint, Server, CustomTypes,
 } from '../types';
 
-export interface GenerateEntityProps {
+export interface GenerateEntityProps<T extends CustomTypes = {}> {
     outdir: string;
     entityName: string;
-    entity: Entity;
+    entity: Entity<T>;
     parents?: string[];
 }
 
-export interface GenerateEndpointProps {
+export interface GenerateEndpointProps<T extends CustomTypes = {}> {
     outdir: string;
     entityName: string;
     endpointName: string;
-    endpoint: Endpoint;
+    endpoint: Endpoint<T>;
     server: Server;
 }
 
-export interface GenerateGenericCode {
+export interface GenerateGenericCode<T extends CustomTypes = {}> {
     outdir: string;
-    metadata: DataModelMetadata;
+    metadata: DataModelMetadata<T>;
 }
