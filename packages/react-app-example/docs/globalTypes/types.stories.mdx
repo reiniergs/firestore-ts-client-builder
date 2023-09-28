@@ -1,0 +1,74 @@
+import { Meta, Canvas, Story, Source } from '@storybook/addon-docs'
+import { Playground } from 'storybook-addon-code-editor';
+import { commonExports } from '../utils';
+
+<Meta title="Global Types/Docs" />
+
+# Global Types
+
+Effortlessly define and use custom global types across your entities.
+
+## Defining Global Types
+
+Define basic and complex custom types:
+
+```typescript
+{
+    metadata: {
+        // Define custom types
+        types: {
+            customEnum: { type: 'string', enum: ['option1', 'option2'] },  // string enum type
+            customObject: {  // custom object type
+                type: 'object',
+                properties: {
+                    field1: { type: 'string' },
+                    field2: { type: 'number' }
+                }
+            },
+            //... more custom types
+        },
+        // ... other metadata properties
+    }
+}
+```
+
+## Using Global Types in Entities
+
+Reference your custom types in entities:
+
+```typescript
+{
+    metadata: {
+        types: {
+            customEnum: { type: 'string', enum: ['option1', 'option2'] },
+            customObject: {
+                type: 'object',
+                properties: {
+                    field1: { type: 'string' },
+                    field2: { type: 'number' }
+                }
+            },
+        },
+        entities: {
+            exampleEntity: {
+                properties: {
+                    prop1: { type: 'customEnum', isRequired: true },  // using string enum
+                    prop2: { type: 'customObject' },                  // using custom object
+                    // ... other properties
+                }
+            }
+            // ... other entities
+        }
+        // ... other metadata properties
+    }
+}
+```
+
+## Importing Custom Global Types in Your App
+
+Once defined and used, your custom global types are compiled and can be imported directly into your application from **~/data/globals.ts.**
+
+```typescript
+// Importing the custom types in your application
+import { CustomEnum, CustomObject } from '~/data/globals.ts';
+```

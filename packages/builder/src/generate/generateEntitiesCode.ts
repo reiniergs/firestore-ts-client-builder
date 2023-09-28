@@ -1,17 +1,17 @@
 import path from 'path';
-import { Entity } from '../types';
+import { Entity, CustomTypes } from '../types';
 import { GenerateEntityProps } from './types';
 
-interface GenerateEntitiesCodeProps {
+interface GenerateEntitiesCodeProps<T extends CustomTypes = {}> {
     outdir: string;
-    entities: Record<string, Entity>;
+    entities: Record<string, Entity<T>>;
     parents?: string[];
-    generator: (params: GenerateEntityProps) => void;
+    generator: (params: GenerateEntityProps<T>) => void;
 }
 
-const generateEntitiesCode = ({
+const generateEntitiesCode = <T extends CustomTypes = {}>({
     entities, outdir, parents = [], generator,
-}: GenerateEntitiesCodeProps) => {
+}: GenerateEntitiesCodeProps<T>) => {
     Object.keys(entities).forEach((entityName) => {
         generator({
             outdir,

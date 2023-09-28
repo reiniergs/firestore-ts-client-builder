@@ -1,16 +1,16 @@
-import { Endpoints, Server } from '../types';
+import { Endpoints, Server, CustomTypes } from '../types';
 import { GenerateEndpointProps } from './types';
 
-interface GenerateEnpointsCodeProps {
+interface GenerateEnpointsCodeProps<T extends CustomTypes = {}> {
     outdir: string;
-    endpoints: Endpoints;
-    generator: (params: GenerateEndpointProps) => void;
+    endpoints: Endpoints<T>;
+    generator: (params: GenerateEndpointProps<T>) => void;
     server: Server;
 }
 
-const generateEndpointsCode = ({
+const generateEndpointsCode = <T extends CustomTypes = {}>({
     endpoints, outdir, generator, server,
-}: GenerateEnpointsCodeProps) => {
+}: GenerateEnpointsCodeProps<T>) => {
     if (endpoints) {
         Object.keys(endpoints).forEach((entityName: string) => {
             Object.keys(endpoints[entityName]).forEach((endpointName: string) => {

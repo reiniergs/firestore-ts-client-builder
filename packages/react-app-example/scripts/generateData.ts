@@ -9,6 +9,21 @@ dotenv.config();
 createClientDataLayer({
     outdir: path.join(__dirname, '../src/data'),
     metadata: {
+        types: {
+            Foo: { type: 'string', enum: ['foo', 'bar'] },
+            OnlyString: { type: 'string', isRequired: true, isNullable: true },
+            Bar: {
+                type: 'array',
+                items: { type: 'string' },
+            },
+            Other: {
+                type: 'object',
+                properties: {
+                    foo: { type: 'string', isRequired: true },
+                    bar: { type: 'object', properties: { foo: { type: 'string' } } },
+                },
+            },
+        },
         entities: {
             customer: {
                 properties: {
@@ -54,6 +69,14 @@ createClientDataLayer({
                             model: { type: 'string', isRequired: true },
                         },
                     },
+                },
+            },
+            custom: {
+                properties: {
+                    foo: { type: 'Foo', isRequired: true, isNullable: true },
+                    bar: { type: 'Bar' },
+                    other: { type: 'Other' },
+                    onlyString: { type: 'OnlyString', isNullable: true },
                 },
             },
         },

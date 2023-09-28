@@ -34,6 +34,7 @@ import generateUseHttpQuery from './generic/genearteUseHttpQuery';
 import generateUseHttpMutation from './generic/genearteUseHttpMutation';
 import generateUseDocOnce from './entity/generateUseDocOnce';
 import generateUseCollectionOnce from './entity/generateUseCollectionOnce';
+import generateGlobalTypes from './generic/generateGlobalTypes';
 
 export const entityCode = [
     generateGet,
@@ -68,4 +69,8 @@ export const adminEntityCode = [
     generateAdminCount,
 ];
 
-export const genericCode = [generateUseHttpQuery, generateUseHttpMutation];
+export const genericCode = [
+    generateUseHttpQuery,
+    generateUseHttpMutation,
+    generateGlobalTypes,
+];

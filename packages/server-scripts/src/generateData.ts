@@ -17,6 +17,9 @@ const USStates = [
 createAdminDataLayer({
     outdir: path.join(__dirname, '../src/data'),
     metadata: {
+        types: {
+            Foo: { type: 'string', enum: ['foo', 'bar'] },
+        },
         entities: {
             customer: {
                 properties: {
@@ -56,9 +59,11 @@ createAdminDataLayer({
                     }
                 },
             },
-        },
-        server: {
-            url: 'https://jsonplaceholder.typicode.com',
+            custom: {
+                properties: {
+                    foo: { type: 'Foo' }
+                }
+            }
         },
     },
 });
