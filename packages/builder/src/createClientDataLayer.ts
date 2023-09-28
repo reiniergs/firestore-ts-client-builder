@@ -1,4 +1,4 @@
-import { ClientDataLayerProps } from './types';
+import { ClientDataLayerProps, CustomTypes } from './types';
 import copyGenerics from './fs/copyGenerics';
 import generateFirebase from './generate/generic/generateFirebase';
 import generateGenericCode from './generate/generic/generateGenericCode';
@@ -9,7 +9,7 @@ import generateEntitiesCode from './generate/generateEntitiesCode';
 import generateEndpointsCode from './generate/generateEndpointsCode';
 import endpointCodeGenerator from './generate/endpoint/generator';
 
-const createClientDataLayer = (props: ClientDataLayerProps) => {
+const createClientDataLayer = <T extends CustomTypes = {}>(props: ClientDataLayerProps<T>) => {
     const { outdir, metadata, firebaseConfig } = props;
     prepareDir(outdir);
     copyGenerics(outdir, 'client');

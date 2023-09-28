@@ -31,5 +31,7 @@
         }
       {{/if}}
     >;
+  {{else}}  
+    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}}; 
   {{/if}}
 {{/each}}

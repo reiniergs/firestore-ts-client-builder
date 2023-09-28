@@ -4,6 +4,7 @@ import {
     PropertyTypeArray,
     PropertyTypeObject,
     PropertyTypeString,
+    CustomTypes,
 } from '../types';
 
 const formatEnum = (enumValues: Array<string>) => {
@@ -15,8 +16,8 @@ const formatEnum = (enumValues: Array<string>) => {
     return undefined;
 };
 
-const formatProperties = (properties: Record<string, Property>) => {
-    const formatProperty = (name: string, property: Property) => {
+const formatProperties = <T extends CustomTypes = {}>(properties: Record<string, Property<T>>) => {
+    const formatProperty = (name: string, property: Property<T>) => {
         const { type, isNullable, isRequired } = property;
         switch (type) {
             case 'number':
@@ -34,7 +35,7 @@ const formatProperties = (properties: Record<string, Property>) => {
                     isRequired,
                     isNullable,
                     properties: formatProperties(
-                        (property as PropertyTypeObject).properties,
+                        (property as PropertyTypeObject<T>).properties,
                     ),
                 };
             case 'array':
@@ -43,7 +44,7 @@ const formatProperties = (properties: Record<string, Property>) => {
                     type,
                     isRequired,
                     isNullable,
-                    items: formatProperty(name, (property as PropertyTypeArray).items),
+                    items: formatProperty(name, (property as PropertyTypeArray<T>).items),
                 };
             case 'string':
                 return {
@@ -51,12 +52,19 @@ const formatProperties = (properties: Record<string, Property>) => {
                     type,
                     isRequired,
                     isNullable,
-                    enum: formatEnum((property as PropertyTypeString).enum),
+                    enum: formatEnum((property as PropertyTypeString<T>).enum),
                 };
             case 'date':
                 return {
                     name,
                     type: 'Date',
+                    isRequired,
+                    isNullable,
+                };
+            default:
+                return {
+                    name,
+                    type,
                     isRequired,
                     isNullable,
                 };

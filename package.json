@@ -10,6 +10,7 @@
     "start": "lerna run start --scope example",
     "build": "lerna run build --scope firestore-ts-client-builder",
     "lint": "lerna run lint",
+    "generate-data-example": "lerna run generate-data --scope example",
     "publish-builder": "npx lerna publish",
     "storybook": "lerna run storybook --scope example",
     "storybook-build": "lerna run storybook-build --scope example"

@@ -1,7 +1,8 @@
+
 module.exports = {
-    displayName: 'builder',
+    displayName: 'react-app',
     rootDir: '../../',
-    testMatch: ['<rootDir>/packages/builder/**/*.spec.ts'],
+    testMatch: ['<rootDir>/packages/react-app-example/**/*.spec.ts'],
     transform: {
         "^.+\\.tsx?$": "ts-jest"
     },
