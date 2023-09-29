@@ -100,4 +100,20 @@ describe('getCustomTypes', () => {
         expect(result).toEqual(expect.arrayContaining(expected));
         expect(result.length).toEqual(expected.length);
     });
+    it('should return custom types correctly with nested arrays', () => {
+        const properties: Record<string, Property<{
+            customType: { type: 'string' },
+        }>> = {
+            name: { type: 'string' },
+            age: { type: 'number' },
+            customType1: { type: 'customType' },
+            list: { type: 'array', items: { type: 'string' } },
+        };
+
+        const result = getCustomTypes(properties);
+        const expected = ['customType'];
+
+        expect(result).toEqual(expect.arrayContaining(expected));
+        expect(result.length).toEqual(expected.length);
+    });
 });

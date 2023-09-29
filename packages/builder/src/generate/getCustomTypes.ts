@@ -23,7 +23,7 @@ const getCustomTypes = <T extends CustomTypes = {}>(
                 ]);
             }
             if (
-                ['string', 'boolean', 'date', 'number'].indexOf(property.type as string) === -1
+                ['string', 'boolean', 'date', 'number', 'array'].indexOf(property.type as string) === -1
             ) {
                 return acc.add(property.type as string);
             }
