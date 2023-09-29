@@ -1,5 +1,7 @@
 import { BaseEntity } from "../{{#each parents}}../{{/each}}types";
+{{#if customTypes.length}}
 import { {{#each customTypes }}{{this}},{{/each}} } from "../{{#each parents}}../{{/each}}globals";
+{{/if}}
 
 export interface {{entityInterface}} extends BaseEntity {
   id: string;
