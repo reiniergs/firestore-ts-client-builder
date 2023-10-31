@@ -11,6 +11,7 @@ export type {{entityInterface}}UsePaginatedCollectionHook<T> = ({{> typedSubcoll
 
 const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook<EntityGet<{{entityInterface}}>> = ({{> subcollectionParams}} opts = {}) => {
     const unsubscribe = useRef<Unsubscribe | null>(null);
+    const unsubscribePromise = useRef<Promise<Unsubscribe> | null>(null);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState<FirestoreError | null>(null);
     const [firstPage, setFirstPage] = useState(true);
@@ -42,6 +43,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
         if (unsubscribe.current) {
             unsubscribe.current();
             unsubscribe.current = null;
+            unsubscribePromise.current = null;
         }
     }
 
@@ -49,7 +51,11 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
         if (!disabled) {
             setLoading(true);
             (async () => {
-                unsubscribe.current = await onSnapshotPaginate(
+                if (unsubscribePromise.current) {
+                    await unsubscribePromise.current;
+                    unsubscribeFromSnapshot();
+                  }
+                unsubscribePromise.current = onSnapshotPaginate(
                     {{> subcollectionParams}}
                     {
                         limit,
@@ -73,6 +79,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                     },
                     handleError
                 );
+                unsubscribe.current = await unsubscribePromise.current;
             })();
 
             return () => {
