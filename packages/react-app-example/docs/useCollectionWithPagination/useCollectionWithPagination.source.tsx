@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { orderBy, query } from 'firebase/firestore';
 import { Table, Column, Button } from 'react-rainbow-components';
 import useCustomersCollectionWithPagination from '~/data/customer/useCollectionWithPagination';
@@ -5,6 +6,7 @@ import useCustomersCollectionWithPagination from '~/data/customer/useCollectionW
 const LIMIT = 5;
 
 const UseCollectionExample = () => {
+    const [count, setCount] = useState(0);
     const {
         data: customers,
         isLoading,
@@ -16,6 +18,7 @@ const UseCollectionExample = () => {
     } = useCustomersCollectionWithPagination({
         limit: LIMIT,
         listQueryFn: (q) => query(q, orderBy('name')),
+        track: [count],
     });
 
     return (
@@ -43,6 +46,11 @@ const UseCollectionExample = () => {
             <Button
                 label="Next"
                 onClick={nextPage}
+                disabled={!hasMore || isLoading}
+            />
+            <Button
+                label="Change filter"
+                onClick={() => setCount((t) => t + 1)}
                 disabled={!hasMore || isLoading}
             />
         </div>

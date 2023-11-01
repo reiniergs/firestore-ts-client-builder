@@ -16,6 +16,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
     const [error, setError] = useState<FirestoreError | null>(null);
     const [firstPage, setFirstPage] = useState(true);
     const [pageIndex, setPageIndex] = useState(0);
+    const previousPageIndex = useRef(0);
     const [totalRecords, setTotalRecords] = useState(0);
     const [hasMore, setHasMore] = useState(false);
     const [page, setPage] = useState<Page<EntityGet<{{entityInterface}}>>>({
@@ -50,6 +51,20 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
     useEffect(() => {
         if (!disabled) {
             setLoading(true);
+            const direction = previousPageIndex.current !== pageIndex
+                ? previousPageIndex.current < pageIndex 
+                    ? "forward"
+                    : "backward" 
+                : undefined;
+            const cursor = direction
+                ? direction === "forward"
+                    ? page.lastDocId
+                    : page.firstDocId
+                : undefined;
+            if (!cursor && pageIndex !== 0) {
+                previousPageIndex.current = 0;
+                setPageIndex(0);
+            }
             (async () => {
                 if (unsubscribePromise.current) {
                     await unsubscribePromise.current;
@@ -59,14 +74,14 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                     {{> subcollectionParams}}
                     {
                         limit,
-                        cursor: page.lastDocId || undefined,
+                        cursor: cursor || undefined,
+                        direction,
                         listQueryFn,
                     },
                     async (page) => {
                         try {
                             const recordsCount = await countFn({{> subcollectionParams}} opts);
                             setPage(page);
-                            setPageIndex(0);
                             setTotalRecords(recordsCount);
                             setHasMore(page.count < recordsCount);
                             if (typeof onSnap === "function") {
@@ -86,68 +101,22 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                 unsubscribeFromSnapshot();
             }
         }
-    }, [disabled, ...track]);
+    }, [disabled, pageIndex, ...track]);
 
     useEffect(() => {
         setFirstPage(pageIndex === 0);
         setHasMore((pageIndex + 1) * limit < totalRecords);
+        previousPageIndex.current = pageIndex;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageIndex]);
 
     const nextPage = async () => {
         if (isLoading || !hasMore) return;
-        unsubscribeFromSnapshot();
-
-        setLoading(true);
-        unsubscribe.current = await onSnapshotPaginate(
-            {{> subcollectionParams}}
-            {
-                limit,
-                cursor: page.lastDocId || undefined,
-                listQueryFn,
-            },
-            async (page) => {
-                try {
-                    setPage(page);
-                    setPageIndex(pageIndex + 1);
-                    if (typeof onSnap === "function") {
-                        onSnap(page.docs);
-                    }
-                } catch (err) {
-                    handleError(err);
-                }
-                setLoading(false);
-            },
-            handleError
-        );
+        setPageIndex(pageIndex + 1);
     };
     const prevPage = async () => {
         if (isLoading || firstPage) return;
-        unsubscribeFromSnapshot();
-
-        setLoading(true);
-        unsubscribe.current = await onSnapshotPaginate(
-            {{> subcollectionParams}}
-            {
-                direction: "backward",
-                limit,
-                cursor: page.firstDocId || undefined,
-                listQueryFn,
-            },
-            async (page) => {
-                try {
-                    setPage(page);
-                    setPageIndex(pageIndex - 1);
-                    if (typeof onSnap === "function") {
-                        onSnap(page.docs);
-                    }
-                } catch (err) {
-                    handleError(err);
-                }
-                setLoading(false);
-            },
-            handleError
-        );
+        setPageIndex(pageIndex - 1);
     };
 
     return {
