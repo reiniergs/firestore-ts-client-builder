@@ -1,9 +1,8 @@
 import * as fs from 'fs';
 import generateTypes from '../generateTypes';
-import { GenerateEntityProps } from '../../types';
 
 jest.mock('fs', () => {
-    const original = jest.requireActual("fs");
+    const original = jest.requireActual('fs');
     return {
         ...original,
         writeFileSync: jest.fn(),
@@ -24,8 +23,8 @@ describe('generateTypes', () => {
                         items: { type: 'CustomType' },
                     },
                 },
-            }
-        } as any)
+            },
+        } as any);
         const expected = `import { BaseEntity } from "../types";
 
 export interface Custom extends BaseEntity {
