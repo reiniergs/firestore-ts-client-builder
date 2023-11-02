@@ -16,8 +16,20 @@ const formatEnum = (enumValues: Array<string>) => {
     return undefined;
 };
 
-const formatProperties = <T extends CustomTypes = {}>(properties: Record<string, Property<T>>) => {
-    const formatProperty = (name: string, property: Property<T>) => {
+interface FormattedProperty {
+    name: string;
+    type: string | number | symbol;
+    isRequired: boolean | undefined;
+    isNullable: boolean | undefined;
+    properties?: Array<FormattedProperty>;
+    enum?: string;
+    items?: FormattedProperty;
+}
+
+const formatProperties = <T extends CustomTypes = {}>(
+    properties: Record<string, Property<T>>,
+): FormattedProperty[] => {
+    const formatProperty = (name: string, property: Property<T>): FormattedProperty => {
         const { type, isNullable, isRequired } = property;
         switch (type) {
             case 'number':
