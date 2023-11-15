@@ -51,7 +51,7 @@ import {
       q = query(q, dbLimit(limit));
     }
   
-    return onSnapshot(q, (querySnapshot) => {
+    return onSnapshot(q, { includeMetadataChanges: disableCache }, (querySnapshot) => {
         const { metadata } = querySnapshot;
         const { fromCache } = metadata;
         if (disableCache && fromCache) return;
