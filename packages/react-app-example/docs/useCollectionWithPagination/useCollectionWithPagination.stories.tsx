@@ -6,6 +6,8 @@ import onSnapshotPaginate from '~/data/customer/onSnapshotPaginate';
 import useCollectionWithPagination from '~/data/customer/useCollectionWithPagination';
 // @ts-ignore
 import Source from './useCollectionWithPagination.source?raw';
+// @ts-ignore
+import DisabledCacheSource from './useCollectionWithPaginationDisabledCache.source?raw';
 
 export default {
     title: 'Entities/useCollectionWithPagination/Stories',
@@ -16,7 +18,7 @@ export default {
     },
 };
 
-export const List = createLiveEditStory({
+export const UseCollectionWithPagination = createLiveEditStory({
     availableImports: {
         ...commonExports,
         '~/data/customer/useCount': useCount as any,
@@ -24,4 +26,14 @@ export const List = createLiveEditStory({
         '~/data/customer/useCollectionWithPagination': useCollectionWithPagination as any,
     },
     code: Source,
+});
+
+export const UseCollectionWithPaginationDisabledCache = createLiveEditStory({
+    availableImports: {
+        ...commonExports,
+        '~/data/customer/useCount': useCount as any,
+        '~/data/customer/onSnapshotPaginate': onSnapshotPaginate as any,
+        '~/data/customer/useCollectionWithPagination': useCollectionWithPagination as any,
+    },
+    code: DisabledCacheSource,
 });

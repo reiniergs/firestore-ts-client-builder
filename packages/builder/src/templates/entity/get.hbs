@@ -1,14 +1,16 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocFromServer } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
-import { GetService, EntityGet, EntityServerGet  } from "../{{#each parents}}../{{/each}}types";
+import { GetServiceOpts, EntityGet, EntityServerGet  } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 
-export type {{entityInterface}}GetService<T> = ({{> typedSubcollectionParams }} id: string) => Promise<T | null>;
+export type {{entityInterface}}GetService<T> = ({{> typedSubcollectionParams }} id: string, opts?: GetServiceOpts) => Promise<T | null>;
 
-const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} id) => {
+const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async ({{> subcollectionParams}} id, opts = {}) => {
   const docRef = doc(db, `{{> subcollectionPath}}/{{entityName}}/${id}`);
-  const docSnap = await getDoc(docRef);
+  const { disableCache } = opts;
+  const getFn = disableCache ? getDocFromServer : getDoc;
+  const docSnap = await getFn(docRef);
   if (docSnap.exists()) {
     return processTimestampFields(transformMetadata({
         ...docSnap.data(),

@@ -30,7 +30,7 @@ import {
   
   const onSnapshotPaginate: {{entityInterface}}OnSnapshotPaginateService<EntityGet<{{entityInterface}}>> = async (
     {{> subcollectionParams}}
-    { direction = "forward", limit = 25, cursor, listQueryFn } = {},
+    { direction = "forward", limit = 25, cursor, listQueryFn, disableCache } = {},
     callback,
     onError = () => {}
   ) => {
@@ -52,6 +52,10 @@ import {
     }
   
     return onSnapshot(q, (querySnapshot) => {
+        const { metadata } = querySnapshot;
+        const { fromCache } = metadata;
+        if (disableCache && fromCache) return;
+
         const docs = querySnapshot.docs.map((doc) => {
             return processTimestampFields<EntityGet<{{entityInterface}}>>(
             transformMetadata({

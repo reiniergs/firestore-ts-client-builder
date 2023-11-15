@@ -20,9 +20,13 @@ export type EntityServerGet<T> = T & EntityServerMetadata;
 export type ListQueryFn = (ref: CollectionReference) => Query;
 export interface ListServiceOpts {
     listQueryFn?: ListQueryFn;
+    disableCache?: boolean;
+}
+export interface GetServiceOpts {
+    disableCache?: boolean;
 }
 
-export type GetService<T> = (id: string) => Promise<T | null>;
+export type GetService<T> = (id: string, opts?: GetServiceOpts) => Promise<T | null>;
 export type AddService<T> = (doc: Omit<T, 'id'>) => Promise<EntityGet<T>>;
 export type SetService<T> = (id: string, doc: Omit<T, 'id'>) => Promise<T>;
 export type UpdateService<T> = (

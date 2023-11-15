@@ -8,6 +8,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  getDocsFromServer,
 } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
 import { EntityGet, EntityServerGet, PaginateServiceOpts, Page } from "../{{#each parents}}../{{/each}}types";
@@ -22,6 +23,7 @@ const paginate: {{entityInterface}}PaginateService<EntityGet<{{entityInterface}}
   limit = 25,
   cursor,
   listQueryFn,
+  disableCache,
 } = {}) => {
   const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
   const startFn = direction === "forward" ? startAfter : endBefore;
@@ -40,7 +42,8 @@ const paginate: {{entityInterface}}PaginateService<EntityGet<{{entityInterface}}
     q = query(q, dbLimit(limit));
   }
 
-  const querySnapshot = await getDocs(q);
+  const getFn = disableCache ? getDocsFromServer : getDocs;
+  const querySnapshot = await getFn(q);
   const docs = querySnapshot.docs.map((doc) => {
     return processTimestampFields<EntityGet<{{entityInterface}}>>(transformMetadata({
       ...doc.data(),
