@@ -18,7 +18,8 @@ const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<Entit
     ? opts.listQueryFn(collectionRef)
     : query(collectionRef);
   return onSnapshot(
-    q, 
+    q,
+    { includeMetadataChanges: disableCache },
     (querySnap) => {
       const { metadata } = querySnap;
       const { fromCache } = metadata;
