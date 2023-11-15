@@ -2,6 +2,13 @@
 import { getDocs, getDocsFromServer, getDocsFromCache } from 'firebase/firestore';
 import list from '../data/customer/list';
 
+jest.mock('firebase/auth', () => {
+    const { getAuth, ...rest } = jest.requireActual('firebase/auth');
+    return {
+        ...rest,
+        getAuth: jest.fn(),
+    };
+});
 jest.mock('firebase/firestore', () => {
     const {
         getDoc: _getDoc,

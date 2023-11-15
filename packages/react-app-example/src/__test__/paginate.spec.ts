@@ -5,6 +5,13 @@ import {
 import paginate from '../data/customer/paginate';
 import { processTimestampFields } from '../data/utils';
 
+jest.mock('firebase/auth', () => {
+    const { getAuth, ...rest } = jest.requireActual('firebase/auth');
+    return {
+        ...rest,
+        getAuth: jest.fn(),
+    };
+});
 jest.mock('firebase/firestore', () => {
     const {
         getDoc: _getDoc,
