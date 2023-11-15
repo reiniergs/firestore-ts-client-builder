@@ -4,6 +4,8 @@ import { commonExports } from '../utils';
 import useCollection from '~/data/customer/useCollection';
 // @ts-ignore
 import Source from './useCollection.source?raw';
+// @ts-ignore
+import DisabledCacheSource from './useCollectionDisabledCache.source?raw';
 
 export default {
     title: 'Entities/useCollection/Stories',
@@ -14,10 +16,18 @@ export default {
     },
 };
 
-export const List = createLiveEditStory({
+export const UseCollection = createLiveEditStory({
     availableImports: {
         ...commonExports,
         '~/data/customer/useCollection': useCollection as any,
     },
     code: Source,
+});
+
+export const UseCollectionDisabledCache = createLiveEditStory({
+    availableImports: {
+        ...commonExports,
+        '~/data/customer/useCollection': useCollection as any,
+    },
+    code: DisabledCacheSource,
 });

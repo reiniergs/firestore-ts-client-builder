@@ -13,12 +13,16 @@ const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<Entit
     onError = () => {}
 ) => {
   const collectionRef = collection(db, `{{> subcollectionPath}}/{{entityName}}`);
+  const { disableCache } = opts;
   const q = opts.listQueryFn
     ? opts.listQueryFn(collectionRef)
     : query(collectionRef);
   return onSnapshot(
     q, 
     (querySnap) => {
+      const { metadata } = querySnap;
+      const { fromCache } = metadata;
+      if (disableCache && fromCache) return;
       callback(
         querySnap.docs.map(
           (doc) =>

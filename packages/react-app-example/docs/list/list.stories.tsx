@@ -3,7 +3,9 @@ import { createLiveEditStory } from 'storybook-addon-code-editor';
 import { commonExports } from '../utils';
 import list from '~/data/customer/list';
 // @ts-ignore
-import AddSource from './list.source?raw';
+import ListSource from './list.source?raw';
+// @ts-ignore
+import ListDisableCacheSource from './listDisabledCache.source?raw';
 
 export default {
     title: 'Entities/List/Stories',
@@ -19,5 +21,13 @@ export const List = createLiveEditStory({
         ...commonExports,
         '~/data/customer/list': list as any,
     },
-    code: AddSource,
+    code: ListSource,
+});
+
+export const listDisabledCache = createLiveEditStory({
+    availableImports: {
+        ...commonExports,
+        '~/data/customer/list': list as any,
+    },
+    code: ListDisableCacheSource,
 });
