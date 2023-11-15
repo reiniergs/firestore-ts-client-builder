@@ -25,6 +25,7 @@ jest.mock('firebase/firestore', () => {
 });
 jest.mock('../data/utils', () => ({
     processTimestampFields: jest.fn(),
+    transformMetadata: jest.fn(),
 }));
 
 const mockGetDoc = getDoc as jest.MockedFunction<typeof getDoc>;
