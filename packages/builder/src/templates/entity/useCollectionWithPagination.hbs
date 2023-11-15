@@ -25,7 +25,7 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
         firstDocId: null,
         lastDocId: null,
     });
-    const { limit = 25, disabled = false, onSnap, track = [], listQueryFn } = opts;
+    const { limit = 25, disabled = false, onSnap, track = [], ...restOpts } = opts;
 
     const handleError = (err: unknown) => {
         if (err instanceof FirestoreError) {
@@ -73,10 +73,10 @@ const useCollectionWithPagination: {{entityInterface}}UsePaginatedCollectionHook
                 unsubscribePromise.current = onSnapshotPaginate(
                     {{> subcollectionParams}}
                     {
+                        ...restOpts,
                         limit,
                         cursor: cursor || undefined,
                         direction,
-                        listQueryFn,
                     },
                     async (page) => {
                         try {
