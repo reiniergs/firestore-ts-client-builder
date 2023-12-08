@@ -50,7 +50,7 @@ const useHttpMutation = <Req, Res>(params: UseMutationParams<Res>) => {
       });
       const contentType = response.headers.get("Content-Type");
       if (response.ok) {
-        if (contentType === 'application/json') return response.json() as Promise<Res>;
+        if (contentType?.includes('application/json')) return response.json() as Promise<Res>;
         return response.text() as Promise<Res>;
       }
       if (contentType?.includes("text/html")) {
