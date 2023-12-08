@@ -25,7 +25,18 @@ describe('useHttpMutation', () => {
         });
         await waitFor(() => expect(result.current.data).toEqual({ test: 'test' }));
     });
-
+    it('should call .json() when response is JSON with charset', async () => {
+        jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+            ok: true,
+            headers: new Map([['Content-Type', 'application/json; charset=utf-8']]),
+            json: jest.fn().mockResolvedValueOnce({ test: 'test' }),
+        } as any);
+        const { result } = renderHook(() => useHttpMutation<{ test: string }, any>({ pathname: '/test' }), { wrapper });
+        result.current.mutate({
+            body: { test: 'test' },
+        });
+        await waitFor(() => expect(result.current.data).toEqual({ test: 'test' }));
+    });
     it('shoud call .text() when response is not JSON', async () => {
         jest.spyOn(global, 'fetch').mockResolvedValueOnce({
             ok: true,
