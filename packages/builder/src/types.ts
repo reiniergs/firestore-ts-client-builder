@@ -105,4 +105,6 @@ export interface AdminDataLayerProps<T extends CustomTypes> {
     outdir: string;
     metadata: Pick<DataModelMetadata<T>, 'entities' | 'types'>;
     firebaseAdminConfig?: FirebaseAdminConfig;
+    appName?: string;
+    applicationCredentials?: string;
 }
