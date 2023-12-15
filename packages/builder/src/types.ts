@@ -1,5 +1,3 @@
-import { ServiceAccount } from 'firebase-admin/app';
-
 export type BasicPropertyType =
   | 'number'
   | 'string'
@@ -108,5 +106,5 @@ export interface AdminDataLayerProps<T extends CustomTypes> {
     metadata: Pick<DataModelMetadata<T>, 'entities' | 'types'>;
     firebaseAdminConfig?: FirebaseAdminConfig;
     appName?: string;
-    applicationCredentials?: ServiceAccount;
+    applicationCredentials?: string;
 }
