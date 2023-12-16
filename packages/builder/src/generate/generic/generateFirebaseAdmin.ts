@@ -1,4 +1,5 @@
 import path from 'path';
+import { ServiceAccount } from 'firebase-admin/app';
 import { FirebaseAdminConfig } from '../../types';
 import generate from '../generate';
 
@@ -6,7 +7,7 @@ interface GenerateFirebaseProps {
     outdir: string;
     firebaseAdminConfig: FirebaseAdminConfig;
     appName?: string;
-    applicationCredentials?: string;
+    applicationCredentials?: ServiceAccount;
 }
 
 const generateFirebaseAdmin = (props: GenerateFirebaseProps) => {

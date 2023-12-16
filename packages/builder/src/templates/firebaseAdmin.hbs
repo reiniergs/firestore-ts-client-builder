@@ -5,7 +5,11 @@ import { getFirestore } from 'firebase-admin/firestore';
 /**
  * We currently only support default application credentials.
  */
-const credential = {{#if applicationCredentials}}cert("{{applicationCredentials}}"){{else}}applicationDefault(){{/if}};
+const credential = {{#if applicationCredentials}}cert({
+    projectId: "{{applicationCredentials.project_id}}",
+    clientEmail: "{{applicationCredentials.client_email}}",
+    privateKey?: `{{applicationCredentials.private_key}}`,
+}){{else}}applicationDefault(){{/if}};
 export const app = initializeApp({
     credential,
     {{#each firebaseAdminConfig}}
