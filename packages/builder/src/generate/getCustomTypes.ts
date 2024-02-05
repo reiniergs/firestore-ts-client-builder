@@ -1,5 +1,5 @@
 import {
-    CustomTypes, Property, PropertyTypeArray, PropertyTypeObject,
+    CustomTypes, Property, PropertyTypeObject,
 } from '../types';
 
 const types = ['string', 'boolean', 'date', 'number', 'array'];
