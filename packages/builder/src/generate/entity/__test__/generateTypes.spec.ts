@@ -26,6 +26,7 @@ describe('generateTypes', () => {
             },
         } as any);
         const expected = `import { BaseEntity } from "../types";
+import { CustomType } from "../globals";
 
 export interface Custom extends BaseEntity {
   id: string;

@@ -23,6 +23,12 @@ createClientDataLayer({
                     bar: { type: 'object', properties: { foo: { type: 'string' } } },
                 },
             },
+            OnlyArray: {
+                type: 'object',
+                properties: {
+                    foo: { type: 'string' },
+                },
+            },
         },
         entities: {
             customer: {
@@ -74,9 +80,11 @@ createClientDataLayer({
             custom: {
                 properties: {
                     foo: { type: 'Foo', isRequired: true, isNullable: true },
+                    fooArray: { type: 'array', items: { type: 'Foo' } },
                     bar: { type: 'Bar' },
                     other: { type: 'Other' },
                     onlyString: { type: 'OnlyString', isNullable: true },
+                    onlyArray: { type: 'array', items: { type: 'OnlyArray' } },
                 },
             },
         },
