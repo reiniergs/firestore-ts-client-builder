@@ -27,7 +27,10 @@ const useCollection: {{entityInterface}}UseCollectionHook<EntityGet<{{entityInte
             setError(error);
           }
         );
-        return () => unsub();
+        return () => {
+          setLoading(false);
+          unsub();
+        }  
     }
   }, [disabled, ...track]);
   return { data, error, isLoading };
