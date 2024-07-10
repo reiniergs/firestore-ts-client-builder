@@ -28,9 +28,7 @@ const useCollection: {{entityInterface}}UseCollectionHook<EntityGet<{{entityInte
           }
         );
         return () => {
-          if (!disabled) {
-            setLoading(false)
-          }
+          setLoading(false);
           unsub();
         }  
     }
