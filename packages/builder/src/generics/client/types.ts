@@ -103,3 +103,8 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type QueryError4XXCode = 'bad-request' | 'unauthorized' | 'forbidden' | 'not-found' | 'method-not-allowed' | 'not-acceptable' | 'conflict';
 type QueryError5XXCode = 'internal-server-error' | 'not-implemented' | 'bad-gateway' | 'service-unavailable' | 'gateway-timeout';
 export type QueryErrorCode = QueryError4XXCode | QueryError5XXCode | 'unknown';
+
+// See https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+export type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;

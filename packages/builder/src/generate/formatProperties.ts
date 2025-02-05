@@ -17,7 +17,7 @@ const formatEnum = (enumValues: Array<string>) => {
     return undefined;
 };
 
-interface FormattedProperty {
+export interface FormattedProperty {
     name: string;
     type: string | number | symbol;
     isRequired: boolean | undefined;

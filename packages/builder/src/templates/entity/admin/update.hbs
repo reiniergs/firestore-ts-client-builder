@@ -1,8 +1,9 @@
 import { Timestamp } from "firebase-admin/firestore";
 import { db } from "../{{#each parents}}../{{/each}}admin";
+import { DistributiveOmit } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 
-export type {{entityInterface}}UpdateService<T> = ({{> typedSubcollectionParams}}id: string, doc: Partial<Omit<T, 'id'>>) => Promise<void>;
+export type {{entityInterface}}UpdateService<T> = ({{> typedSubcollectionParams}}id: string, doc: Partial<DistributiveOmit<T, 'id'>>) => Promise<void>;
 
 
 const update: {{entityInterface}}UpdateService<{{entityInterface}}> = async ({{> subcollectionParams}} id, data) => {

@@ -41,3 +41,8 @@ export interface PaginateServiceOpts extends ListServiceOpts {
     cursor?: string;
 }
 export type PaginateService<T> = (opts: PaginateServiceOpts) => Promise<Page<T>>;
+
+// See https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+export type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;

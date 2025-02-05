@@ -106,6 +106,23 @@ createClientDataLayer({
                     onlyArray: { type: 'array', items: { type: 'OnlyArray' } },
                 },
             },
+            animal: {
+                properties: {
+                    name: { type: 'string', isRequired: true },
+                },
+                subtypes: {
+                    dog: {
+                        properties: {
+                            breed: { type: 'string', isRequired: true },
+                        },
+                    },
+                    cat: {
+                        properties: {
+                            declawed: { type: 'boolean', isRequired: true },
+                        },
+                    },
+                },
+            },
         },
         endpoints: {
             posts: {

@@ -1,10 +1,10 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../{{#each parents}}../{{/each}}firebase";
-import { AddService, EntityGet } from "../{{#each parents}}../{{/each}}types";
+import { AddService, EntityGet, DistributiveOmit } from "../{{#each parents}}../{{/each}}types";
 import { {{entityInterface}} } from "./types";
 import get from './get';
 
-export type {{entityInterface}}AddService<T> = ({{> typedSubcollectionParams}}doc: Omit<T, 'id'>) => Promise<EntityGet<T>>;
+export type {{entityInterface}}AddService<T> = ({{> typedSubcollectionParams}}doc: DistributiveOmit<T, 'id'>) => Promise<EntityGet<T>>;
 
 
 const add: {{entityInterface}}AddService<{{entityInterface}}> = async ({{> subcollectionParams}}data) => {

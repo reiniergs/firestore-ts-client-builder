@@ -47,6 +47,7 @@ export type Property<T extends CustomTypes = {}> =
 export interface Entity<T extends CustomTypes> {
     properties: Record<string, Property<T>>;
     subcollections?: Record<string, Entity<T>>;
+    subtypes?: Record<string, Pick<Entity<T>, 'properties'>>;
 }
 
 type Protocol = 'http' | 'https';

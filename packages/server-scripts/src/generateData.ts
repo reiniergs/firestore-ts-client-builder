@@ -82,6 +82,23 @@ createAdminDataLayer({
                 properties: {
                     foo: { type: 'Foo' }
                 }
+            },
+            animal: {
+                properties: {
+                    name: { type: 'string', isRequired: true },
+                },
+                subtypes: {
+                    dog: {
+                        properties: {
+                            breed: { type: 'string', isRequired: true },
+                        },
+                    },
+                    cat: {
+                        properties: {
+                            declawed: { type: 'boolean', isRequired: true },
+                        },
+                    },
+                },
             }
         },
     },

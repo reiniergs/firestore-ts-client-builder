@@ -5,6 +5,7 @@ import { GenerateEntityProps } from '../../types';
 import generate from '../../generate';
 import formatProperties from '../../formatProperties';
 import getCustomTypes from '../../getCustomTypes';
+import formatSubtypes from '../../formatSubtypes';
 
 const generateTypes = (props: GenerateEntityProps) => {
     const {
@@ -17,7 +18,13 @@ const generateTypes = (props: GenerateEntityProps) => {
             entityInterface: capitalize(entityName),
             properties: formatProperties(entity.properties),
             parents,
-            customTypes: getCustomTypes(entity.properties),
+            customTypes: [
+                ...getCustomTypes(entity.properties),
+                ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => {
+                    return [...acc, ...getCustomTypes(subtype.properties)];
+                }, []),
+            ],
+            subtypes: formatSubtypes(entity.subtypes),
         },
     });
 };
