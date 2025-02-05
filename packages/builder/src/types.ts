@@ -32,12 +32,22 @@ export interface PropertyTypeString<T extends CustomTypes> extends BaseProperty<
     enum: Array<string>;
 }
 
+export interface PropertyTypeOneOf<T extends CustomTypes> extends BaseProperty<T> {
+    type: 'oneOf';
+    variants: Array<Property<T>>;
+}
+
 export type Property<T extends CustomTypes = {}> =
-BaseProperty<T> | PropertyTypeString<T> | PropertyTypeObject<T> | PropertyTypeArray<T>;
+    BaseProperty<T> |
+    PropertyTypeString<T> |
+    PropertyTypeObject<T> |
+    PropertyTypeArray<T> |
+    PropertyTypeOneOf<T>;
 
 export interface Entity<T extends CustomTypes> {
     properties: Record<string, Property<T>>;
     subcollections?: Record<string, Entity<T>>;
+    subtypes?: Record<string, Pick<Entity<T>, 'properties'>>;
 }
 
 type Protocol = 'http' | 'https';

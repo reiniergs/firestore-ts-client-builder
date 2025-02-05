@@ -5,18 +5,20 @@ import {
     PropertyTypeObject,
     PropertyTypeString,
     CustomTypes,
+    PropertyTypeOneOf,
 } from '../types';
 
 const formatEnum = (enumValues: Array<string>) => {
     if (Array.isArray(enumValues)) {
-        return enumValues
+        const values = enumValues
             .map((value) => `'${value}'`)
             .join('|');
+        return `(${values})`;
     }
     return undefined;
 };
 
-interface FormattedProperty {
+export interface FormattedProperty {
     name: string;
     type: string | number | symbol;
     isRequired: boolean | undefined;
@@ -24,6 +26,7 @@ interface FormattedProperty {
     properties?: Array<FormattedProperty>;
     enum?: string;
     items?: FormattedProperty;
+    variants?: Array<FormattedProperty[]>;
 }
 
 const formatProperties = <T extends CustomTypes = {}>(
@@ -72,6 +75,14 @@ const formatProperties = <T extends CustomTypes = {}>(
                     type: 'Date',
                     isRequired,
                     isNullable,
+                };
+            case 'oneOf':
+                return {
+                    name,
+                    type,
+                    isRequired,
+                    isNullable,
+                    variants: (property as PropertyTypeOneOf<T>).variants.map((variant) => [formatProperty('', variant)]),
                 };
             default:
                 return {

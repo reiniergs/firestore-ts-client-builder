@@ -3,7 +3,16 @@ import { BaseEntity } from "../{{#each parents}}../{{/each}}types";
 import { {{#each customTypes }}{{this}},{{/each}} } from "../{{#each parents}}../{{/each}}globals";
 {{/if}}
 
-export interface {{entityInterface}} extends BaseEntity {
+{{#each subtypes}}
+  type {{name}}{{../entityInterface}} = {
+    type: '{{type}}';
+    {{> properties properties=properties}}
+  }
+{{/each}}
+
+interface Base{{entityInterface}} extends BaseEntity {
   id: string;
   {{> properties properties=properties}}
 }
+
+export type {{entityInterface}} = Base{{entityInterface}} {{#if subtypes.length}}& ({{#each subtypes}}{{name}}{{../entityInterface}}{{#unless @last}} | {{/unless}}{{/each}}){{/if}};

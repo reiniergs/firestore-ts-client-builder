@@ -73,6 +73,25 @@ createClientDataLayer({
                         properties: {
                             name: { type: 'string', isRequired: true },
                             model: { type: 'string', isRequired: true },
+                            performance: {
+                                type: 'oneOf',
+                                variants: [
+                                    {
+                                        type: 'object',
+                                        properties: {
+                                            type: { type: 'string', enum: ['ice'], isRequired: true },
+                                            hp: { type: 'number', isRequired: true },
+                                        },
+                                    },
+                                    {
+                                        type: 'object',
+                                        properties: {
+                                            type: { type: 'string', enum: ['electric'], isRequired: true },
+                                            kw: { type: 'number', isRequired: true },
+                                        },
+                                    },
+                                ],
+                            },
                         },
                     },
                 },
@@ -85,6 +104,23 @@ createClientDataLayer({
                     other: { type: 'Other' },
                     onlyString: { type: 'OnlyString', isNullable: true },
                     onlyArray: { type: 'array', items: { type: 'OnlyArray' } },
+                },
+            },
+            animal: {
+                properties: {
+                    name: { type: 'string', isRequired: true },
+                },
+                subtypes: {
+                    dog: {
+                        properties: {
+                            breed: { type: 'string', isRequired: true },
+                        },
+                    },
+                    cat: {
+                        properties: {
+                            declawed: { type: 'boolean', isRequired: true },
+                        },
+                    },
                 },
             },
         },

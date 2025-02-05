@@ -1,24 +1,24 @@
 {{#each properties}}
   {{#if (eq type "string")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: 
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}: {{/if}}
       {{#if enum}}
             {{enum}}
           {{else}}
             {{type}}
       {{/if}}
-      {{#if isNullable}}| null{{/if}};
+      {{#if isNullable}}| null{{/if}}
   {{else if (eq type "number")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {{type}}{{#if isNullable}}| null{{/if}}
   {{else if (eq type "boolean")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {{type}}{{#if isNullable}}| null{{/if}}
   {{else if (eq type "Date")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}};  
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {{type}}{{#if isNullable}}| null{{/if}}
   {{else if (eq type "object")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: {
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {
       {{> properties properties=properties}}
-    },
+    }
   {{else if (eq type "array")}}
-    {{name}}{{#unless isRequired}}?{{/unless}}: Array<
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} Array<
       {{#if (eq items.type "string")}}
         {{items.type}}
       {{else if (eq items.type "number")}}
@@ -32,8 +32,16 @@
       {{else}}
         {{items.type}}{{#unless isRequired}} | undefined{{/unless}}{{#if isNullable}} | null{{/if}}
       {{/if}}
-    >;
+    >
+  {{else if (eq type "oneOf")}}
+    {{!-- For oneOf, output a union of variants --}}
+    {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}}
+    {{#each variants}}
+      | {{> properties properties=this}}
+    {{/each}}
+    {{#if isNullable}} | null{{/if}}
   {{else}}  
-    {{name}}{{#unless isRequired}}?{{/unless}}: {{type}}{{#if isNullable}}| null{{/if}}; 
+  {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {{type}}{{#if isNullable}}| null{{/if}}
   {{/if}}
+  {{#if name}};{{/if}}
 {{/each}}
