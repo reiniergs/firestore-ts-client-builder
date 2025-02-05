@@ -29,12 +29,11 @@ describe('generateTypes', () => {
 import { CustomType } from "../globals";
 
 interface BaseCustom extends BaseEntity {
-    id: string;
-    customArray?: Array<CustomType | undefined>;
+  id: string;
+  customArray?: Array<CustomType | undefined>;
 }
 
 export type Custom = BaseCustom;
-
 `;
         const actual = writeFileSyncMock.mock.calls[0][1];
         expect(actual).toEqual(expected);
