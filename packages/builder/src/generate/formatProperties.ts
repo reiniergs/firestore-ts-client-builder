@@ -10,9 +10,10 @@ import {
 
 const formatEnum = (enumValues: Array<string>) => {
     if (Array.isArray(enumValues)) {
-        return '(' + enumValues
+        const values = enumValues
             .map((value) => `'${value}'`)
-            .join('|') + ')';
+            .join('|');
+        return `(${values})`;
     }
     return undefined;
 };

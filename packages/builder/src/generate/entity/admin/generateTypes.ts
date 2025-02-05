@@ -20,9 +20,10 @@ const generateTypes = (props: GenerateEntityProps) => {
             parents,
             customTypes: [
                 ...getCustomTypes(entity.properties),
-                ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => {
-                    return [...acc, ...getCustomTypes(subtype.properties)];
-                }, []),
+                ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => [
+                    ...acc,
+                    ...getCustomTypes(subtype.properties),
+                ], []),
             ],
             subtypes: formatSubtypes(entity.subtypes),
         },
