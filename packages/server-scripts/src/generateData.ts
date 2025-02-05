@@ -55,6 +55,25 @@ createAdminDataLayer({
                             model: { type: 'string', isRequired: true },
                             year: { type: 'number', isRequired: true },
                             vin: { type: 'string', isRequired: true },
+                            performance: {
+                                type: 'oneOf',
+                                variants: [
+                                    {
+                                        type: 'object',
+                                        properties: {
+                                            type: { type: 'string', enum: ['ice'], isRequired: true },
+                                            hp: { type: 'number', isRequired: true },
+                                        },
+                                    },
+                                    {
+                                        type: 'object',
+                                        properties: {
+                                            type: { type: 'string', enum: ['electric'], isRequired: true },
+                                            kw: { type: 'number', isRequired: true },
+                                        },
+                                    },
+                                ],
+                            },
                         },
                     }
                 },
