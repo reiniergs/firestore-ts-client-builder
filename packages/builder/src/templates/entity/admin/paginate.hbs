@@ -1,5 +1,5 @@
 import { db } from "../{{#each parents}}../{{/each}}admin";
-import { PaginateServiceOpts, EntityServerGet, Page } from '../{{#each parents}}../{{/each}}types';
+import { PaginateServiceOpts, EntityGet, EntityServerGet, Page } from '../{{#each parents}}../{{/each}}types';
 import { transformMetadata, processTimestampFields } from '../{{#each parents}}../{{/each}}utils';
 import { {{entityInterface}} } from "./types";
 
@@ -42,7 +42,7 @@ const paginate: {{entityInterface}}PaginateService<{{entityInterface}}> = async 
     return processTimestampFields(transformMetadata({
       ...doc.data(),
       id: doc.id,
-    } as EntityServerGet<{{entityInterface}}>));
+    } as EntityServerGet<{{entityInterface}}>)) as EntityGet<{{entityInterface}}>;
   });
   return {
     docs,

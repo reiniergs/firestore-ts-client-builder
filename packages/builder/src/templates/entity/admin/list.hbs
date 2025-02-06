@@ -17,7 +17,7 @@ const list: {{entityInterface}}ListService<EntityGet<{{entityInterface}}>> = asy
     return processTimestampFields(transformMetadata({
         ...doc.data(),
         id: doc.id,
-    } as EntityServerGet<{{entityInterface}}>))
+    } as EntityServerGet<{{entityInterface}}>)) as EntityGet<{{entityInterface}}>;
   });
 };
 

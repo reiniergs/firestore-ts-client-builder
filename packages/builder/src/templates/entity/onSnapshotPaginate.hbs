@@ -62,7 +62,7 @@ import {
                 ...doc.data(),
                 id: doc.id,
             } as EntityServerGet<{{entityInterface}}>)
-            );
+            ) as EntityGet<{{entityInterface}}>;
         });
         callback({
             docs,

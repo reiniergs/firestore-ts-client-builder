@@ -17,7 +17,7 @@ const onSnapshotDoc: {{entityInterface}}OnSnapshotDocService<EntityGet<{{entityI
           processTimestampFields(transformMetadata({
             ...docSnap.data(),
             id: docSnap.id,
-          } as EntityServerGet<{{entityInterface}}>, docSnap.metadata))
+          } as EntityServerGet<{{entityInterface}}>, docSnap.metadata)) as EntityGet<{{entityInterface}}>,
         );
       }
     },

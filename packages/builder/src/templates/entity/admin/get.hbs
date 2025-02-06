@@ -13,7 +13,7 @@ const get: {{entityInterface}}GetService<EntityGet<{{entityInterface}}>> = async
     return processTimestampFields(transformMetadata({
         ...docSnap.data(),
       id: docSnap.id,
-    } as EntityServerGet<{{entityInterface}}>));
+    } as EntityServerGet<{{entityInterface}}>)) as EntityGet<{{entityInterface}}>;
   }
   return null;
 };
