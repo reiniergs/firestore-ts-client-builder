@@ -30,7 +30,7 @@ const onSnapshotCollection: {{entityInterface}}OnSnapshotCollectionService<Entit
             (processTimestampFields(transformMetadata({
               ...doc.data(),
               id: doc.id,
-            } as EntityServerGet<{{entityInterface}}>, doc.metadata)))
+            } as EntityServerGet<{{entityInterface}}>, doc.metadata)) as EntityGet<{{entityInterface}}>)
         )
       );
     },

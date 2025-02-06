@@ -48,7 +48,7 @@ const paginate: {{entityInterface}}PaginateService<EntityGet<{{entityInterface}}
     return processTimestampFields<EntityGet<{{entityInterface}}>>(transformMetadata({
       ...doc.data(),
       id: doc.id,
-    } as EntityServerGet<{{entityInterface}}>));
+    } as EntityServerGet<{{entityInterface}}>)) as EntityGet<{{entityInterface}}>;
   });
   return {
     docs,
