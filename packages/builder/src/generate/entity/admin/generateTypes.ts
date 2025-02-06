@@ -18,13 +18,17 @@ const generateTypes = (props: GenerateEntityProps) => {
             entityInterface: capitalize(entityName),
             properties: formatProperties(entity.properties),
             parents,
-            customTypes: [
-                ...getCustomTypes(entity.properties),
-                ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => [
-                    ...acc,
-                    ...getCustomTypes(subtype.properties),
-                ], []),
-            ],
+            customTypes: Array.from(
+                new Set(
+                    [
+                        ...getCustomTypes(entity.properties),
+                        ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => [
+                            ...acc,
+                            ...getCustomTypes(subtype.properties),
+                        ], []),
+                    ],
+                ),
+            ),
             subtypes: formatSubtypes(entity.subtypes),
         },
     });
