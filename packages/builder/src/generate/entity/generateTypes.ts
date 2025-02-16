@@ -24,7 +24,7 @@ const generateTypes = (props: GenerateEntityProps) => {
                         ...Object.entries(entity.subtypes || {}).reduce((acc, [, subtype]) => [
                             ...acc,
                             ...getCustomTypes(subtype.properties),
-                        ], []),
+                        ], [] as string[]),
                     ],
                 ),
             ),
