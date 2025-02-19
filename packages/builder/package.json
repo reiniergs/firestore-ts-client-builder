@@ -33,7 +33,7 @@
   },
   "peerDependencies": {
     "firebase": "^9.19.1",
-    "firebase-admin": "^11.10.1"
+    "firebase-admin": ">=11.10.1 <13.0.0"
   },
   "engines": {
     "node": "<16.7.0"
