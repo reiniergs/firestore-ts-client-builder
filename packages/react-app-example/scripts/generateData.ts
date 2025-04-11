@@ -104,6 +104,21 @@ createClientDataLayer({
                     other: { type: 'Other' },
                     onlyString: { type: 'OnlyString', isNullable: true },
                     onlyArray: { type: 'array', items: { type: 'OnlyArray' } },
+                    arrayOfArrays: {
+                        type: 'array',
+                        items: {
+                            type: 'array',
+                            items: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        foo: { type: 'string' },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
             },
             animal: {
@@ -114,11 +129,13 @@ createClientDataLayer({
                     dog: {
                         properties: {
                             breed: { type: 'string', isRequired: true },
+                            foo: { type: 'Foo' },
                         },
                     },
                     cat: {
                         properties: {
                             declawed: { type: 'boolean', isRequired: true },
+                            foo: { type: 'Foo' },
                         },
                     },
                 },

@@ -29,6 +29,8 @@
         {
           {{> properties properties=items.properties}}
         }
+      {{else if (eq items.type "array")}}
+        {{> properties properties=(toArray items)}}
       {{else}}
         {{items.type}}{{#unless isRequired}} | undefined{{/unless}}{{#if isNullable}} | null{{/if}}
       {{/if}}
