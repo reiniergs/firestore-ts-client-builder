@@ -10,6 +10,12 @@ interface GenerateProps {
 }
 
 hbs.registerHelper('eq', (arg1, arg2) => arg1 === arg2);
+hbs.registerHelper('toArray', (arg1) => {
+    if (Array.isArray(arg1)) {
+        return arg1;
+    }
+    return [arg1];
+});
 hbs.registerPartial(
     'properties',
     fs

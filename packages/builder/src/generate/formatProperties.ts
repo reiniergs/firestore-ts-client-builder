@@ -59,7 +59,7 @@ const formatProperties = <T extends CustomTypes = {}>(
                     type,
                     isRequired,
                     isNullable,
-                    items: formatProperty(name, (property as PropertyTypeArray<T>).items),
+                    items: formatProperty('', (property as PropertyTypeArray<T>).items),
                 };
             case 'string':
                 return {
