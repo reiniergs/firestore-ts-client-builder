@@ -1,0 +1,26 @@
+import { collectionGroup, query, getDocs, getDocsFromServer, CollectionReference } from "firebase/firestore";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { EntityGet, EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
+import { {{entityInterface}} } from "./types";
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}./{{/each}}utils';
+
+export type {{entityInterface}}CollectionGroupListService<T> = (opts?: ListServiceOpts) => Promise<Array<T>>;
+
+const listCollectionGroup: {{entityInterface}}CollectionGroupListService<EntityGet<{{entityInterface}}>> = async (opts = {}) => {
+  const collectionRef = collectionGroup(db, "{{entityName}}");
+  const { disableCache } = opts;
+  const q =
+    typeof opts.listQueryFn === "function"
+      ? opts.listQueryFn(collectionRef as unknown as CollectionReference)
+      : query(collectionRef);
+  const getFn = disableCache ? getDocsFromServer : getDocs;
+  const querySnapshot = await getFn(q);
+  return querySnapshot.docs.map((doc) => {
+    return processTimestampFields(transformMetadata({
+        ...doc.data(),
+        id: doc.id,
+    } as EntityServerGet<{{entityInterface}}>)) as EntityGet<{{entityInterface}}>;
+  });
+};
+
+export default listCollectionGroup;

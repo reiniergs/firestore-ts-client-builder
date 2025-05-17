@@ -1,0 +1,40 @@
+import { collectionGroup, onSnapshot, FirestoreError, query, Unsubscribe, CollectionReference } from "firebase/firestore";
+import { db } from "../{{#each parents}}../{{/each}}firebase";
+import { EntityGet, EntityServerGet, ListServiceOpts } from "../{{#each parents}}../{{/each}}types";
+import { {{entityInterface}} } from "./types";
+import { transformMetadata, processTimestampFields } from '../{{#each parents}}./{{/each}}utils';
+
+export type {{entityInterface}}OnSnapshotCollectionGroupService<T> = (opts: ListServiceOpts,callback: (docs: Array<T>) => void, onError?: (error: FirestoreError) => void) => Unsubscribe;
+
+const onSnapshotCollectionGroup: {{entityInterface}}OnSnapshotCollectionGroupService<EntityGet<{{entityInterface}}>> = (
+    opts: ListServiceOpts,
+    callback,
+    onError = () => {}
+) => {
+  const collectionRef = collectionGroup(db, "{{entityName}}");
+  const { disableCache } = opts;
+  const q = opts.listQueryFn
+    ? opts.listQueryFn(collectionRef as unknown as CollectionReference)
+    : query(collectionRef);
+  return onSnapshot(
+    q,
+    { includeMetadataChanges: disableCache },
+    (querySnap) => {
+      const { metadata } = querySnap;
+      const { fromCache } = metadata;
+      if (disableCache && fromCache) return;
+      callback(
+        querySnap.docs.map(
+          (doc) =>
+            (processTimestampFields(transformMetadata({
+              ...doc.data(),
+              id: doc.id,
+            } as EntityServerGet<{{entityInterface}}>, doc.metadata)) as EntityGet<{{entityInterface}}>)
+        )
+      );
+    },
+    onError
+  );
+};
+
+export default onSnapshotCollectionGroup;
