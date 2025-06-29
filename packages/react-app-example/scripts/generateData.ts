@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { createClientDataLayer } from 'firestore-ts-client-builder';
 
 // Load environment variables from .env file
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../.env.local') });
 
 createClientDataLayer({
     outdir: path.join(__dirname, '../src/data'),
@@ -210,5 +210,8 @@ createClientDataLayer({
         messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
         appId: process.env.FIREBASE_APP_ID || '',
         measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
+    },
+    firestoreConfig: {
+        databaseId: 'test-database',
     },
 });

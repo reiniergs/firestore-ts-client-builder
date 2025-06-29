@@ -5,18 +5,14 @@ console.log(`Run "yarn test" with the service-account.json in the root directory
 (async () => {
     const customer = await createCustomer({
         name: 'John',
-        dob: 123456789,
-        foo: {
-            bar: {
-                foobar: 123,
-            },
+        emails: ['john@example.com'],
+        address: {
+            street: '123 Main St',
+            city: 'Anytown',
+            state: 'CA',
+            zip: '12345',
         },
-        bar: [
-            {
-                foo: 'foo',
-            },
-        ],
-        enum: 'foo',
+        dayOfBirth: new Date('1990-01-01'),
     });
     assert(customer.name === 'John');
 })()

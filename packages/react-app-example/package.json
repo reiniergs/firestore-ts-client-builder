@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "react-app-example",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -10,7 +10,7 @@
     "@types/node": "^16.18.21",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
-    "firebase": "^9.19.1",
+    "firebase": "11.9.1",
     "firestore-ts-client-builder": "0.1.0",
     "gh-pages": "^5.0.0",
     "react": "^18.2.0",

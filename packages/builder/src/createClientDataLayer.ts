@@ -10,11 +10,13 @@ import generateEndpointsCode from './generate/generateEndpointsCode';
 import endpointCodeGenerator from './generate/endpoint/generator';
 
 const createClientDataLayer = <T extends CustomTypes = {}>(props: ClientDataLayerProps<T>) => {
-    const { outdir, metadata, firebaseConfig } = props;
+    const {
+        outdir, metadata, firebaseConfig, firestoreConfig,
+    } = props;
     prepareDir(outdir);
     copyGenerics(outdir, 'client');
 
-    generateFirebase({ outdir, firebaseConfig });
+    generateFirebase({ outdir, firebaseConfig, firestoreConfig });
     generateGenericCode({ outdir, metadata });
 
     generateEntitiesCode({

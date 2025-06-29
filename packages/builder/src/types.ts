@@ -107,10 +107,15 @@ export interface FirebaseAdminConfig {
     projectId?: string;
 }
 
+export interface FirestoreConfig {
+    databaseId: string;
+}
+
 export interface ClientDataLayerProps<T extends CustomTypes> {
     outdir: string;
     metadata: DataModelMetadata<T>;
     firebaseConfig?: FirebaseConfig;
+    firestoreConfig?: FirestoreConfig;
 }
 
 export interface AdminDataLayerProps<T extends CustomTypes> {
@@ -119,4 +124,6 @@ export interface AdminDataLayerProps<T extends CustomTypes> {
     firebaseAdminConfig?: FirebaseAdminConfig;
     appName?: string;
     applicationCredentials?: ServiceAccount;
+
+    firestoreConfig?: FirestoreConfig;
 }
