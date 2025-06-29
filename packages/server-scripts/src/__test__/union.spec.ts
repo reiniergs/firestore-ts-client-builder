@@ -46,13 +46,13 @@ describe('add', () => {
             }
         });
         expect(electricVehicle).toEqual(expect.objectContaining({
-            make: 'Ford',
-            model: 'F-150',
-            year: 2019,
-            vin: '12345678901234567',
+            make: 'Tesla',
+            model: 'Model S',
+            year: 2020,
+            vin: '12345678901234568',
             performance: {
-                type: 'ice',
-                hp: 250,
+                type: 'electric',
+                kw: 500,
             }
         }));
         expect(electricVehicle.id).toBeDefined();
@@ -63,8 +63,8 @@ describe('add', () => {
         expect(isDate(electricVehicle.updatedAt)).toBe(true);
 
         // Clean up
-        await remove(driverId, iceVehicle.id);
-        await remove(driverId, electricVehicle.id);
+        // await remove(driverId, iceVehicle.id);
+        // await remove(driverId, electricVehicle.id);
     });
 
     it('should create an animal', async () => {

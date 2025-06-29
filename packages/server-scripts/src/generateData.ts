@@ -102,4 +102,7 @@ createAdminDataLayer({
             }
         },
     },
+    firestoreConfig: {
+        databaseId: 'test-database',
+    },
 });

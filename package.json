@@ -3,16 +3,22 @@
     "lerna": "^6.6.1"
   },
   "name": "monnorepo",
-  "workspaces": ["packages/*"],
-  
+  "workspaces": [
+    "packages/*"
+  ],
   "private": true,
   "scripts": {
-    "start": "lerna run start --scope example",
-    "build": "lerna run build --scope firestore-ts-client-builder",
+    "start": "lerna run start --scope react-app-example",
+    "build": "yarn workspace firestore-ts-client-builder build && yarn workspace server-scripts build",
     "lint": "lerna run lint",
-    "generate-data-example": "lerna run generate-data --scope example",
+    "generate-data": "yarn workspace react-app-example generate-data && yarn workspace server-scripts generate-data",
     "publish-builder": "npx lerna publish",
-    "storybook": "lerna run storybook --scope example",
-    "storybook-build": "lerna run storybook-build --scope example"
+    "storybook": "lerna run storybook --scope react-app-example",
+    "storybook-build": "lerna run storybook-build --scope react-app-example",
+    "ts-node": "ts-node"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

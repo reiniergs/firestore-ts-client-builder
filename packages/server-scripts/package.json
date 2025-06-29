@@ -1,10 +1,10 @@
 {
-  "name": "server-scrips",
+  "name": "server-scripts",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
     "dotenv": "^16.3.1",
-    "firebase-admin": "^11.10.1",
+    "firebase-admin": "^13.4.0",
     "firestore-ts-client-builder": "0.1.0",
     "typescript": "^4.9.5"
   },
@@ -21,7 +21,8 @@
   },
   "scripts": {
     "start": "yarn generate-data && ts-node src/index.ts",
-    "test": "jest src",
+    "test": "GOOGLE_APPLICATION_CREDENTIALS=./service-account.json jest src",
+    "build": "yarn generate-data && tsc --noEmit",
     "generate-data": "yarn ts-node src/generateData.ts",
     "ts-node": "ts-node"
   }

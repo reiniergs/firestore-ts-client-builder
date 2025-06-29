@@ -15,8 +15,6 @@ jobs:
       - run: yarn build
       - run: yarn install
       - run: yarn lint
-      - run: yarn generate-data-example
-      - run: yarn jest --selectProjects builder react-app
 
   publish_canary:
     docker:

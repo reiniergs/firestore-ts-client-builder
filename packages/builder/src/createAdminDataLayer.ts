@@ -9,12 +9,17 @@ import generateGlobalTypes from './generate/generic/generateGlobalTypes';
 const createAdminDataLayer = <T extends CustomTypes = {}>(props: AdminDataLayerProps<T>) => {
     const {
         outdir, metadata, firebaseAdminConfig, applicationCredentials, appName,
+        firestoreConfig,
     } = props;
     prepareDir(outdir);
     copyGenerics(outdir, 'admin');
 
     generateFirebaseAdmin({
-        outdir, firebaseAdminConfig, applicationCredentials, appName,
+        outdir,
+        firebaseAdminConfig,
+        applicationCredentials,
+        appName,
+        firestoreConfig,
     });
     generateGlobalTypes({ outdir, metadata });
     generateEntitiesCode({
