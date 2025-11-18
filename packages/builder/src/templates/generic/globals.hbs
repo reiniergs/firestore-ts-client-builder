@@ -30,6 +30,12 @@
             }
         {{/if}} 
     >; 
+    {{else if (eq type "oneOf")}}
+    export type {{name}} = {{#each variants}}{{#if @index}} | {{/if}}{{#each this}}{{#if (eq type "string")}}{{#if enum}}{{enum}}{{else}}string{{/if}}{{else if (eq type "number")}}number{{else if (eq type "boolean")}}boolean{{else if (eq type "Date")}}Date{{else if (eq type "object")}}{
+        {{> properties properties=properties}}
+    }{{else if (eq type "array")}}Array<{{#if (eq items.type "string")}}{{items.type}}{{else if (eq items.type "number")}}{{items.type}}{{else if (eq items.type "boolean")}}{{items.type}}{{else if (eq items.type "object")}}{
+        {{> properties properties=items.properties}}
+    }{{else}}{{items.type}}{{/if}}>{{else}}{{type}}{{/if}}{{/each}}{{/each}};
     {{/if}}
 {{/each}}
 export {};
