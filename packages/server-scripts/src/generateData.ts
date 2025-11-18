@@ -19,6 +19,24 @@ createAdminDataLayer({
     metadata: {
         types: {
             Foo: { type: 'string', enum: ['foo', 'bar'] },
+            OneOf: {
+                type: 'oneOf',
+                variants: [
+                    {
+                        type: 'string',
+                    },
+                    {
+                        type: 'number',
+                    },
+                    {
+                        type: 'object',
+                        properties: {
+                            foo: { type: 'string' },
+                            bar: { type: 'number' },
+                        },
+                    }
+                ],
+            }
         },
         entities: {
             customer: {
