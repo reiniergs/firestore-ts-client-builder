@@ -66,6 +66,10 @@ createClientDataLayer({
         appId: process.env.FIREBASE_APP_ID || '',
         measurementId: process.env.FIREBASE_MEASUREMENT_ID || '',
     },
+    firestoreConfig: {
+        databaseId: 'test-database',
+        ignoreUndefinedProperties: true,
+    },
 });
 ```
 

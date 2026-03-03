@@ -109,6 +109,7 @@ export interface FirebaseAdminConfig {
 
 export interface FirestoreConfig {
     databaseId: string;
+    ignoreUndefinedProperties?: boolean;
 }
 
 export interface ClientDataLayerProps<T extends CustomTypes> {
