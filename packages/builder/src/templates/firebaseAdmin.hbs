@@ -17,5 +17,8 @@ export const app = initializeApp({
     {{/each}}
 }{{#if appName}}, "{{appName}}"{{/if}});
 export const db = getFirestore(app{{#if firestoreConfig}}, "{{firestoreConfig.databaseId}}"{{/if}});
+{{#if firestoreConfig.ignoreUndefinedProperties}}
+db.settings({ ignoreUndefinedProperties: true });
+{{/if}}
 export const auth = getAuth(app);
 export default app;

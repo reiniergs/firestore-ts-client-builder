@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore{{#if firestoreConfig.ignoreUndefinedProperties}}, initializeFirestore{{/if}} } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -9,5 +9,9 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+{{#if firestoreConfig.ignoreUndefinedProperties}}
+export const db = initializeFirestore(app, { ignoreUndefinedProperties: true }{{#if firestoreConfig.databaseId}}, "{{firestoreConfig.databaseId}}"{{/if}});
+{{else}}
 export const db = getFirestore(app{{#if firestoreConfig}}, "{{firestoreConfig.databaseId}}"{{/if}});
+{{/if}}
 export const auth = getAuth(app);
