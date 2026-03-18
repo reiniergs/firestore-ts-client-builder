@@ -6,7 +6,7 @@ orbs:
 jobs:
   build_and_test:
     docker:
-      - image: cimg/node:18.15.0-browsers
+      - image: cimg/node:22.14.0-browsers
 
     steps:
       - checkout
@@ -18,7 +18,7 @@ jobs:
 
   publish_canary:
     docker:
-      - image: cimg/node:18.15.0-browsers
+      - image: cimg/node:22.14.0-browsers
 
     steps:
       - checkout
