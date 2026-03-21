@@ -1,0 +1,39 @@
+import { useState, useEffect } from 'react';
+import { FirestoreError } from "firebase/firestore";
+import onSnapshotCollectionGroup from './onSnapshotCollectionGroup';
+import { {{entityInterface}} } from './types';
+import { EntityGet, HookCollectionOpts, HookReturnCollection } from '../{{#each parents}}../{{/each}}types';
+
+export type {{entityInterface}}UseCollectionGroupHook<T> = (opts?: HookCollectionOpts<T>) => HookReturnCollection<T>;
+
+
+const useCollectionGroup: {{entityInterface}}UseCollectionGroupHook<EntityGet<{{entityInterface}}>> = (opts = {}) => {
+  const [data, setData] = useState<Array<EntityGet<{{entityInterface}}>>>([]);
+  const [error, setError] = useState<FirestoreError | null>(null);
+  const [isLoading, setLoading] = useState(false);
+  const { disabled = false, onSnap, track = [] } = opts;
+  useEffect(() => {
+    if (!disabled) {
+        setLoading(true);
+        const unsub = onSnapshotCollectionGroup(opts || {}, (docs) => {
+            setData(docs);
+            setLoading(false);
+            if (typeof onSnap === 'function') {
+                onSnap(docs);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            setError(error);
+          }
+        );
+        return () => {
+          setLoading(false);
+          unsub();
+        }
+    }
+  }, [disabled, ...track]);
+  return { data, error, isLoading };
+};
+
+export default useCollectionGroup;

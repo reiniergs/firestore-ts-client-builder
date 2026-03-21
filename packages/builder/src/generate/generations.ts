@@ -5,13 +5,16 @@ import generateTypes from './entity/generateTypes';
 import generateUpdate from './entity/generateUpdate';
 import generateRemove from './entity/generateRemove';
 import generateList from './entity/generateList';
+import generateListCollectionGroup from './entity/generateListCollectionGroup';
 import generateCount from './entity/generateCount';
 import generatePaginate from './entity/generatePaginate';
 import generateOnSnapshotDoc from './entity/generateOnSnapshotDoc';
 import generateOnSnapshotCollection from './entity/generateOnSnapshotCollection';
+import generateOnSnapshotCollectionGroup from './entity/generateOnSnapshotCollectionGroup';
 import generateOnSnapshotPaginate from './entity/generateOnSnapshotPaginate';
 import generateUseDoc from './entity/generateUseDoc';
 import generateUseCollection from './entity/generateUseCollection';
+import generateUseCollectionGroup from './entity/generateUseCollectionGroup';
 import generateUseCollectionWithPagination from './entity/generateUseCollectionWithPagination';
 import generateUseCount from './entity/generateUseCount';
 
@@ -19,6 +22,7 @@ import generateUseCount from './entity/generateUseCount';
 import generateAdminTypes from './entity/admin/generateTypes';
 import generateAdminGet from './entity/admin/generateGet';
 import generateAdminList from './entity/admin/generateList';
+import generateAdminListCollectionGroup from './entity/admin/generateListCollectionGroup';
 import generateAdminPaginate from './entity/admin/generatePaginate';
 import generateAdminAdd from './entity/admin/generateAdd';
 import generateAdminRemove from './entity/admin/generateRemove';
@@ -42,14 +46,17 @@ export const entityCode = [
     generateUpdate,
     generateRemove,
     generateList,
+    generateListCollectionGroup,
     generateCount,
     generateOnSnapshotDoc,
     generateOnSnapshotCollection,
+    generateOnSnapshotCollectionGroup,
     generateOnSnapshotPaginate,
     generatePaginate,
     generateTypes,
     generateUseDoc,
     generateUseCollection,
+    generateUseCollectionGroup,
     generateUseCollectionWithPagination,
     generateUseDocOnce,
     generateUseCollectionOnce,
@@ -62,6 +69,7 @@ export const adminEntityCode = [
     generateAdminTypes,
     generateAdminGet,
     generateAdminList,
+    generateAdminListCollectionGroup,
     generateAdminPaginate,
     generateAdminAdd,
     generateAdminRemove,
