@@ -29,6 +29,7 @@ const generateTypes = (props: GenerateEntityProps) => {
                 ),
             ),
             subtypes: formatSubtypes(entity.subtypes),
+            discriminator: entity.subtypeDiscriminator ?? 'type',
         },
     });
 };

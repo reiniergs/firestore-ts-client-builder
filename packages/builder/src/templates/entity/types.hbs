@@ -5,7 +5,7 @@ import { {{#each customTypes }}{{this}},{{/each}} } from "../{{#each parents}}..
 
 {{#each subtypes}}
   type {{name}}{{../entityInterface}} = {
-    type: '{{type}}';
+    {{../discriminator}}: '{{type}}';
     {{> properties properties=properties}}
   }
 {{/each}}
