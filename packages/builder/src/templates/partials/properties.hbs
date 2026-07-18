@@ -16,7 +16,7 @@
   {{else if (eq type "object")}}
     {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} {
       {{> properties properties=properties}}
-    }
+    }{{#if isNullable}} | null{{/if}}
   {{else if (eq type "array")}}
     {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}} Array<
       {{#if (eq items.type "string")}}
@@ -34,7 +34,7 @@
       {{else}}
         {{items.type}}{{#unless isRequired}} | undefined{{/unless}}{{#if isNullable}} | null{{/if}}
       {{/if}}
-    >
+    >{{#if isNullable}} | null{{/if}}
   {{else if (eq type "oneOf")}}
     {{!-- For oneOf, output a union of variants --}}
     {{#if name}}{{name}}{{#unless isRequired}}?{{/unless}}:{{/if}}

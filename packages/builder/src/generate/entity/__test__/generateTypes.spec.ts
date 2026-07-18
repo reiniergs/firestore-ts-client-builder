@@ -11,6 +11,10 @@ jest.mock('fs', () => {
 const writeFileSyncMock = fs.writeFileSync as jest.MockedFunction<typeof fs.writeFileSync>;
 
 describe('generateTypes', () => {
+    beforeEach(() => {
+        writeFileSyncMock.mockClear();
+    });
+
     it('should generate correct type for an array of custom type', () => {
         generateTypes({
             entityName: 'Custom',
@@ -37,5 +41,39 @@ export type Custom = BaseCustom;
 `;
         const actual = writeFileSyncMock.mock.calls[0][1];
         expect(actual).toEqual(expected);
+    });
+
+    it('should emit | null for nullable object properties', () => {
+        generateTypes({
+            entityName: 'Policy',
+            outdir: 'src',
+            parents: [],
+            entity: {
+                properties: {
+                    risk: {
+                        type: 'object',
+                        isRequired: true,
+                        properties: {
+                            dwelling: {
+                                type: 'object',
+                                isRequired: true,
+                                isNullable: true,
+                                properties: {
+                                    constructionType: {
+                                        type: 'string',
+                                        isRequired: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        } as any);
+
+        const actual = writeFileSyncMock.mock.calls[0][1] as string;
+        expect(actual).toContain('dwelling: {');
+        expect(actual).toContain('constructionType: string;');
+        expect(actual).toMatch(/}\s*\|\s*null/);
     });
 });
