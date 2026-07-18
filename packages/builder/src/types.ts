@@ -48,6 +48,7 @@ export interface Entity<T extends CustomTypes> {
     properties: Record<string, Property<T>>;
     subcollections?: Record<string, Entity<T>>;
     subtypes?: Record<string, Pick<Entity<T>, 'properties'>>;
+    subtypeDiscriminator?: string;
 }
 
 type Protocol = 'http' | 'https';
